@@ -1,15 +1,14 @@
 <?php
 
-namespace Tests\Browser\unit;
+namespace Tests\Unit;
 
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Laravel\Dusk\Browser;
-use Tests\DuskTestCase;
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
-class SessionValuesTest extends DuskTestCase
+class SessionValuesTest extends TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
     
     function test_auth_preliminar_value()
     {
@@ -20,15 +19,11 @@ class SessionValuesTest extends DuskTestCase
                 'password'  => bcrypt('secret')
             ]);
         // Acting
-        $this->browse(function (Browser $browser) {
-            $browser->visit('/login')
-                ->assertPageIs('/login')
-                ->type('email', 'jdoe@gmail.com')
-                ->type('password', 'secret')
-                ->press('Login')
-                ->assertSee('Facultad y Sede');
-            // Then
-            $this->assertEquals(null, Session::get('facultad_id'));
-        });
+        $this->get('/login')
+            ->assertStatus(200);
+
+        $this->actingAs($user)
+            ->get('/home')
+            ->assertStatus(200);
     }
 }

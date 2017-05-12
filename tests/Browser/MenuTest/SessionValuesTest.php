@@ -10,13 +10,21 @@ use Tests\DuskTestCase;
 class SessionValuesTest extends DuskTestCase
 {
     use DatabaseMigrations;
+
     function test_auth_preliminar_value()
     {
+        $this->artisan('db:seed');
         // Having
         $user = User::create([
                 'name' => 'Jane Doe',
                 'email' => 'jdoe@gmail.com',
                 'password'  => bcrypt('secret')
+            ]);
+        $acceso = Acceso::create([
+                'user_id' => $user->id,
+                'facultad_id'   => 1,
+                'sede_id'   => 1,
+                'type_id'   => 1
             ]);
         // Acting
         $this->browse(function (Browser $browser) {
@@ -27,7 +35,11 @@ class SessionValuesTest extends DuskTestCase
                 ->press('Login')
                 ->assertSee('Facultad y Sede');
             // Then
-            $this->assertEquals(null, Session::get('facultad_id'));
+            $browser->select('sel_facu','Ciencias Económicas y Comerciales')
+                    ->select('sel_sede','Lima')
+                    ->click('Acceder')
+                    ->assertSee('Menus');
+
         });
     }
 }

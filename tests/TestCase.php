@@ -6,13 +6,6 @@ use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
 {
-    use CreatesApplication;
+    use CreatesApplication, TestsHelper;
 
-    public function defaultUser(array $attributes = [])
-    {
-        if($this->defaultUser){
-            return $this->defaultUser;
-        }
-        return $this->defaultUser = factory(User::class)->create($attributes);
-    }
 }

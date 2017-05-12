@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,4 +20,17 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index');
+
+Route::post('/home/acceso', [
+	'as'	=> 'home.acceso',
+	'uses'	=> 'HomeController@acceso',	
+]);
+
+Route::get('/prueba1',function(){
+	dd(Session::all());
+});
+
+Route::get('/prueba2',function(){
+	dd(Auth::user());
+});
