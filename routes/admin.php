@@ -41,7 +41,7 @@ Route::get('user/{user}/editpass', [
 		'uses'	=> 'admin\UserController@editpass',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::get('user/{user}/destroy', [
+Route::get('user/{id}/destroy', [
 		'as'	=> 'admin.user.destroy',
 		'uses'	=> 'admin\UserController@destroy',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

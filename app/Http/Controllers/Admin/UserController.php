@@ -138,14 +138,14 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
+    public function update(Request $request)
     {
-        $user = User::find($id);
+        $user = User::find($request->id);
         $user->fill($request->all());
-        //$user->password = bcrypt($request->password);
+        $user->password = bcrypt($request->password);
         $user->save();
-//dd($user);
-        Flash::warning('Se ha modificado el registro: '.$user->id.' código: '.$user->cdocente.' de forma exitosa');
+
+        Flash::warning('Se ha modificado el registro: '.$user->id.' : '.$user->name.' de forma exitosa');
         return redirect()->route('admin.user.index');
 
     }
@@ -160,7 +160,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $user->delete();          
-        Flash::error('Se ha eliminado el registro: '.$user->id.' '.$user->cdocente.' de forma exitosa');
+        Flash::error('Se ha eliminado el registro: '.$user->id.' '.$user->name.' de forma exitosa');
         return redirect()->route('admin.user.index');
     }
 
