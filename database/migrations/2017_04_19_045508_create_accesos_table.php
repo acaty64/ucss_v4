@@ -17,7 +17,7 @@ class CreateAccesosTable extends Migration
             $table->increments('id');
 
             $table->unSignedInteger('user_id');
-            //$table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->unSignedInteger('facultad_id');
             //$table->foreign('facultad_id')->references('id')->on('facultades');
@@ -26,6 +26,8 @@ class CreateAccesosTable extends Migration
             //$table->foreign('sede_id')->references('id')->on('sedes');
 
             $table->unSignedInteger('type_id');
+
+            $table->boolean('swcierre')->default(false);
 
             $table->rememberToken();
             $table->timestamps();

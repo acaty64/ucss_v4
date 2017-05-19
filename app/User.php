@@ -110,6 +110,39 @@ class User extends Authenticatable
             return false;
         }
     }
+
+    /************** SCOPEs **********************/
+    /** SCOPE apellido paterno */
+    public function scopeSdocente($query, $wdocente){
+        return $query->where('slug', 'LIKE', "%$wdocente%");
+    }
+    /** SCOPE tipo de usuario */
+    public function scopeStype($query, $type){
+        return $query->where('type', '=', "$type");
+    }
+    
+    // Scope por nombre y tipo    
+    public function scopeSearch($filter, $name, $type = null)
+    {
+        $filter = $filter->where('slug', "LIKE", "%$name%");
+        if (!empty($type))
+        {
+            $filter = $filter->where('type', "LIKE", "%$type%");
+        }
+        return $filter;
+    }
+
+    /************* FUNCIONES ********************/
+    public function wDocente($id){
+        $user = User::find($id);
+        return $user->wdoc2." ".$user->wdoc3.", ".$user->wdoc1;
+    }
+
+    /************ RELATIONSHIPS ******************/
+    public function accesos()
+    {
+        return $this->hasMany('App\Acceso');
+    }
 /***
     public function getTypeAttribute($value='')
     {

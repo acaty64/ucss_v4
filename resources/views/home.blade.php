@@ -11,25 +11,11 @@
                     
                     {!! Form::open(['method' => 'POST', 'route' => 'home.acceso'])!!}
                       <div class="form-group">
-                        <label for="sel_facu">Seleccione la facultad:</label>
-                        <select class="form-control" id="sel_facu" name="sel_facu">
-                          <?php 
-                              $facultades = \App\facultad::all();
-                          ?>
-                          @foreach ($facultades as $facultad)
-                              <option id={!! $facultad->id !!}>{!! $facultad->wfacultad !!}</option>;
-                          @endforeach
-                        </select>
+                        {!! Form::select('facultad_id',$opc_facu, null, ['class'=>'form-control', 'placeholder'=>'Seleccione la facultad','required']) !!}
                         <br>
-                        <label for="sel_sede">Seleccione la sede:</label>
-                        <select class="form-control" id="sel_sede" name="sel_sede">
-                          <?php 
-                              $sedes = \App\sede::all();
-                          ?>
-                          @foreach ($sedes as $sede)
-                              <option id={!! $sede->id !!}>{!! $sede->wsede !!}</option>;
-                          @endforeach
-                        </select>
+
+                        {!! Form::select('sede_id',$opc_sede, null, ['class'=>'form-control', 'placeholder'=>'Seleccione la sede','required']) !!}
+                        <br>
                       </div>
                       <button type="submit">Acceder</button>
 

@@ -39,7 +39,7 @@ class Kernel extends HttpKernel
         'master' => [
             'web',
             'auth',
-            Authorize::class.':is_master,'.Acceso::class,
+            'can:is_master,'.Acceso::class,
         ],
 
         'consulta' => [
@@ -59,7 +59,13 @@ class Kernel extends HttpKernel
             'auth',
             'docente',
             Authorize::class.':is_responsable,'.Acceso::class,
-        ],        
+        ],
+
+        'admin' => [
+            'web',
+            'auth',
+            'can:is_admin,'.Acceso::class,
+        ],         
 
         'api' => [
             'throttle:60,1',

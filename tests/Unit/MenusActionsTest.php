@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Acceso;
 use App\Facultad;
 use App\Menu;
+use App\MenuType;
 use App\Sede;
 use App\Type;
 use App\User;
@@ -12,6 +13,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class MenusActionsTest extends TestCase
@@ -25,21 +27,22 @@ class MenusActionsTest extends TestCase
 		$sede = Sede::find(2);
 		$type = Type::find(1);
 
-		$acceso = factory(Acceso::class)->create([
+		$acceso = Acceso::create([
             'user_id'   	=> $user->id,
             'facultad_id'	=> $facultad->id,
             'sede_id'		=> $sede->id,
             'type_id'		=> $type->id,
+            'cdocente' 		=> '000010'
         ]);
 		
 		// When
 		$this->actingAs($user);
 		$response = $this->get('/home');
 		$response->assertStatus(200);
-		$response->assertSee('Seleccione la facultad:');
+		$response->assertSee('Seleccione la facultad');
 		$request = [
-				'sel_facu' => $facultad->wfacultad,
-				'sel_sede' => $sede->wsede
+				'facultad_id' => $facultad->id,
+				'sede_id' => $sede->id
 			];
 		$response = $this->post('/home/acceso',$request);
 		$response->assertStatus(200);
@@ -88,11 +91,12 @@ class MenusActionsTest extends TestCase
 		$sede = Sede::find(1);
 		$type = Type::find(1);
 
-		$acceso = factory(Acceso::class)->create([
+		$acceso = Acceso::create([
             'user_id'   	=> $user->id,
             'facultad_id'	=> $facultad->id,
             'sede_id'		=> $sede->id,
             'type_id'		=> $type->id,
+            'cdocente' 		=> '000011'
         ]);
 
         $menu = new Menu;
@@ -117,20 +121,19 @@ class MenusActionsTest extends TestCase
 
 		//Acting
         $this->actingAs($user);
-        Session::set('facultad_id',$facultad->id);
-        Session::set('cfacultad',$facultad->cfacultad);
-        Session::set('sede_id',$sede->id);
-        Session::set('csede',$sede->csede);
-        Session::set('type_id',$type->id);
-        Session::set('ctype',$type->name);
+        Session::put('facultad_id',$facultad->id);
+        Session::put('cfacultad',$facultad->cfacultad);
+        Session::put('sede_id',$sede->id);
+        Session::put('csede',$sede->csede);
+        Session::put('type_id',$type->id);
+        Session::put('ctype',$type->name);
 
 		$this->get('/master/menu/index')
-			->seePageIs('/master/menu/index')
-			->click('4')
-			->click('Mody'.$menu_id)
-			->see('Edición de Menú');
+			->assertStatus(200);
+		$this->post("/master/menu/{{$menu_id}}/edit")
+			->assertStatus(200);
 		//Then
-		
+// TODO		
 	}
 
 	public function test_delete_a_menu()

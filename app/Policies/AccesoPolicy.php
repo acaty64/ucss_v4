@@ -30,7 +30,7 @@ class AccesoPolicy
         return trim(strtolower(Session::get('ctype'))) === 'responsable';
     }
 
-    public function is_administrador()
+    public function is_admin()
     {
         return trim(strtolower(Session::get('ctype'))) === 'administrador';
     }

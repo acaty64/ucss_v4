@@ -1,6 +1,7 @@
 <?php
 
 use App\Acceso;
+use App\DataUser;
 use App\MenuType;
 use App\Type;
 use App\User;
@@ -28,26 +29,46 @@ $factory->define(User::class, function (Faker\Generator $faker) {
     ];
 });
 
+/**
 $factory->define(Acceso::class, function (Faker\Generator $faker, $attributes) {
     return [
         'user_id'   => function ()
         {
-            return factory(User::class)->random()->id;
+            return User::all()->random()->id;
         },
         'sede_id'   => function ()
         {
-            return factory(Sede::class)->random()->id;
+            return Sede::all()->random()->id;
         },
         'facultad_id'   => function ()
         {
-            return factory(Facultad::class)->random()->id;
+            return Facultad::all()->random()->id;
         },
         'type_id'   => function ()
         {
-            return factory(Type::class)->random()->id;
+            return Type::all()->random()->id;
         },
     ];
 });
+*/
+
+
+$factory->define(Facultad::class, function (Faker\Generator $faker)
+{
+    return [
+        'cFacultad' => $faker->unique()->word, 
+        'wFacultad'=> $faker->unique()->word
+    ];
+});
+
+$factory->define(Sede::class, function (Faker\Generator $faker)
+{
+    return [
+        'cSede' => $faker->unique()->word, 
+        'wSede'=> $faker->unique()->word
+    ];
+});
+
 
 $factory->define(Type::class, function (Faker\Generator $faker)
 {
@@ -76,5 +97,23 @@ $factory->define(MenuType::class, function (Faker\Generator $faker)
     ];
 });
 
-
+$factory->define(DataUser::class, function (Faker\Generator $faker) {
+    //$user = User::find(factory(User::class)->random()->id);
+    $wdoc1 = $faker->firstname;
+    $wdoc2 = $faker->lastname;
+    $wdoc3 = $faker->lastname;
+    return [
+        //'user_id' => $user->id,
+        'wdoc1' => $wdoc1,
+        'wdoc2' => $wdoc2,
+        'wdoc3' => $wdoc3,    
+        //'cdocente' => str_pad($user->id, 6, '0'),
+        'fono1' => $faker->randomNumber($nbDigits = 9, $strict = false),
+        'fono2' => $faker->randomNumber($nbDigits = 9, $strict = false),
+        'email1' => $faker->email,
+        'email2' => $faker->email,
+        'whatsapp' => $faker->randomElement([true,false]),
+        'slug' => $wdoc2 . ' ' .$wdoc3.', '.$wdoc1,
+    ];
+});
 

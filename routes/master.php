@@ -4,8 +4,9 @@ use App\Acceso;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Http\Request;
 
-// ROUTES
 
+
+// ROUTES
 Route::get('menu/index', [
 		'as'	=> 'master.menu.index',
 		'uses'	=> 'master\MenuController@index',	
@@ -26,7 +27,7 @@ Route::get('menu/delete', [
 		'uses'	=> 'master\MenuController@delete',	
 	])->middleware(Authorize::class.':is_master,'.Acceso::class);
 
-Route::get('menu/{menu}/edit', [
+Route::post('menu/{menu}/edit', [
 		'as'	=> 'master.menu.edit',
 		'uses'	=> 'master\MenuController@edit',	
 	])->middleware(Authorize::class.':is_master,'.Acceso::class);
