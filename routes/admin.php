@@ -36,19 +36,19 @@ Route::get('user/{user}/show', [
 		'uses'	=> 'admin\UserController@show',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::get('user/{user}/editpass', [
-		'as'	=> 'admin.user.editpass',
-		'uses'	=> 'admin\UserController@editpass',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
-
 Route::get('user/{id}/destroy', [
 		'as'	=> 'admin.user.destroy',
 		'uses'	=> 'admin\UserController@destroy',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::get('datauser/{datauser}/edit', [
+Route::get('datauser/{id}/edit', [
 		'as'	=> 'admin.datauser.edit',
 		'uses'	=> 'admin\DataUserController@edit',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::post('datauser/update', [
+		'as'	=> 'admin.datauser.update',
+		'uses'	=> 'admin\DataUserController@update',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
 Route::get('dhora/{dhora}/edit', [

@@ -31,7 +31,7 @@ class DatausersTableSeeder extends Seeder
         foreach ($users as $user) {
             factory(DataUser::class)->create([
                     'user_id' => $user->id,
-                    'cdocente' => str_pad($user->id, 6, '0'),
+                    'cdocente' => str_pad($user->id, 6, '0', STR_PAD_RIGHT),
                     'email1' => $user->email,
                 ]);    
         }

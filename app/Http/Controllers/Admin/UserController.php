@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\User;
 use App\Acceso;
 use App\DHora;
 use App\DataUser;
 use App\Facultad;
-use App\Franja;
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use App\Http\Requests\UserRequest;
 use App\Sede;
-use App\User;
+use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -126,7 +123,6 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-
         $user = User::find($id);
         return view('admin.user.edit')->with('user', $user);
     }
