@@ -12,6 +12,11 @@ Route::get('menu/index', [
 		'uses'	=> 'master\MenuController@index',	
 	])->middleware(Authorize::class.':is_master,'.Acceso::class);
 
+Route::get('menu/generar', [
+		'as'	=> 'master.menu.generar',
+		'uses'	=> 'master\MenuController@generar',	
+	])->middleware(Authorize::class.':is_master,'.Acceso::class);
+
 Route::get('menu/create', [
 		'as'	=> 'master.menu.create',
 		'uses'	=> 'master\MenuController@create',	
@@ -40,4 +45,14 @@ Route::get('menu/update', [
 Route::post('menu/{type}/show', [
 		'as'	=> 'master.menu.show',
 		'uses'	=> 'master\MenuController@show',	
+	])->middleware(Authorize::class.':is_master,'.Acceso::class);
+
+Route::get('type/index', [
+		'as'	=> 'master.type.index',
+		'uses'	=> 'master\TypeController@index',	
+	])->middleware(Authorize::class.':is_master,'.Acceso::class);
+
+Route::get('menutype/index', [
+		'as'	=> 'master.menutype.index',
+		'uses'	=> 'master\MenuTypeController@index',	
 	])->middleware(Authorize::class.':is_master,'.Acceso::class);

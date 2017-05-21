@@ -58,10 +58,65 @@ class User extends Authenticatable
         $ok = Acceso::where('user_id', $this->id)->where('facultad_id', $this->facultad_id)->where('sede_id', $this->sede_id)->first();
         
         if (count($ok) && $this->facultad_id) {
-            Session::put('type_id',$ok->type_id);
-            Session::put('ctype',$ok->type->name);
+
+            $type = Type::find($ok->type_id);
+
+            Session::put('type_id',$type->id);
+            Session::put('ctype',$type->name);
             Acceso::setAccesoAttributes();
-            return true;
+
+            $menus = Type::find($ok->type_id)->menus;
+
+            $original_menus = collect([]);
+            foreach ($menus as $menu) {
+                $original_value = $menu->original;
+                $original_menus->push($original_value);
+            }
+
+            $level0 = $original_menus->where('pivot_level',0)->sortBy('pivot_order')->all();
+            foreach($level0 as $level){
+                if($level['href']){
+                    $submenu = false;
+                    
+                    if($level['sw_auth']){
+                        $option = "<li><a href='"."/".strtolower($type->name).$level['href'];
+                        if($level['parameter']){
+                            $option=$option."/".$level['parameter'];
+                        }
+                    }else{
+                        $option = "<li><a href='".$level['href'];
+                    }
+                    $option = $option."'>".$level['name']."</a></li>";
+                    
+                                   
+                    $options[] = $option;
+                }else{
+                    $submenu = true;
+                    $menu_id = $level['pivot_menu_id'];
+                    $menu_order = $level['pivot_order'];
+                    $menu = Menu::find($menu_id);
+                    $description = $menu->name;
+                    $option = 
+                    "<li class='dropdown'>
+                        <a href='#' class='dropdown-toggle' role='button' id='dropdownMenu". $menu_order ."' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>".$description."
+                            <span class='caret'></span>
+                        </a>
+                        <ul class='dropdown-menu' aria-labelledby='dropdownMenu". $menu_order ."'>";
+                    $options[] = $option;
+                }
+                if($submenu == true){
+                    $menu_order = $level['pivot_order'];
+                    $levelx = $original_menus->where('pivot_order', $menu_order)->where('pivot_level','>',0)->sortBy('pivot_order')->all();
+                    foreach ($levelx as $level) {
+                        $href = Menu::find($level['pivot_menu_id'])->route;
+                        $description = Menu::find($level['pivot_menu_id'])->name;
+                        $option = "<li><a href='".$href."'>".$description."</a></li>";
+                        $options[] = $option;
+                    }
+                    $options[] = "</ul></li>";
+                }                
+            }
+            return $options;
         } else {
             return false;
         }

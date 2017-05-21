@@ -41,7 +41,7 @@ Route::get('user/{id}/destroy', [
 		'uses'	=> 'admin\UserController@destroy',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::get('datauser/{id}/edit', [
+Route::get('datauser/edit/{id}', [
 		'as'	=> 'admin.datauser.edit',
 		'uses'	=> 'admin\DataUserController@edit',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

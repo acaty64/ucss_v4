@@ -7,21 +7,21 @@ use Illuminate\Http\Request;
 // ROUTES
 
 Route::get('datauser/edit/{id}', [
-		'as'	=> 'docente.datauser.edit',
+		'as'	=> 'responsable.datauser.edit',
 		'uses'	=> 'admin\DataUserController@edit',	
-	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
+	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);
 
 Route::post('datauser/update', [
-		'as'	=> 'docente.datauser.update',
+		'as'	=> 'responsable.datauser.update',
 		'uses'	=> 'admin\DataUserController@update',	
-	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
+	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);
 
 Route::get('dhora/{dhora}/edit', [
-		'as'	=> 'docente.dhora.edit',
+		'as'	=> 'responsable.dhora.edit',
 		'uses'	=> 'admin\DhoraController@edit',	
-	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
+	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);
 
 Route::get('dcurso/{dcurso}/edit', [
-		'as'	=> 'docente.dcurso.edit',
+		'as'	=> 'responsable.dcurso.edit',
 		'uses'	=> 'admin\DcursoController@edit',	
-	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
+	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);

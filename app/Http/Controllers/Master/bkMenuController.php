@@ -180,14 +180,14 @@ class MenuController extends Controller
                 if($level['href']){
                     $submenu = false;
                     if($level['sw_auth']){
-                        $option = '<li><a href="{{ route('."'".strtolower($type->name).'.'.$level['href']."'";
+                        $option = '<li><a href="{{ route('."'".strtolower($type->name).'.'.$level['href'];
                         if($level['parameter']){
                             $option=$option.",".$level['parameter'];
                         }
                     }else{
-                        $option = '<li><a href="{{ route('."'".$level['href']."'";
+                        $option = '<li><a href="{{ route('."'".$level['href'];
                     }
-                    $option = $option.")".'}}">'.$level['name']."</a></li>";                    
+                    $option = $option."')".'}}">'.$level['name']."</a></li>";                    
                                    
                     $options[] = $option;
                 }else{

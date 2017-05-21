@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataUser;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class DataUserController extends Controller
@@ -26,9 +27,10 @@ class DataUserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($user_id)
     {
-        $datauser = DataUser::find($id);
+        $datauser = User::find($user_id)->datauser; 
+        //DataUser::where('user_id',$user_id)->first();
         return view('admin.datauser.edit')->with('datauser', $datauser);
     }
 

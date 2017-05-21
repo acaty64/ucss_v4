@@ -52,15 +52,15 @@ class Users01Test extends TestCase
           'type_id' => 3
          ];
 
-      $response = $this->post('admin/user/store', $newUser);
+      $response = $this->post('administrador/user/store', $newUser);
 
-      $user_id = User::where('name','John Doe')->first()->id;
-      
       //Then
       $this->assertDatabaseHas('users',[
         'name'=>'John Doe',
         'email'=> 'jd@gmail.com',
       ]);
+      
+      $user_id = User::where('name','John Doe')->first()->id;
 
       $this->assertDatabaseHas('datausers',[
         'user_id' => $user_id,

@@ -23,7 +23,35 @@ class AccesosTableSeeder extends Seeder
             'type_id' => 1
             ]);
 
-        $users = User::where('id','>',1)->get();
+        Acceso::create([
+            'user_id' => 2,
+            'facultad_id' => 2, 
+            'sede_id' => 1,
+            'type_id' => 5
+            ]);
+
+        Acceso::create([
+            'user_id' => 3,
+            'facultad_id' => 3, 
+            'sede_id' => 1,
+            'type_id' => 4
+            ]);
+
+        Acceso::create([
+            'user_id' => 4,
+            'facultad_id' => 4, 
+            'sede_id' => 1,
+            'type_id' => 3
+            ]);
+
+        Acceso::create([
+            'user_id' => 5,
+            'facultad_id' => 5, 
+            'sede_id' => 1,
+            'type_id' => 2
+            ]);
+
+        $users = User::where('id','>',5)->get();
         foreach ($users as $user) {
             $user_id = $user->id;
             $facultad_id = Facultad::all()->random()->id;

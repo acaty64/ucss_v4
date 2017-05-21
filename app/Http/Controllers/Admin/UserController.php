@@ -57,7 +57,6 @@ class UserController extends Controller
     {
         // Verifica que no exista el cdocente
         $check = DataUser::where('cdocente','=',$request->cdocente)->first();
-
         if(empty($check))
         {
             // Recibe los datos del formulario de resources\admin\users\create.blade.php

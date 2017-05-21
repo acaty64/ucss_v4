@@ -30,7 +30,7 @@ class Users02Test extends TestCase
       $newValues->email= 'jd@gmail.com';
       $newValues->password = 'secret';
 
-      $response = $this->post('admin/user/update', $newValues->toArray());
+      $response = $this->post('administrador/user/update', $newValues->toArray());
       
       //Then
       $this->assertDatabaseHas('users',[
@@ -52,7 +52,7 @@ class Users02Test extends TestCase
 
       $userForDelete = User::find($delete_id);
 
-      $response = $this->get("admin/user/{$delete_id}/destroy");
+      $response = $this->get("administrador/user/{$delete_id}/destroy");
 
       //Then
       $this->assertDatabaseMissing('users',[

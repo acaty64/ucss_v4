@@ -12,25 +12,37 @@ class MenusTableSeeder extends Seeder
      */
     public function run()
     {
-        Menu::create(['id' => 1, 'name' => 'Inicio', 'href' => '/home', ]);
-        Menu::create(['id' => 2, 'name' => 'Menus', 'href' => '/master/menu/index', ]);
-        Menu::create(['id' => 3, 'name' => 'Tipos de Usuarios', 'href' => '/master/type/index', ]);
-        Menu::create(['id' => 4, 'name' => 'Asignacion de Menus', 'href' => '/master/menutype/index', ]);
-        Menu::create(['id' => 5, 'name' => 'Datos Personales', 'href' => '/admin/user/index', ]);
-        Menu::create(['id' => 6, 'name' => 'Disponibilidad', ]);
-        Menu::create(['id' => 7, 'name' => 'Días y Horas', 'href' => '/admin/dhoras/edit', ]);
-        Menu::create(['id' => 8, 'name' => 'Cursos', 'href' => '/admin/dcursos/edit', ]);
-        Menu::create(['id' => 9, 'name' => 'Carga Asignada', 'href' => '/admin/horario/show', ]);
-        Menu::create(['id' => 10, 'name' => 'Prioridad Docentes', 'href' => '/admin/grupocursos/index', ]);
-        Menu::create(['id' => 11, 'name' => 'Usuarios', 'href' => '/admin/user/index', ]);
-        Menu::create(['id' => 12, 'name' => 'Grupos de Cursos', ]);
-        Menu::create(['id' => 13, 'name' => 'Grupos', 'href' => '/admin/grupos/index', ]);
-        Menu::create(['id' => 14, 'name' => 'Responsables', 'href' => '/admin/usergrupos/index', ]);
-        Menu::create(['id' => 15, 'name' => 'Verificaciones', ]);
-        Menu::create(['id' => 16, 'name' => 'Actualización de Disponibilidad Horaria', 'href' => '/admin/dhoras/lista', ]);
-        Menu::create(['id' => 17, 'name' => 'Actualización de Disponibilidad de Cursos', 'href' => '/admin/dcursos/lista', ]);
-        Menu::create(['id' => 18, 'name' => 'Acciones', ]);
-        Menu::create(['id' => 19, 'name' => 'Envío de Correos Electrónicos', 'href' => '/admin/menvios/index', ]);
+        Menu::create(['id' => 1, 'name' => 'Inicio', 'href' => 'home', 'sw_auth' => false, ]);
+        Menu::create(['id' => 2, 'name' => 'Menus', 'href' => 'menu.index', 'sw_auth' => true, ]);
+        Menu::create(['id' => 3, 'name' => 'Generar Menus', 'href' => 'menu.generar', 'sw_auth' => true, ]);
+        Menu::create(['id' => 4, 'name' => 'Tipos de Usuarios', 'href' => 'type.index', 'sw_auth' => true, ]);
+        Menu::create(['id' => 5, 'name' => 'Asignacion de Menus', 'href' => 'menutype.index', 'sw_auth' => true, ]);
+
+        Menu::create(['id' => 6, 'name' => 'Lista de Usuarios', 'href' => 'user.index', 'sw_auth' => true, ]);
+
+        Menu::create(['id' => 7, 'name' => 'Datos Personales', 'href' => 'datauser.edit', 'sw_auth' => true, 'parameter' => 'Auth::user()->id', ]);
+        Menu::create(['id' => 8, 'name' => 'Disponibilidad', 'sw_auth' => false, ]);
+        Menu::create(['id' => 9, 'name' => 'Días y Horas', 'href' => 'dhoras.edit', 'sw_auth' => true, 'parameter' => 'Auth::user()->id', ]);
+        Menu::create(['id' => 10, 'name' => 'Cursos', 'href' => 'dcursos.edit', 'sw_auth' => true, 'parameter' => 'Auth::user()->id', ]);
+        Menu::create(['id' => 11, 'name' => 'Carga Asignada', 'href' => 'horario.show', 'sw_auth' => true, 'parameter' => 'Auth::user()->id', ]);
+
+
+
+
+
+
+        Menu::create(['id' => 12, 'name' => 'Prioridad Docentes', 'href' => 'grupocursos.index', 'sw_auth' => true, ]);
+
+        Menu::create(['id' => 13, 'name' => 'Usuarios', 'href' => 'user.index', 'sw_auth' => true, ]);
+        Menu::create(['id' => 14, 'name' => 'Grupos de Cursos', 'sw_auth' => false, ]);
+        Menu::create(['id' => 15, 'name' => 'Grupos', 'href' => 'grupos.index', 'sw_auth' => true, ]);
+        Menu::create(['id' => 16, 'name' => 'Responsables', 'href' => 'usergrupos.index', 'sw_auth' => true, ]);
+        Menu::create(['id' => 17, 'name' => 'Verificaciones', 'sw_auth' => false, ]);
+        Menu::create(['id' => 18, 'name' => 'Actualización de Disponibilidad Horaria', 'href' => 'dhoras.lista', 'sw_auth' => true, ]);
+        Menu::create(['id' => 19, 'name' => 'Actualización de Disponibilidad de Cursos', 'href' => 'dcursos.lista', 'sw_auth' => true, ]);
+        Menu::create(['id' => 20, 'name' => 'Acciones', 'sw_auth' => false, ]);
+        Menu::create(['id' => 21, 'name' => 'Envío de Correos Electrónicos', 'href' => 'menvios.index', 'sw_auth' => true, ]);
+
     }
 
 }

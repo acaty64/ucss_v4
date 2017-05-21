@@ -21,6 +21,7 @@
 				<td>'ERROR $user->cdocente}}'</td>
 				<td>'ERROR $user->wdocente}}'</td>
 				<td>{{$user->ctype}}</td>
+				<td><a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Modificar usuario" name = "{{'Mody'.$user->username}}"><span class="glyphicon glyphicon-wrench" aria-hidden='true'></span></a></td>
 			</tr>
 			@endforeach
 		</tbody>

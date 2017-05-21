@@ -4,6 +4,7 @@ namespace App;
 
 use App\DataUser;
 use App\Facultad;
+use App\Type;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -73,6 +74,12 @@ class Acceso extends Model
     {
         /* return $this->belongsTo('App\User', 'foreign_key'); */
         return $this->belongsTo('App\User');
+    }
+
+    public function type()
+    {
+        /* return $this->belongsTo('App\User', 'foreign_key'); */
+        return $this->belongsTo('App\Type');
     }
 
 }

@@ -20,7 +20,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index');
+Route::get('/home', [
+	'as'	=> 'home',
+	'uses'	=> 'HomeController@index']);
 
 Route::post('/home/acceso', [
 	'as'	=> 'home.acceso',
