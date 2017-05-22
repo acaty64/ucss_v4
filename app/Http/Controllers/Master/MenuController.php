@@ -162,7 +162,6 @@ class MenuController extends Controller
         fwrite($file, '<!-- Left Side Of Navbar -->'. PHP_EOL);
         fwrite($file, '<ul class="nav navbar-nav" name="leftside">'. PHP_EOL);
 
-
         $types = Type::all();
         foreach ($types as $type) 
         {
@@ -196,12 +195,8 @@ class MenuController extends Controller
                     $menu_order = $level->pivot->order;
                     $menu = Menu::find($menu_id);
                     $description = $menu->name;
-                    $option = 
-                    "<li class='dropdown'>
-                        <a href='#' class='dropdown-toggle' role='button' id='dropdownMenu". $menu_order ."' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>".$description."
-                            <span class='caret'></span>
-                        </a>
-                        <ul class='dropdown-menu' aria-labelledby='dropdownMenu". $menu_order ."'>";
+                    $option ="<li class='dropdown'><a href='#' class='dropdown-toggle' role='button' id='dropdownMenu". $menu_order ."' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>".$description."<span class='caret'></span></a>
+                        <ul class='dropdown-menu'aria-labelledby='dropdownMenu". $menu_order ."'>";
                     $options[] = $option;
                 }
                 if($submenu == true){
@@ -240,7 +235,7 @@ class MenuController extends Controller
 
         fwrite($file, '<ul class="dropdown-menu" role="menu">'. PHP_EOL);
         fwrite($file, '<li>'. PHP_EOL);
-        fwrite($file, '<a href="{{ url('."'/logout'".') }}" onclick="event.preventDefault();         document.getElementById("logout-form").submit();">Logout</a>'. PHP_EOL);
+        fwrite($file, '<a href="{{ url('."'/logout'".') }}" onclick="event.preventDefault();         document.getElementById('."'logout-form'".').submit();">Logout</a>'. PHP_EOL);
 
         fwrite($file, '<form id='."'logout-form'".' action="{{ url('."'/logout'".') }}" method="POST" style="display: none;">'. PHP_EOL);
         fwrite($file, '{{ csrf_field() }}'. PHP_EOL);

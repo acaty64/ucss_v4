@@ -17,11 +17,11 @@ class CreateDcursosTable extends Migration
             $table->integer('facultad_id')->unsigned();
             $table->integer('sede_id')->unsigned();
             //$table->string('semestre',6);
-            $table->string('ccurso',6);
-            $table->string('cdocente',6);
+            //$table->string('ccurso',6);
+            //$table->string('cdocente',6);
             //$table->integer('orden');
             $table->integer('prioridad');
-            $table->boolean('sw_cambio');
+            $table->boolean('sw_cambio')->default(false);
             
             //$table->integer('semestr_id')->unsigned();
             $table->integer('curso_id')->unsigned();

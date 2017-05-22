@@ -7,8 +7,33 @@ use Illuminate\Http\Request;
 // ROUTES
 
 Route::get('user/index',  [
-		'as'	=> 'admin.user.index',
+		'as'	=> 'administrador.user.index',
 		'uses'	=> 'admin\UserController@index',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('grupos/index',  [
+		'as'	=> 'administrador.grupo.index',
+		'uses'	=> 'admin\GrupoController@index',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('usergrupos/index',  [
+		'as'	=> 'administrador.usergrupo.index',
+		'uses'	=> 'admin\UserGrupoController@index',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('dhoras/lista',  [
+		'as'	=> 'administrador.dhora.lista',
+		'uses'	=> 'admin\DHorasController@lista',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('dcursos/lista',  [
+		'as'	=> 'administrador.dcurso.lista',
+		'uses'	=> 'admin\DCursoController@lista',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('menvios/index',  [
+		'as'	=> 'administrador.menvio.index',
+		'uses'	=> 'admin\MEnvioController@index',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('user/create', [
@@ -51,9 +76,14 @@ Route::post('datauser/update', [
 		'uses'	=> 'admin\DataUserController@update',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::get('dhora/{dhora}/edit', [
+Route::get('dhora/edit/{id}',[
 		'as'	=> 'admin.dhora.edit',
-		'uses'	=> 'admin\DhoraController@edit',	
+		'uses'	=> 'admin\DHoraController@edit'
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::post('dhora/update',[
+		'as'	=> 'admin.dhora.update',
+		'uses'	=> 'admin\DHoraController@update'
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
 Route::get('dcurso/{dcurso}/edit', [

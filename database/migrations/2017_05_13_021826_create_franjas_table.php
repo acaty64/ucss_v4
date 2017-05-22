@@ -20,8 +20,8 @@ class CreateFranjasTable extends Migration
             $table->integer('turno');
             $table->integer('hora');
             $table->string('wfranja',11);
-            $table->string('cfacultad');
-            $table->string('csede');
+            //$table->string('cfacultad');
+            //$table->string('csede');
 
 
             //$table->foreign('semestr_id')->references('id')->on('semestres')->onDelete('cascade');

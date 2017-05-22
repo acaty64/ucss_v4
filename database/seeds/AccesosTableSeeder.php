@@ -25,28 +25,28 @@ class AccesosTableSeeder extends Seeder
 
         Acceso::create([
             'user_id' => 2,
-            'facultad_id' => 2, 
+            'facultad_id' => 1, 
             'sede_id' => 1,
             'type_id' => 5
             ]);
 
         Acceso::create([
             'user_id' => 3,
-            'facultad_id' => 3, 
+            'facultad_id' => 1, 
             'sede_id' => 1,
             'type_id' => 4
             ]);
 
         Acceso::create([
             'user_id' => 4,
-            'facultad_id' => 4, 
+            'facultad_id' => 1, 
             'sede_id' => 1,
             'type_id' => 3
             ]);
 
         Acceso::create([
             'user_id' => 5,
-            'facultad_id' => 5, 
+            'facultad_id' => 1, 
             'sede_id' => 1,
             'type_id' => 2
             ]);
@@ -65,6 +65,12 @@ class AccesosTableSeeder extends Seeder
 
                 ]);
         }
+
+        /* User 7: para tests*/
+        $user = User::find(7);
+        $user->facultad_id = 1;
+        $user->sede_id = 1;
+        $user->save;
 
     }
 }
