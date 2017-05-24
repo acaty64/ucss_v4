@@ -26,9 +26,14 @@ Route::post('dhora/update', [
 		'uses'	=> 'admin\DHoraController@update',	
 	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
 
-Route::get('dcurso/{dcurso}/edit', [
+Route::get('dcurso/edit/{id}', [
 		'as'	=> 'docente.dcurso.edit',
 		'uses'	=> 'admin\DcursoController@edit',	
+	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
+
+Route::post('dcurso/update', [
+		'as'	=> 'docente.dcurso.update',
+		'uses'	=> 'admin\DcursoController@update',	
 	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
 
 Route::get('horario/show/{id}', [

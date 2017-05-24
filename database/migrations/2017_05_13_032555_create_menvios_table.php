@@ -14,15 +14,15 @@ class CreateMenviosTable extends Migration
     {
         Schema::create('menvios', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('facultad_id')->unsigned();
-            $table->integer('sede_id')->unsigned();
+            $table->unSignedInteger('facultad_id');
+            $table->unSignedInteger('sede_id');
             $table->date('fenvio');
             $table->date('flimite');
             $table->string('tx_need',100);
-            $table->integer('envio1');
-            $table->integer('envio2');
-            $table->integer('rpta1');
-            $table->integer('rpta2');
+            $table->unSignedInteger('envio1');
+            $table->unSignedInteger('envio2');
+            $table->unSignedInteger('rpta1');
+            $table->unSignedInteger('rpta2');
             $table->string('tipo', 4);
             $table->string('tablename', 20);
             $table->boolean('sw_envio');

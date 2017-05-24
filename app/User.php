@@ -105,6 +105,13 @@ class User extends Authenticatable
         return $this->hasOne('App\Datauser');
     }
 
+    public function dcursos()
+    {
+        $facultad_id = Session::get('facultad_id');
+        $sede_id = Session::get('sede_id');
+        $dcursos = $this->hasMany('App\DCurso')->where('facultad_id',$facultad_id)->where('sede_id',$sede_id);
+        return $dcursos;
+    }
 /***
     public function getTypeAttribute($value='')
     {

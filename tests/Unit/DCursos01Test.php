@@ -13,63 +13,50 @@ use Tests\TestCase;
 
 class DCursos01Test extends TestCase
 {    
-  function test_an_administrator_edit_a_DCurso()
+  function test_an_administrator_add_a_DCurso()
     {
-/**
     //Having an administrator user
     $adminuser = factory(User::class)->create();
     $facultad_id = 1;
     $sede_id = 1;
     
     /* A user for a edit */
-/**    $user = factory(User::class)->create();
-    $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
+    $user = factory(User::class)->create();
     $this->authUser($user->id, $facultad_id, $sede_id, 3);
 
     // Asignacion de valores en Session del administrador
     $this->authUser($adminuser->id, $facultad_id, $sede_id, 5);
     $response = $this->actingAs($adminuser);
 
+    //When
     $response = $this->get("administrador/dcurso/edit/{$user->id}")
       ->assertStatus(200);
 
-    //When
-    $dcursos = DCurso::where('user_id',$user->id)
-      ->where('facultad_id',$facultad_id)
-      ->where('sede_id',$sede_id)
-      ->get();
-
-    for ($i=0; $i < 5; $i++) { 
-      Dcurso::create([
-        'user_id'=>$user->id,
-        'facultad_id' => $facultad_id,
-        'sede_id' => $sede_id,
-        'curso_id'=> Curso::all()->random()->id,
-        ]);
-    }
-      $request = 
-    
-    $response = $this->post("administrador/dhora/update", [$request, $user->id]);
+    $cursos = ['5','7'];
+    $request = [
+        'docente_id' => $user->id,
+        'cursos'  => $cursos
+      ];
+    $response = $this->post("administrador/dcurso/update",$request);
+    $response->assertStatus(302);
 
     //Then 
-    $this->assertDatabaseHas('dhoras',[
+    $this->assertDatabaseHas('dcursos',[
       'facultad_id' => $facultad_id,
       'sede_id' => $sede_id,
       'user_id' => $user->id,
-      'D1_H11'=> 1,
-      'D1_H12'=> 1,
-      'D1_H13'=> 1,
-      'D1_H31'=> 1,
+      'curso_id'=> 5,
+      'prioridad'=> 99,
+      'sw_cambio'=>1
     ]);
-*/
 	}
 
   function test_a_docente_edit_his_DCurso()
   {
-/**
+
     //Having a user docente
     $user = factory(User::class)->create();
-    $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
+//    $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
 
     $facultad_id = 1;
     $sede_id = 1;
@@ -78,47 +65,41 @@ class DCursos01Test extends TestCase
 
     $response = $this->actingAs($user);
 
-    $response = $this->get("docente/dhora/edit/{$user->id}")
+    //When
+    $response = $this->get("docente/dcurso/edit/{$user->id}")
       ->assertStatus(200);
 
-    //When
-    $dhora = DHora::where('user_id',$user->id)
-      ->where('facultad_id',$facultad_id)
-      ->where('sede_id',$sede_id)
-      ->first();
-    $request['dhoras_id'] = $dhora->id;
-    $franjas = Franja::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
-    foreach ($franjas as $franja) {
-      $campo = 'D'.$franja->dia."_H".$franja->turno.$franja->hora;
-      $request[$campo] = 'off';
-    }
-
-    $request['D1_H11'] =  'on';
-    $request['D1_H12'] =  'on';
-    $request['D1_H13'] =  'on';
-    $request['D1_H31'] =  'on';
-    
-    $response = $this->post("docente/dhora/update", $request);
+    $cursos = ['5','7'];
+    $request = [
+        'docente_id' => $user->id,
+        'cursos'  => $cursos
+      ];
+    $response = $this->post("docente/dcurso/update",$request);
+    //$response->assertStatus(302);
 
     //Then 
-    $this->assertDatabaseHas('dhoras',[
+    $this->assertDatabaseHas('dcursos',[
       'facultad_id' => $facultad_id,
       'sede_id' => $sede_id,
       'user_id' => $user->id,
-      'D1_H11'=> 1,
-      'D1_H12'=> 1,
-      'D1_H13'=> 1,
-      'D1_H31'=> 1,
+      'curso_id'=> 5,
+      'prioridad'=> 99,
+      'sw_cambio'=>1
     ]);
-*/
+    $this->assertDatabaseHas('dcursos',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'curso_id'=> 7,
+      'prioridad'=> 99,
+      'sw_cambio'=>1
+    ]);
   }
 
   function test_a_responsable_edit_his_DCurso()
   {
-/**    //Having a user responsable
+    //Having a user responsable
     $user = factory(User::class)->create();
-    $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
-
     $facultad_id = 1;
     $sede_id = 1;
     $type_id = 4;
@@ -126,39 +107,35 @@ class DCursos01Test extends TestCase
 
     $response = $this->actingAs($user);
 
-    $response = $this->get("responsable/dhora/edit/{$user->id}")
+    //When
+    $response = $this->get("responsable/dcurso/edit/{$user->id}")
       ->assertStatus(200);
 
-    //When
-    $dhora = DHora::where('user_id',$user->id)
-      ->where('facultad_id',$facultad_id)
-      ->where('sede_id',$sede_id)
-      ->first();
-    $request['dhoras_id'] = $dhora->id;
-    $franjas = Franja::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
-    foreach ($franjas as $franja) {
-      $campo = 'D'.$franja->dia."_H".$franja->turno.$franja->hora;
-      $request[$campo] = 'off';
-    }
-
-    $request['D1_H11'] =  'on';
-    $request['D1_H12'] =  'on';
-    $request['D1_H13'] =  'on';
-    $request['D1_H31'] =  'on';
-    
-    $response = $this->post("responsable/dhora/update", $request);
+    $cursos = ['5','7'];
+    $request = [
+        'docente_id' => $user->id,
+        'cursos'  => $cursos
+      ];
+    $response = $this->post("responsable/dcurso/update",$request);
+    //$response->assertStatus(302);
 
     //Then 
-    $this->assertDatabaseHas('dhoras',[
+    $this->assertDatabaseHas('dcursos',[
       'facultad_id' => $facultad_id,
       'sede_id' => $sede_id,
       'user_id' => $user->id,
-      'D1_H11'=> 1,
-      'D1_H12'=> 1,
-      'D1_H13'=> 1,
-      'D1_H31'=> 1,
+      'curso_id'=> 5,
+      'prioridad'=> 99,
+      'sw_cambio'=>1
     ]);
-*/
+    $this->assertDatabaseHas('dcursos',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'curso_id'=> 7,
+      'prioridad'=> 99,
+      'sw_cambio'=>1
+    ]);
   }
 
 }

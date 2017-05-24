@@ -1,6 +1,8 @@
 <?php
 
 use App\Acceso;
+use App\Curso;
+use App\DCurso;
 use App\DataUser;
 use App\MenuType;
 use App\Type;
@@ -88,6 +90,13 @@ $factory->define(App\Menu::class, function (Faker\Generator $faker)
     ];
 });
 */
+$factory->define(DCurso::class, function (Faker\Generator $faker)
+{
+    return [
+        'curso_id'  => Curso::random()->id,
+        'user_id'   => User::random()->id,
+    ];
+});
 
 $factory->define(MenuType::class, function (Faker\Generator $faker)
 {

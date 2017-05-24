@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGrupocursosTable extends Migration
+class CreateCursoGrupoTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,18 +12,13 @@ class CreateGrupocursosTable extends Migration
      */
     public function up()
     {
-        Schema::create('grupocursos', function (Blueprint $table) {
+        Schema::create('cursogrupo', function (Blueprint $table) {
             $table->increments('id');
-            //$table->string('semestre',6);
-            $table->string('cgrupo',3);
-            $table->string('ccurso',6);
 
-            //$table->integer('semestr_id')->unsigned();
-            $table->integer('grupo_id')->unsigned();
-            $table->integer('curso_id')->unsigned();
-            $table->boolean('sw_cambio');
+            $table->unSignedInteger('grupo_id');
+            $table->unSignedInteger('curso_id');
+            $table->boolean('sw_cambio')->default(false);
             
-            //$table->foreign('semestr_id')->references('id')->on('semestres')->onDelete('cascade');
             $table->foreign('grupo_id')->references('id')->on('grupos')->onDelete('cascade');
             $table->foreign('curso_id')->references('id')->on('cursos')->onDelete('cascade');
             $table->timestamps();

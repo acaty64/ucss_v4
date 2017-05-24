@@ -86,7 +86,12 @@ Route::post('dhora/update',[
 		'uses'	=> 'admin\DHoraController@update'
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::get('dcurso/{dcurso}/edit', [
+Route::get('dcurso/edit/{id}', [
 		'as'	=> 'admin.dcurso.edit',
 		'uses'	=> 'admin\DcursoController@edit',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::post('dcurso/update', [
+		'as'	=> 'admin.dcurso.update',
+		'uses'	=> 'admin\DcursoController@update',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

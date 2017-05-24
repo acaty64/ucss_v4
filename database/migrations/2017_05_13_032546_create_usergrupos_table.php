@@ -14,10 +14,10 @@ class CreateUserGruposTable extends Migration
     {
         Schema::create('usergrupos', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('user_id')->unsigned();
-            $table->integer('grupo_id')->unsigned();
-            $table->integer('facultad_id')->unsigned();
-            $table->integer('sede_id')->unsigned();
+            $table->unSignedInteger('user_id');
+            $table->unSignedInteger('grupo_id');
+            $table->unSignedInteger('facultad_id');
+            $table->unSignedInteger('sede_id');
             $table->string('cgrupo');
             $table->string('cdocente');
             

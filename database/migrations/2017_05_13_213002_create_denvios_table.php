@@ -14,10 +14,10 @@ class CreateDenviosTable extends Migration
     {
         Schema::create('denvios', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('facultad_id')->unsigned();
-            $table->integer('sede_id')->unsigned();
-            $table->integer('user_id')->unsigned();
-            $table->integer('menvio_id')->unsigned();
+            $table->unSignedInteger('facultad_id');
+            $table->unSignedInteger('sede_id');
+            $table->unSignedInteger('user_id');
+            $table->unSignedInteger('menvio_id');
             $table->string('email_to');
             $table->string('email_cc');
             $table->boolean('sw_envio');

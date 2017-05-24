@@ -14,6 +14,8 @@ class CreateGruposTable extends Migration
     {
         Schema::create('grupos', function (Blueprint $table) {
             $table->increments('id');
+            $table->unSignedInteger('facultad_id');
+            $table->unSignedInteger('sede_id');
             
             $table->string('cgrupo',3);
             $table->string('wgrupo',50);
