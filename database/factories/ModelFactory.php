@@ -121,8 +121,7 @@ $factory->define(DataUser::class, function (Faker\Generator $faker) {
         'fono2' => $faker->randomNumber($nbDigits = 9, $strict = false),
         'email1' => $faker->email,
         'email2' => $faker->email,
-        'whatsapp' => $faker->randomElement([true,false]),
-        'wdocente' => $wdoc2 . ' ' .$wdoc3.', '.$wdoc1,
+        'whatsapp' => $faker->randomElement([true,false])
     ];
 });
 

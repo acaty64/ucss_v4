@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 namespace App\Http\Controllers\Admin;
 
@@ -7,6 +7,7 @@ use App\DataUser;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 
 class DataUserController extends Controller
 {
@@ -50,12 +51,11 @@ class DataUserController extends Controller
         $datauser->save();
 
         $acceso = Acceso::where('user_id',$request->user_id)->first();
-        $acceso->wdocente = $user->wdoc2 . " " .$user->wdoc3. ", ".$user->wdoc1;  
+        $acceso->wdocente = $datauser->wdoc2 . " " .$datauser->wdoc3. ", ".$datauser->wdoc1;  
         $acceso->save();
 
-
-        Flash::warning('Se ha modificado el registro: '.$datauser->id.' código : '.$datauser->cdocente.' de forma exitosa');
-        return redirect()->route('admin.user.index');
+        Flash::warning('Se ha modificado el usuario: '.$datauser->user_id.' : '.$acceso->wdocente.' de forma exitosa');
+        return redirect()->route('administrador.user.index');
     }
 
 }

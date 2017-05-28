@@ -46,12 +46,12 @@ Route::post('user/store', [
 		'uses'	=> 'admin\UserController@store',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::get('user/{user}/edit', [
+Route::get('user/edit/{user_id}', [
 		'as'	=> 'admin.user.edit',
 		'uses'	=> 'admin\UserController@edit',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::post('user/update', [
+Route::put('user/update', [
 		'as'	=> 'admin.user.update',
 		'uses'	=> 'admin\userController@update',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
@@ -71,7 +71,7 @@ Route::get('datauser/edit/{id}', [
 		'uses'	=> 'admin\DataUserController@edit',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::post('datauser/update', [
+Route::put('datauser/update', [
 		'as'	=> 'admin.datauser.update',
 		'uses'	=> 'admin\DataUserController@update',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

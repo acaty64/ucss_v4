@@ -81,7 +81,6 @@ class UserController extends Controller
         $datauser->cdocente = $cdocente;
         $datauser->wdoc1 = $user->name;
         $datauser->email1 = $user->email;
-        $datauser->wdocente = $datauser->wdocente();
         $datauser->save();
         
         // Crea un registro en Accesos
@@ -125,7 +124,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $user = User::find($id);
+        $user = User::find($id); 
         return view('admin.user.edit')->with('user', $user);
     }
 
@@ -138,20 +137,13 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $check = DataUser::where('cdocente','=',$request->cdocente)->first();
-        if(empty($check))
-        {
             $user = User::find($request->id);
-            $user->fill($request->all());
-            $user->password = bcrypt($request->password);
+            $user->name = $request->name;
+            $user->email = $request->email;
             $user->save();
 
             Flash::warning('Se ha modificado el registro: '.$user->id.' : '.$user->name.' de forma exitosa');
-            return redirect()->route('admin.user.index');
-        }else{
-            Flash::error('ERROR, Ya existe el usuario con código: '.$request->cdocente);
-            return redirect()->back();
-        }
+            return redirect()->route('administrador.user.index');
     }
 
     /**
@@ -165,7 +157,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->delete();          
         Flash::error('Se ha eliminado el registro: '.$user->id.' '.$user->name.' de forma exitosa');
-        return redirect()->route('admin.user.index');
+        return redirect()->route('administrador.user.index');
     }
 
     /**********************************************/

@@ -25,7 +25,6 @@ class CreateDatausersTable extends Migration
             $table->string('email2', 80)->nullable();
             $table->boolean('whatsapp')->default(false);
             $table->integer('user_id')->unsigned();
-            $table->string('wdocente');
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

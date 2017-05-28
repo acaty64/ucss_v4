@@ -90,8 +90,8 @@ class User extends Authenticatable
 
     /************* FUNCIONES ********************/
     public function wDocente($id){
-        $user = User::find($id);
-        return $user->wdoc2." ".$user->wdoc3.", ".$user->wdoc1;
+        $datauser = DataUser::where('user_id',$id)->first();
+        return $datauser->wdoc2." ".$datauser->wdoc3.", ".$datauser->wdoc1;
     }
 
     /************ RELATIONSHIPS ******************/

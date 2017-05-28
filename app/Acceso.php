@@ -33,7 +33,7 @@ class Acceso extends Model
 
     public function getWdocenteAttribute()
     {
-        return DataUser::where('user_id',$this->user_id)->first()->wdocente;
+        return DataUser::where('user_id',$this->user_id)->first()->wdocente();
     }
 
     public function getCdocenteAttribute()

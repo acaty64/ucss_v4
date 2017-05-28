@@ -33,6 +33,7 @@ class Users01Test extends TestCase
    {
   		//Having an administrator user
   		$admin = factory(User::class)->create();
+
   		$facultad_id = 1;
   		$sede_id = 1;
       $type_id = 5;

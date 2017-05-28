@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Curso;
+use App\CursoGrupo;
 use App\DCurso;
+use App\DataUser;
 use App\Denvio;
 use App\Grupo;
-use App\CursoGrupo;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Menvio;
@@ -75,7 +76,7 @@ class DCursoController extends Controller
         $sede_id = Session::get('sede_id');
         /***********************************************************************************/
         /* Datos para el CHOSEN superior */
-        $user = User::find($docente_id);           
+        $datauser = DataUser::where('user_id',$docente_id)->first();           
         $dcursos = User::find($docente_id)->dcursos;
         /* Crea el array para el CHOSEN select multiple  */
         //$ch_cursos = $dcursos->lists('curso_id')->toArray();
@@ -146,7 +147,7 @@ class DCursoController extends Controller
         return view('admin.dcurso.edit')
 ////////////////->with('sw_cambio',$sw_cambio)
                 ->with('sw_cambio','1')
-                ->with('docente',$user)
+                ->with('docente',$datauser)
                 ->with('dcursos', $dcursos)
                 ->with('lcursos', $lcursos)
                 ->with('ch_cursos', $ch_cursos)

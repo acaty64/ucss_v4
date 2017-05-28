@@ -1,6 +1,6 @@
 @extends('template.main')
 
-@section('title','Disponibilidad de Cursos: '.substr($docente->wDocente($docente->id),0,50) )
+@section('title','Disponibilidad de Cursos: '.substr($docente->wDocente(),0,50) )
 
 @section('content')
 <div class="panel panel-default row">
@@ -13,7 +13,7 @@
 	<!-- INICIO Formulario para seleccionar disponibilidad de cursos -->
 	{!! Form::open(['route' => 'admin.dcurso.update', 'method'=>'POST']) !!}
 	<div class="col-xs-12">
-		{!! Field::hidden('docente_id',$docente->id) !!}
+		{!! Field::hidden('docente_id',$docente->user_id) !!}
 		{!! Form::label('cursos','Cursos') !!}
 		<!-- select(nombre del campo, lista de opciones, array con opciones seleccionadas,[opciones chosen]) -->
 		<span>

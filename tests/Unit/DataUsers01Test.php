@@ -41,7 +41,7 @@ class DataUsers01Test extends TestCase
     $new_values->email2 = 'jd2@gmail.com';
     $new_values->whatsapp = true;
 
-    $response = $this->post("administrador/datauser/update", $new_values->toArray());
+    $response = $this->put("administrador/datauser/update", $new_values->toArray());
     //Then 
     $this->assertDatabaseHas('datausers',[
       'wdoc1'=> 'John',

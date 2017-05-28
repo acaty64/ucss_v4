@@ -17,20 +17,21 @@ class Users02Test extends TestCase
    {
       //Having an administrator user
       $user = factory(User::class)->create();
+      $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
+
       $facultad_id = 1;
       $sede_id = 1;
       $this->authUser($user->id, $facultad_id, $sede_id, 5);
+      
       $response = $this->actingAs($user);
 
-      $modi_id = 7;
-
       // When
-      $newValues = User::find($modi_id);
+      $newValues = User::find($user->id);
       $newValues->name = 'John Doe';
       $newValues->email= 'jd@gmail.com';
       $newValues->password = 'secret';
 
-      $response = $this->post('administrador/user/update', $newValues->toArray());
+      $response = $this->put('administrador/user/update', $newValues->toArray());
       
       //Then
       $this->assertDatabaseHas('users',[

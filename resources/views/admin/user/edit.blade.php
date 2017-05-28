@@ -1,30 +1,19 @@
 @extends('template.main')
 
-@section('title','Modificar Usuario '.$user->wdocente($user->id) . ' / código: ' . $user->username)
+@section('title','Modificar Usuario '.$user->wdocente($user->id))
 
 @section('content')
-	{!! Form::model($user, array('route' => array('admin.users.update', $user->id), 'method' => 'PUT')) !!}
-		{{Form::hidden('username',$user->username)}}
+	{!! Form::model($user, array('route' => array('admin.user.update'), 'method' => 'PUT')) !!}
+		{!! Form::hidden('id',$user->id) !!}
 		<div class="form-group">
-			{!! Form::label('wdoc1','Nombres') !!}
-			{!! Form::text('wdoc1', $user->wdoc1, ['class'=>'form-control', 'placeholder'=>'Ingrese sus Nombres','required']) !!}
+			{!! Form::label('name','Nombre de Usuario') !!}
+			{!! Form::text('name', $user->name, ['class'=>'form-control', 'required']) !!}
 		</div>
 
 		<div class="form-group">
-			{!! Form::label('wdoc2','Apellido Paterno') !!}
-			{!! Form::text('wdoc2', $user->wdoc2, ['class'=>'form-control', 'placeholder'=>'Ingrese su Apellido Paterno','required']) !!}
+			{!! Form::label('email','Correo Electrónico') !!}
+			{!! Form::email('email', $user->email, ['class'=>'form-control', 'required']) !!}
 		</div>
-
-		<div class="form-group">
-			{!! Form::label('wdoc3','Apellido Materno') !!}
-			{!! Form::text('wdoc3', $user->wdoc3, ['class'=>'form-control', 'placeholder'=>'Ingrese su Apellido Materno','required']) !!}
-		</div>
-
-		<div class="form-group">
-			{!! Form::label('type','Tipo') !!}
-			{!! Form::select('type', ['01'=>'Administrativo','02'=>'Docente','03'=>'Responsable','09'=>'Master'], $user->type, ['class'=>'form-control', 'required']) !!}
-		</div>
-
 		<div class="form-group">
 			{!! Form::submit('Grabar modificaciones', ['class'=>'btn btn-primary']) !!}
 		</div>
@@ -33,4 +22,4 @@
 
 @endsection
 
-@section('view','admin/users/edit.blade.php')
+@section('view','admin/user/edit.blade.php')

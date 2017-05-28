@@ -4,6 +4,7 @@ namespace Tests\Unit;
 
 use App\Acceso;
 use App\DCurso;
+use App\DataUser;
 use App\User;
 use Illuminate\Auth\Middleware\Authorize;
 use Illuminate\Support\Facades\Auth;
@@ -22,6 +23,10 @@ class DCursos01Test extends TestCase
     
     /* A user for a edit */
     $user = factory(User::class)->create();
+    $datauser = factory(DataUser::class)->create([
+          'user_id' => $user->id,
+          'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)
+        ]);
     $this->authUser($user->id, $facultad_id, $sede_id, 3);
 
     // Asignacion de valores en Session del administrador
@@ -56,7 +61,7 @@ class DCursos01Test extends TestCase
 
     //Having a user docente
     $user = factory(User::class)->create();
-//    $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
+    $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
 
     $facultad_id = 1;
     $sede_id = 1;
@@ -100,6 +105,8 @@ class DCursos01Test extends TestCase
   {
     //Having a user responsable
     $user = factory(User::class)->create();
+    $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
+    
     $facultad_id = 1;
     $sede_id = 1;
     $type_id = 4;
