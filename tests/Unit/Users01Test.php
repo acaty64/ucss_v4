@@ -31,9 +31,6 @@ class Users01Test extends TestCase
 
 	function test_create_a_guest_user()
    {
-
-      $cdocente = DataUser::find(1)->newcodigo();
-
   		//Having an administrator user
   		$admin = factory(User::class)->create();
   		$facultad_id = 1;
@@ -47,11 +44,10 @@ class Users01Test extends TestCase
       $newUser = [
           'name'=>'John Doe',
           'email'=> 'jd@gmail.com',
-          'cdocente' => $cdocente,
-        	'password'=>bcrypt('secret'),
-          'type_id' => 3
+        	'password'=>bcrypt('secret')
          ];
 
+      $cdocente = DataUser::find(1)->newcodigo();
       $response = $this->post('administrador/user/store', $newUser);
 
       //Then
@@ -61,7 +57,7 @@ class Users01Test extends TestCase
       ]);
       
       $user_id = User::where('name','John Doe')->first()->id;
-
+    
       $this->assertDatabaseHas('datausers',[
         'user_id' => $user_id,
      		'wdoc1'=> 'John Doe',
@@ -73,7 +69,7 @@ class Users01Test extends TestCase
         'user_id'=> $user_id,
         'facultad_id' => $facultad_id,
         'sede_id'=> $sede_id,
-        'type_id'=> 3
+        'type_id'=> 2
       ]);
 
       $this->assertDatabaseHas('dhoras',[

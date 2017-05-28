@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\User;
 use App\Acceso;
 use App\DHora;
 use App\DataUser;
 use App\Facultad;
-use App\Sede;
 use App\Http\Controllers\Controller;
+use App\Sede;
+use App\Type;
+use App\User;
+use App\accesos;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -27,13 +29,20 @@ class UserController extends Controller
 
         $facultad_id = Session::get('facultad_id');
         $sede_id = Session::get('sede_id');
-        $accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
-        $title = Facultad::find($facultad_id)->wfacultad .' - '.Sede::find($sede_id)->wsede ;
+        //$users = User::search($request->get('wdocente'), $request->get('type'))->orderBy('id', 'ASC')->paginate(6);
+        //$accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
+        $accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->search($request->get('wdocente'), $request->get('type'))->get();
 
-        return view('admin.user.preindex')
+        $title = Facultad::find($facultad_id)->wfacultad .' - '.Sede::find($sede_id)->wsede ;
+        $types = Type::all();
+        $xtypes = [];
+        foreach ($types as $type) {
+            $xtypes[$type->id] = $type->name;
+        }
+        return view('admin.user.index')
                 ->with('title',$title)
-                ->with('users',$accesos);
-//            ->with('hoy',$hoy);
+                ->with('users',$accesos)
+                ->with('types',$xtypes);
     }
 
     /**
@@ -43,7 +52,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        //$user = new User;
         return view('admin.user.create');
     }
 
@@ -55,51 +63,46 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // Verifica que no exista el cdocente
-        $check = DataUser::where('cdocente','=',$request->cdocente)->first();
-        if(empty($check))
-        {
-            // Recibe los datos del formulario de resources\admin\users\create.blade.php
-            $facultad_id = Session::get('facultad_id');
-            $sede_id = Session::get('sede_id');
+        $cdocente = DataUser::find(1)->newcodigo();
 
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = bcrypt($request->password);
-            $user->save(); 
-            
-            // Crea un registro en DataUser
-            $datauser = new DataUser();
-            $datauser->user()->associate($user);
-            $datauser->cdocente = $request->cdocente;
-            $datauser->wdoc1 = $user->name;
-            $datauser->email1 = $user->email;
-            $datauser->slug = $datauser->wdocente();
-            $datauser->save();
-            
-            // Crea un registro en Accesos
-            $acceso = new Acceso();
-            $acceso->user()->associate($user);           
-            $acceso->facultad_id = $facultad_id;
-            $acceso->sede_id = $sede_id;
-            $acceso->type_id = $request->type_id;
-            $acceso->swcierre = false;
-            $acceso->save();
+        // Recibe los datos del formulario de resources\admin\users\create.blade.php
+        $facultad_id = Session::get('facultad_id');
+        $sede_id = Session::get('sede_id');
 
-            // Crea un registro en DHora
-            $dhora = new DHora();
-            $dhora->user()->associate($user);
-            $dhora->facultad_id = $facultad_id;
-            $dhora->sede_id = $sede_id;
-            $dhora->save();
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->save(); 
+        
+        // Crea un registro en DataUser
+        $datauser = new DataUser();
+        $datauser->user()->associate($user);
+        $datauser->cdocente = $cdocente;
+        $datauser->wdoc1 = $user->name;
+        $datauser->email1 = $user->email;
+        $datauser->wdocente = $datauser->wdocente();
+        $datauser->save();
+        
+        // Crea un registro en Accesos
+        $acceso = new Acceso();
+        $acceso->user()->associate($user);           
+        $acceso->facultad_id = $facultad_id;
+        $acceso->sede_id = $sede_id;
+        /// $acceso->type_id = 2; Default = 2 ** Consulta   
+        $acceso->swcierre = false;
+        $acceso->save();
 
-            Flash::success('Se ha registrado '.$user->name.' de forma exitosa');
-            return redirect()->route('admin.user.index');
-        }else{
-            Flash::error('ERROR, Ya existe el usuario con código: '.$request->cdocente);
-            return redirect()->back();
-        }
+        // Crea un registro en DHora
+        $dhora = new DHora();
+        $dhora->user()->associate($user);
+        $dhora->facultad_id = $facultad_id;
+        $dhora->sede_id = $sede_id;
+        $dhora->save();
+
+        Flash::success('Se ha registrado '.$user->name.' de forma exitosa');
+        return redirect()->route('administrador.user.index');
+
     }
   
 
@@ -135,14 +138,20 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-        $user = User::find($request->id);
-        $user->fill($request->all());
-        $user->password = bcrypt($request->password);
-        $user->save();
+        $check = DataUser::where('cdocente','=',$request->cdocente)->first();
+        if(empty($check))
+        {
+            $user = User::find($request->id);
+            $user->fill($request->all());
+            $user->password = bcrypt($request->password);
+            $user->save();
 
-        Flash::warning('Se ha modificado el registro: '.$user->id.' : '.$user->name.' de forma exitosa');
-        return redirect()->route('admin.user.index');
-
+            Flash::warning('Se ha modificado el registro: '.$user->id.' : '.$user->name.' de forma exitosa');
+            return redirect()->route('admin.user.index');
+        }else{
+            Flash::error('ERROR, Ya existe el usuario con código: '.$request->cdocente);
+            return redirect()->back();
+        }
     }
 
     /**

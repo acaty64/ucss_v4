@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Menu Index</div>
                 <div class="panel-body">
-                    <a href="{{ route('master.menu.create') }}" class="btn btn-info" id='NuevoMenu'>Crear Nuevo Menú</a>
+                    <a href="{{ route('master.menu.create') }}" class="btn btn-info" id='NuevoMenu'>Crear Nuevo Menu</a>
                     <table class="table table-striped">
                         <thead>
                             <th>id</th>
@@ -38,7 +38,7 @@
 
 @endsection
 @section('footer')
-<p>master.index.blade.php</p>
+<p>menu.index.blade.php</p>
 <p><a class="btn btn-link" href="{{ url('/prueba1') }}">
     PRUEBA 1. Session::all()
 </a></p>

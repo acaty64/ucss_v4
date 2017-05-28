@@ -95,3 +95,8 @@ Route::post('dcurso/update', [
 		'as'	=> 'admin.dcurso.update',
 		'uses'	=> 'admin\DcursoController@update',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::get('user/editpass/{id}', [
+		'as'	=> 'admin.user.editpass',
+		'uses'	=> 'admin\UserController@editpass',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

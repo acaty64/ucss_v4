@@ -11,10 +11,9 @@
                     
                     {!! Form::open(['method' => 'POST', 'route' => 'home.acceso'])!!}
                       <div class="form-group">
-                        {!! Form::select('facultad_id',$opc_facu, null, ['class'=>'form-control', 'placeholder'=>'Seleccione la facultad','required']) !!}
+                        {!! Form::select('facultad_id',$opc_facu, null, ['class'=>'form-control',  'placeholder'=>'Seleccione la facultad','required']) !!}
                         <br>
-
-                        {!! Form::select('sede_id',$opc_sede, null, ['class'=>'form-control', 'placeholder'=>'Seleccione la sede','required']) !!}
+                        {!! Form::select('sede_id',$opc_sede, null, ['class'=>'form-control',  'placeholder'=>'Seleccione la sede','required']) !!}
                         <br>
                       </div>
                       <button type="submit">Acceder</button>

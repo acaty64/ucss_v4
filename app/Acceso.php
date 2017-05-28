@@ -15,7 +15,7 @@ class Acceso extends Model
     protected $table = 'accesos';
 
     protected $fillable = [
-        'user_id', 'sede_id', 'facultad_id', 'type_id', 'swcierre'
+        'user_id', 'sede_id', 'facultad_id', 'type_id', 'swcierre', 'wdocente'
     ];
 
     protected function setAccesoAttributes()
@@ -33,7 +33,7 @@ class Acceso extends Model
 
     public function getWdocenteAttribute()
     {
-        return DataUser::where('user_id',$this->user_id)->first()->wdocente();
+        return DataUser::where('user_id',$this->user_id)->first()->wdocente;
     }
 
     public function getCdocenteAttribute()
@@ -61,10 +61,13 @@ class Acceso extends Model
     // Scope por nombre y tipo    
     public function scopeSearch($filter, $name, $type = null)
     {
-        $filter = $filter->where($this->wdocente, "LIKE", "%$name%");
+        if(!empty($name)){
+            $filter = $filter->where($this->wdocente, "LIKE", "%$name%");
+        }
         if (!empty($type))
         {
-            $filter = $filter->where($this->ctype, "LIKE", "%$type%");
+            //$filter = $filter->where($this->type_id, $type);
+            $filter = $filter->where('type_id', $type);
         }
         return $filter;
     }
@@ -81,5 +84,6 @@ class Acceso extends Model
         /* return $this->belongsTo('App\User', 'foreign_key'); */
         return $this->belongsTo('App\Type');
     }
+
 
 }

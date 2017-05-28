@@ -122,7 +122,7 @@ $factory->define(DataUser::class, function (Faker\Generator $faker) {
         'email1' => $faker->email,
         'email2' => $faker->email,
         'whatsapp' => $faker->randomElement([true,false]),
-        'slug' => $wdoc2 . ' ' .$wdoc3.', '.$wdoc1,
+        'wdocente' => $wdoc2 . ' ' .$wdoc3.', '.$wdoc1,
     ];
 });
 

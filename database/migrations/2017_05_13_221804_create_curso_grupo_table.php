@@ -32,6 +32,6 @@ class CreateCursoGrupoTable extends Migration
      */
     public function down()
     {
-        Schema::drop('grupocursos');
+        Schema::drop('cursogrupo');
     }
 }

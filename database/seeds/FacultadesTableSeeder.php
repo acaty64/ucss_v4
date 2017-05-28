@@ -13,7 +13,7 @@ class FacultadesTableSeeder extends Seeder
      */
     public function run()
     {
-    Facultad::create(['cFacultad' => 'FCEC', 'wFacultad' => 'Facultad de Ciencias Económicas y Comerciales']);
+    Facultad::create(['cFacultad' => 'FCEC', 'wFacultad' => 'Facultad de Ciencias Economicas y Comerciales']);
     Facultad::create(['cFacultad' => 'FCEH', 'wFacultad' => 'Facultad de Ciencias de la Educación y Humanidades']);
     Facultad::create(['cFacultad' => 'FING', 'wFacultad' => 'Facultad de Ingeniería']);
     Facultad::create(['cFacultad' => 'FSAL', 'wFacultad' => 'Facultad de Salud']);

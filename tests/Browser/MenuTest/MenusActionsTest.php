@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\unit;
 
+use App\Acceso;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -11,74 +12,42 @@ class MenusActionsTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    function test_auth_preliminar_value()
+    function test_a_master_create_a_menu()
     {
         $this->artisan('db:seed');
-        // Having
-        $user = User::create([
-                'name' => 'Jane Doe',
-                'email' => 'jdoe@gmail.com',
-                'password'  => bcrypt('secret')
-            ]);
-        $acceso = Acceso::create([
-                'user_id' => $user->id,
-                'facultad_id'   => 1,
-                'sede_id'   => 1,
-                'type_id'   => 1
-            ]);
         // Acting
         $this->browse(function (Browser $browser) {
-            $browser->visit('/login')
+        $browser->visit('/login')
                 ->assertPathIs('/login')
-                ->type('email', 'jdoe@gmail.com')
+                ->type('email', 'master@gmail.com')
                 ->type('password', 'secret')
                 ->press('Login')
-                ->assertSee('Facultad y Sede');
-            // Then
-            $browser->select('sel_facu','Ciencias Económicas y Comerciales')
-                    ->select('sel_sede','Lima')
-                    ->click('Acceder')
-                    ->click('Menus')
-                    ->assertPathIs('/master/menu/index')
-                    ->assertSee('Menu Index')
-                    ->assertSee('Crear nuevo menú')
-                    ->click('Crear Nuevo Menú')
-                    ->assertPathIs('/master/menu/create')
-                    ->type('name', 'Nuevo menú')
-                    ->type('href', '/new/route')
-                    ->type(0,'level')
-                    ->type(0,'order')
-                    ->check('type1')
-                    ->check('type3')  
-                    ->press('Registrar')
-                    ->assertPathIs('/master/menu/index')
-                    ->assertSee('Nuevo menú');
-//////////////////////////
-/**
-          
-        //Then
-        $this->seeInDatabase('menus',[
-                'name' => 'Nuevo menú',
-                'href' => '/new/route'
-                ]);
-        $newMenu = Menu::where('name','Nuevo menú')->first();
-        $this->seeInDatabase('menu_type',[
-                'type_id' => 1,
-                'menu_id' => $newMenu->id,
-                'level' => 0,
-                'order' => 0
-                ]);
-        $this->seeInDatabase('menu_type',[
-                'type_id' => 3,
-                'menu_id' => $newMenu->id,
-                'level' => 0,
-                'order' => 0
-                ]);
-        $this->see('Nuevo Menú');
-    }
+                ->assertPathIs('/home')
+                ->assertSee('Facultad y Sede')
+                ->select('facultad_id', '1')
+                ->assertSee('Ciencias Economicas y Comerciales')
+                ->select('sede_id','1')
+                ->press('Acceder')
+                ->assertPathIs('/home/acceso')
+                ->assertSee('Menus')
+                ->visit('/master/menu/index')
+                ->assertPathIs('/master/menu/index')
+                ->assertSee('Menu Index')
+                ->visit('/master/menu/create')
+                ->assertPathIs('/master/menu/create')
+                ->type('name', 'Nuevo menu')
+                ->type('href', '/new/route')
+                ->type('level',0)
+                ->type('order',0)
+                ->check('type1')
+                ->check('type3')  
+                ->press('Registrar')
+                ->assertPathIs('/master/menu/index');
+        });
 
-    public function test_edit_a_menu()
+    function test_edit_a_menu()
     {
+/**
         //Having
         $user = $this->defaultUser();
         $facultad = Facultad::find(1);
@@ -127,20 +96,20 @@ class MenusActionsTest extends DuskTestCase
             ->click('Mody'.$menu_id)
             ->see('Edición de Menú');
         //Then
-        
+*/        
     }
 
-    public function test_delete_a_menu()
+    function test_delete_a_menu()
     {
+/*
         //Having
 
         //Acting
 
         //Then
         
-    }
 */
+    }
 
-        });
     }
 }

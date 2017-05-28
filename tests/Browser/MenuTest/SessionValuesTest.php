@@ -2,6 +2,7 @@
 
 namespace Tests\Browser\unit;
 
+use App\Acceso;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
@@ -11,7 +12,7 @@ class SessionValuesTest extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    function test_auth_preliminar_value()
+    function test_auth_master()
     {
         $this->artisan('db:seed');
         // Having
@@ -35,11 +36,10 @@ class SessionValuesTest extends DuskTestCase
                 ->press('Login')
                 ->assertSee('Facultad y Sede');
             // Then
-            $browser->select('sel_facu','Ciencias Económicas y Comerciales')
-                    ->select('sel_sede','Lima')
-                    ->click('Acceder')
+            $browser->select('facultad_id','1')
+                    ->select('sede_id','1')
+                    ->press('Acceder')
                     ->assertSee('Menus');
-
         });
     }
 }

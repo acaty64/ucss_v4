@@ -1,8 +1,21 @@
 @extends('template.main')
 
-@section('title','Lista de Usuarios: ')
+@section('title','Lista de Usuarios: '.$title)
 
 @section('content')
+	@if('can:is_admin')
+		<a href="{{ route('admin.user.create') }}" class="btn btn-info" id='NuevoUsuario' name='NuevoUsuario'>Registrar Nuevo Usuario</a>
+	@endif
+	<!-- INICIO DEL BUSCADOR  -->
+		{!! Form::open(['route' => 'administrador.user.index', 'method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
+			<div class="form-group">
+				{!! Form::select('type', $types, null,['placeholder'=>'Tipo']) !!}
+			</div>
+			<div class="input-group">
+				{!! Form::text('wdocente', null, ['class'=>'form-control', 'placeholder'=>'Buscar docente...', 'aria-describedby'=>'search']) !!}
+				<span class="input-group-addon" id='search'><span class="glyphicon glyphicon-search" "aria-hidden"="true"></span></span>
+			</div>
+		{!! Form::close() !!}
 <table class="table table-striped">
 	<thead>
  			<th>id</th>
@@ -40,6 +53,7 @@
 			@endforeach
 		</tbody>
 </table>
+
 @endsection
 
 

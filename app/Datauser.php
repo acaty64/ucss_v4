@@ -24,19 +24,9 @@ extends Model
     	'email1',
     	'email2',
         'whatsapp',
-        'slug'
+        'wdocente'
     ];
-//    protected $hidden =['slug'];
 
-/*    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'wdoc2'.' '.'wdoc3'.','.'wdoc1'
-            ]
-        ];
-    }
-*/
      /**
      * Get the user that owns the data.
      */

@@ -24,12 +24,8 @@
 				</div>	
 			</div>
 			<div class='panel-body'>
-<?php 
-/**
-<!	TODO		    @include('flash::message')
-				@include('template.partials.errors') -->
-*/
- ?>
+			    @include('flash::message')
+				@include('template.partials.errors')
 				@yield('content')
 			</div>
 		</section>

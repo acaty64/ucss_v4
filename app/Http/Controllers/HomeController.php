@@ -42,6 +42,7 @@ class HomeController extends Controller
             ->with('opc_sede',$opc_sede);
     }
 
+
     public function acceso(Request $request)
     { 
         $facultad=Facultad::find($request->facultad_id);

@@ -25,7 +25,7 @@ class DatausersTableSeeder extends Seeder
             'email1' => 'admin@gmail.com',
             'email2' => 'master@gmail.com',
             'whatsapp' => false,
-            'slug' => 'Usuario Master, Uno'
+            'wdocente' => 'Usuario Master, Uno'
             ]);
         $users = User::where('id','>',1)->get();
         foreach ($users as $user) {

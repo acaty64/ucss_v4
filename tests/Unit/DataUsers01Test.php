@@ -16,18 +16,19 @@ class DataUsers01Test extends TestCase
   function test_an_administrator_edit_the_datauser()
   {
     //Having an administrator user
-    $user = factory(User::class)->create();
-    $facultad_id = 1;
-    $sede_id = 1;
-
-    $this->authUser($user->id, $facultad_id, $sede_id, 5);
+    $user = User::find(5);
     $response = $this->actingAs($user);
 
-    $response = $this->get("administrador/datauser/edit/{$user->id}")
+    Session::put('facultad_id',1);
+    Session::put('sede_id',1);
+    Session::put('type_id',5);
+    Session::put('ctype','Administrador');
+
+    $modi_id = 7;
+    $response = $this->get("administrador/datauser/edit/{$modi_id}")
         ->assertStatus(200);
 
     //When
-    $modi_id = '7';
     $new_values = DataUser::where('user_id',$modi_id)->first();
 
     $new_values->wdoc1= 'John';
