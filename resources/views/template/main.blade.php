@@ -18,9 +18,12 @@
 		<section class='section-admin'>
 			<div class='panel panel-default'>
 				<div class='panel-heading'>
-					<h3 class='panel-title'>
+					<h3 class='panel-title title-left'>
 						@yield('title')
 					</h3>
+					<div class='title-right' >
+						<a href="{{ URL::previous() }}" >Volver</a>
+					</div>
 				</div>	
 			</div>
 			<div class='panel-body'>

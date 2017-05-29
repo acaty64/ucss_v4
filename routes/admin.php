@@ -100,3 +100,8 @@ Route::get('user/editpass/{id}', [
 		'as'	=> 'admin.user.editpass',
 		'uses'	=> 'admin\UserController@editpass',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::put('PDF/silaboCurso', [
+		'as'	=> 'admin.PDF.silaboCurso',
+		'uses'	=> 'admin\PDFController@silaboCurso',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

@@ -44,18 +44,17 @@
 	</div>
 	<div class="row">
 		<div class="col-xs-9">
-			Curso para visualizar el sílabo
+			Seleccione el curso para visualizar el sílabo
 		</div>
 		<div class="col-xs-3">
 			Acción
 		</div>
 	</div>
-<?php 
-/*** TODO
+	<!-- INICIO Formulario para ver silabo de cursos -->
 	<div class="row">
-		{!! Form::open(['route' => 'PDF.silaboCurso', 'method'=>'PUT']) !!}
+		{!! Form::open(['route' => 'admin.PDF.silaboCurso', 'method'=>'PUT']) !!}
 		<div class="col-xs-9">
-			{!! Form::select('curso_id', $lxgrupos, null, ['class'=>'chosen-select select-curso', 'include_group_label_in_selected'=>'true']) !!}
+			{!! Form::select('curso_id', $lxgrupos, null, ['class'=>'chosen-select select-silabo', 'include_group_label_in_selected'=>'true']) !!}
 		</div>
 		<div class="col-xs-3">
 			{!! Form::submit('Ver silabo' ,['class'=>'btn btn-primary btn-xs', 'id'=>'ver']) !!}
@@ -63,9 +62,7 @@
 		{!! Form::close() !!}
 		<hr>
 	</div>
-		<!-- FIN Formulario para ver silabo de cursos -->
-*/
- ?>
+	<!-- FIN Formulario para ver silabo de cursos -->
 
 	</div>
 </div>
@@ -75,6 +72,12 @@
 	<script>
 		$(".select-curso").chosen({
 			placeholder_text_multiple:"Haga click aquí para seleccionar los cursos",
+			width: "95%"
+		}); 
+	</script>
+	<script>
+		$(".select-silabo").chosen({
+			placeholder_text_multiple:"Haga click aquí para seleccionar los silabos",
 			width: "95%"
 		}); 
 	</script>

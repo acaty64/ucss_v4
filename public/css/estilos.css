@@ -32,3 +32,13 @@
 				text-align:center;
 }
 
+.title-left {
+	float: left;
+}
+
+.title-right {
+	float: right;
+	color: red ;
+	margin-right: 0 ;
+}
+

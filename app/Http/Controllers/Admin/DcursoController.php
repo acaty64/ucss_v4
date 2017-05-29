@@ -124,16 +124,12 @@ class DCursoController extends Controller
         }
         /* lxgrupos : Array como lista para el CHOSEN select separado por grupos  */
         $lxgrupos = [];
-        //$xcont_1 = 0;
         foreach($xlgrupos as $grupos)
         {  
-            //$xcont_2 = xl
             foreach($grupos as $cursos)
             {
                 $lxgrupos[$grupos[0]->grupo->wgrupo][$cursos->curso->id] = $cursos->curso->wcurso ;
-                //$xcont_2++;                
             }
-            //$xcont_1++;
         }
 /*************************/
 
@@ -225,7 +221,7 @@ class DCursoController extends Controller
             $denvio->save();
         }
 ***/
-////////        Flash::success('Se ha registrado la modificación de disponibilidad de cursos de forma exitosa');
+        Flash::success('Se ha registrado la modificación de disponibilidad de cursos de forma exitosa');
         if (Session::get('ctype') == 'Administrador') {
             return redirect()->route('administrador.user.index');
         }else{
