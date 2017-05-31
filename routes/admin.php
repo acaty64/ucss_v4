@@ -23,7 +23,7 @@ Route::get('usergrupos/index',  [
 
 Route::get('dhoras/lista',  [
 		'as'	=> 'administrador.dhora.lista',
-		'uses'	=> 'admin\DHorasController@lista',	
+		'uses'	=> 'admin\DHoraController@lista',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('dcursos/lista',  [
@@ -81,7 +81,7 @@ Route::get('dhora/edit/{id}',[
 		'uses'	=> 'admin\DHoraController@edit'
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
 
-Route::post('dhora/update',[
+Route::put('dhora/update',[
 		'as'	=> 'admin.dhora.update',
 		'uses'	=> 'admin\DHoraController@update'
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

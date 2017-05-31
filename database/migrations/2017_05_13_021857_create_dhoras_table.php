@@ -17,7 +17,8 @@ class CreateDhorasTable extends Migration
             $table->integer('user_id')->unsigned();
             $table->integer('facultad_id')->unsigned();
             $table->integer('sede_id')->unsigned();
-            $table->boolean('D1_H10')->default(false);
+            $table->string('wfranja',6);
+/**            $table->boolean('D1_H10')->default(false);
             $table->boolean('D1_H11')->default(false);
             $table->boolean('D1_H12')->default(false);
             $table->boolean('D1_H13')->default(false);
@@ -71,6 +72,7 @@ class CreateDhorasTable extends Migration
             $table->boolean('D6_H31')->default(false);
             $table->boolean('D6_H32')->default(false);
             $table->boolean('D6_H33')->default(false);
+*/
             $table->boolean('sw_cambio')->default(false);
 
             //$table->integer('semestr_id')->unsigned();

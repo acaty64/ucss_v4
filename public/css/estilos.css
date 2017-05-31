@@ -8,9 +8,6 @@
 	margin-bottom: 0;
 }
 
-.panel-default{
-	margin-bottom: 5px;
-}
 
 .horario {
 		width: 100%;
@@ -27,6 +24,8 @@
 				color:white;
 				margin-left: 0;
 				margin-right: 0;
+				margin-bottom: 5;
+				margin-top: 5; 
 
 				border: solid 1px black;
 				text-align:center;
@@ -34,11 +33,14 @@
 
 .title-left {
 	float: left;
+	padding-bottom: 5px;
 }
 
 .title-right {
 	float: right;
-	color: red ;
-	margin-right: 0 ;
+}
+
+.panel.panel-default{
+	margin-bottom: 0;
 }
 

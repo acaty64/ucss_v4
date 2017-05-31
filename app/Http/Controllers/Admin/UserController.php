@@ -29,6 +29,8 @@ class UserController extends Controller
 
         $facultad_id = Session::get('facultad_id');
         $sede_id = Session::get('sede_id');
+        $acceso_auth = Acceso::acceso_auth();
+
         //$users = User::search($request->get('wdocente'), $request->get('type'))->orderBy('id', 'ASC')->paginate(6);
         //$accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
         $accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->search($request->get('wdocente'), $request->get('type'))->get();
@@ -42,7 +44,8 @@ class UserController extends Controller
         return view('admin.user.index')
                 ->with('title',$title)
                 ->with('users',$accesos)
-                ->with('types',$xtypes);
+                ->with('types',$xtypes)
+                ->with('acceso_auth',$acceso_auth);
     }
 
     /**
@@ -91,14 +94,14 @@ class UserController extends Controller
         /// $acceso->type_id = 2; Default = 2 ** Consulta   
         $acceso->swcierre = false;
         $acceso->save();
-
+/**
         // Crea un registro en DHora
         $dhora = new DHora();
         $dhora->user()->associate($user);
         $dhora->facultad_id = $facultad_id;
         $dhora->sede_id = $sede_id;
         $dhora->save();
-
+*/
         Flash::success('Se ha registrado '.$user->name.' de forma exitosa');
         return redirect()->route('administrador.user.index');
 

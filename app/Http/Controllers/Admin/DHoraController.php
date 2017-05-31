@@ -14,6 +14,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+
 use Laracasts\Flash\Flash;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -71,42 +72,45 @@ class DHoraController extends Controller
     {
         $facultad_id = Session::get('facultad_id');
         $sede_id = Session::get('sede_id');
+        
         $franjas = Franja::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
         if(!$franjas){
             dd('No hay franjas');
         }
-        $gfranjas = $franjas->sortBy('turno')->sortBy('hora')->groupBy('turno','hora');
-        $checks = [];
-        foreach ($franjas as $franja) {
-            $campo = "D".$franja->dia.'_H'.$franja->turno.$franja->hora;
-            if ( $franja->$campo == 1 ){
-                array_push($checks, [
-                    'campo'=>$campo, 
-                    'wfranja' =>$franja->wfranja
-                    ]);
+        
+        $turnos = $franjas->sortBy('turno')->groupBy('turno');
+        $gfranjas=array();
+        foreach ($turnos as $key_turno => $turno) {
+            $horas = $turno->where('turno',$key_turno)->sortBy('hora')->groupBy('hora');
+            foreach ($horas as $key_hora => $hora) {
+                array_push($gfranjas, ['turno'=>$key_turno,'hora'=>$key_hora]);
             }
         }
+        $gfranjas = collect($gfranjas);
 
-        $wdocente = DataUser::where('user_id',$user_id)->first();
-        //$dhoras = $wdocente->dhora;
-        $dhoras = DHora::where('user_id', $user_id)->where('sede_id', $sede_id)->where('facultad_id',$facultad_id)->first();
-
-        if(empty($dhoras)){
-            $dhoras = new DHora;
-            $dhoras->user_id = $user_id;
-            $dhoras->facultad_id = $facultad_id;
-            $dhoras->sede_id = $sede_id;
-            $dhoras->save();
+        foreach ($franjas as $franja) {
+            $campo = "D".$franja->dia.'_H'.$franja->turno.$franja->hora;
+            $wfranja[$campo] = $franja->wfranja;
         }
-        
+
+        $wdocente = DataUser::where('user_id',$user_id)->first()->wdocente();
+
+        $collect_dhoras = DHora::where('user_id', $user_id)->where('sede_id', $sede_id)->where('facultad_id', $facultad_id)->get();
+
+        $dhoras = [];
+        foreach ($collect_dhoras as $key => $value) {
+            $dhoras[$value->wfranja] = 'on';
+        }
+
         $sw_cambio = $this->sw_cambio($user_id, 'disp');
+
         return view('admin.dhora.edit')
             ->with('sw_cambio',$sw_cambio)
-            ->with('franjas', $franjas)
+            ->with('wfranja', $wfranja)
             ->with('gfranjas',$gfranjas)
             ->with('dhoras', $dhoras)
             ->with('wdocente',$wdocente)
-            ->with('checks',$checks);
+            ->with('user_id',$user_id);
     }
 
     /**
@@ -118,23 +122,30 @@ class DHoraController extends Controller
      */
     public function update(Request $request)
     {
-        // Actualiza la disponibilidad horaria
-        $dhoras = DHora::find($request->dhoras_id);
         // Rehacer data
         //$franjas = Franja::get();
         $facultad_id = Session::get('facultad_id');
         $sede_id = Session::get('sede_id');
+        // Elimina la disponibilidad horaria anterior
+        $dhoras = DHora::where('user_id', $request->user_id)->where('facultad_id',$facultad_id)->where('sede_id',$sede_id);
+        foreach ($dhoras as $dhora) {
+            $dhora->delete();
+        }
+        // Genera nuevas franjas en DHora
         $franjas = Franja::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
         foreach ($franjas as $franja) {
             $campo = 'D'.$franja->dia.'_H'.$franja->turno.$franja->hora;
             if ($request->$campo == "on") {
-                $dhoras->$campo = 1;
-            }else{
-                $dhoras->$campo = 0;
+                $dhora = new DHora;
+                $dhora->user_id = $request->user_id;
+                $dhora->facultad_id = $facultad_id;
+                $dhora->sede_id = $sede_id;
+                $dhora->wfranja = $campo;
+                // Graba en archivo Dhoras
+                $dhora->save();
             }
         }
-        // Graba en archivo Dhoras
-        $dhoras->save();
+/** TODO: Falta ENVIOS
         // Actualiza el sw_envio en archivo Denvios
         date_default_timezone_set('America/Lima');
         $hoy = Carbon::now();
@@ -156,12 +167,13 @@ class DHoraController extends Controller
                 }
             }
         }
-        // Redirecciona segun tipo de usuario ********** FALTA PROBAR CON ->back()
-        Flash::success('Se ha registrado la modificación de forma exitosa');
-        if (\Auth::user()->type == '09') {
-            return redirect()->route('admin.users.index');
+*/
+        // Redirecciona segun tipo de usuario
+        Flash::success('Se ha registrado la modificación de disponibilidad horaria de forma exitosa');
+        if (Session::get('ctype') == 'Administrador') {
+            return redirect()->route('administrador.user.index');
         }else{
-            return redirect()->route('admin.dhoras.edit', $dhoras->user_id);
+            return redirect()->route(strtolower(Session::get('ctype')).'.dhora.edit', $user_id);
         }
     }
 
@@ -177,13 +189,13 @@ class DHoraController extends Controller
     }
 
     /* Identifica si tiene envio de disponibilidad pendiente */
-        // Si el usuario es master puede modificar
+        // Si el usuario es Administrador puede modificar
         // Selecciona los denvios del usuario
         // Selecciona los menvios relacionados
         // Verifica si existe un menvio pendiente 
     public function sw_cambio($user_id, $tipo)
     {
-        if (\Auth::user()->type == '09') {
+        if (Session::get('ctype') == 'Administrador') {
             $sw_cambio = '1';
         }else{
             date_default_timezone_set('America/Lima');

@@ -42,12 +42,12 @@ class User extends Authenticatable
 
     public function getNameLoginAttribute()
     {
-        $rpta = $this->name;
+        $rpta = substr($this->name, 0, 10);
         if (Session::get('sede_id')) {
             $rpta = $rpta . ' (' . Session::get('cfacultad') . ' - ' . Session::get('csede') . ')';
         }
         if (Session::get('type_id')) {
-            $rpta = $rpta . ' (' . Session::get('ctype') . ')' ;
+            $rpta = $rpta . ' (' . substr(Session::get('ctype'),0,6) . ')' ;
         }
         return $rpta;
     }

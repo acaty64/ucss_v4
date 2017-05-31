@@ -3,9 +3,9 @@
 @section('title','Lista de Usuarios: '.$title)
 
 @section('content')
-	@if('can:is_admin')
+	@can('is_admin', $acceso_auth)
 		<a href="{{ route('admin.user.create') }}" class="btn btn-info" id='NuevoUsuario' name='NuevoUsuario'>Registrar Nuevo Usuario</a>
-	@endif
+	@endcan
 	<!-- INICIO DEL BUSCADOR  -->
 		{!! Form::open(['route' => 'administrador.user.index', 'method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
 			<div class="form-group">
@@ -27,7 +27,7 @@
  		</thead>
  		<tbody> 
 			@foreach($users as $user)
-				@if($user->ctype <> "Master")
+				@if($user->ctype != "Master")
 					<tr>
 						<td>{{$user->user_id}}</td>
 						<td>{{$user->cdocente}}</td>
@@ -35,8 +35,11 @@
 						<td>{{$user->wdocente}}</td>
 						<td>{{$user->ctype}}</td>
 						<td>
-							@if('can:is_admin')
-								<a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Modificar usuario" name = "{{'Mody'.$user->id}}"><span class="glyphicon glyphicon-wrench" aria-hidden='true'></span></a>
+							@can('is_consulta', $acceso_auth)
+								<a href="{{ route('consulta.user.view', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Ver Datos Personales" name = "{{'View'.$user->id}}"><span class="glyphicon glyphicon-user" aria-hidden='true'></span></a>
+							@endcan
+							@can('is_admin', $acceso_auth)
+								<a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Modificar usuario" name = "{{'Mody'.$user->id}}"><span class="glyphicon glyphicon-user" aria-hidden='true'></span></a>
 
 			 					<a href="{{ route('admin.user.editpass', $user->id) }}" class="btn btn-danger" data-toggle="tooltip" title="Modificar password" name = "{{'EditPass'.$user->id}}"><span class="glyphicon glyphicon-lock" aria-hidden='true'></span></a>
 			 					
@@ -47,8 +50,7 @@
 			 					<a href="{{ route('admin.dhora.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Disponibilidad Horaria" name = "{{'Dhora'.$user->id}}"><span class="glyphicon glyphicon-calendar" aria-hidden='true'></span></a>
 
 			 					<a href="{{ route('admin.dcurso.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Disponibilidad de Cursos" name = "{{'Dcurso'.$user->id}}"><span class="glyphicon glyphicon-list-alt" aria-hidden='true'></span></a>
-
-							@endif
+							@endcan
 						</td>
 					</tr>
 				@endif

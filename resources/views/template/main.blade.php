@@ -21,9 +21,9 @@
 					<h3 class='panel-title title-left'>
 						@yield('title')
 					</h3>
-					<div class='title-right' >
+					<h3 class='panel-title title-right' >
 						<a href="{{ URL::previous() }}" >Volver</a>
-					</div>
+					</h3>
 				</div>	
 			</div>
 			<div class='panel-body'>
