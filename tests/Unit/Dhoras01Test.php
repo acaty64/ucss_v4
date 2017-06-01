@@ -18,10 +18,9 @@ class Dhoras01Test extends TestCase
   function test_an_administrator_edit_a_DHora()
     {
     //Having an administrator user
-    $adminuser = factory(User::class)->create();
+    $adminuser = User::find(2);
     $facultad_id = 1;
     $sede_id = 1;
-    
     /* A user for a edit */
     $user = factory(User::class)->create();
     $datauser = factory(DataUser::class)->create(['user_id'=>$user->id, 'cdocente' => str_pad($user->id, 6, '0', STR_PAD_LEFT)]);
@@ -29,39 +28,49 @@ class Dhoras01Test extends TestCase
 
     // Asignacion de valores en Session del administrador
     $this->authUser($adminuser->id, $facultad_id, $sede_id, 5);
-    $response = $this->actingAs($adminuser);
+    $response = $this->actingAs($adminuser);   
 
     $response = $this->get("administrador/dhora/edit/{$user->id}")
       ->assertStatus(200);
-
+      
     //When
-    $dhora = DHora::where('user_id',$user->id)
-      ->where('facultad_id',$facultad_id)
-      ->where('sede_id',$sede_id)
-      ->first();
-    $request['dhoras_id'] = $dhora->id;
-    $franjas = Franja::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
-    foreach ($franjas as $franja) {
-      $campo = 'D'.$franja->dia."_H".$franja->turno.$franja->hora;
-      $request[$campo] = 'off';
-    }
+    $request = [
+      'user_id' => $user->id,
+      'D1_H11' =>  'on',
+      'D1_H12' =>  'on',
+      'D1_H13' =>  'on',
+      'D1_H31' =>  'on'
+      ];
 
-    $request['D1_H11'] =  'on';
-    $request['D1_H12'] =  'on';
-    $request['D1_H13'] =  'on';
-    $request['D1_H31'] =  'on';
-    
-    $response = $this->post("administrador/dhora/update", $request);
+    $response = $this->put("administrador/dhora/update", $request);
 
     //Then 
     $this->assertDatabaseHas('dhoras',[
       'facultad_id' => $facultad_id,
       'sede_id' => $sede_id,
       'user_id' => $user->id,
-      'D1_H11'=> 1,
-      'D1_H12'=> 1,
-      'D1_H13'=> 1,
-      'D1_H31'=> 1,
+      'wfranja' => 'D1_H11'
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H12',
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H13',
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H31',
     ]);
 	}
 
@@ -82,33 +91,43 @@ class Dhoras01Test extends TestCase
       ->assertStatus(200);
 
     //When
-    $dhora = DHora::where('user_id',$user->id)
-      ->where('facultad_id',$facultad_id)
-      ->where('sede_id',$sede_id)
-      ->first();
-    $request['dhoras_id'] = $dhora->id;
-    $franjas = Franja::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
-    foreach ($franjas as $franja) {
-      $campo = 'D'.$franja->dia."_H".$franja->turno.$franja->hora;
-      $request[$campo] = 'off';
-    }
-
-    $request['D1_H11'] =  'on';
-    $request['D1_H12'] =  'on';
-    $request['D1_H13'] =  'on';
-    $request['D1_H31'] =  'on';
+    $request = [
+      'user_id' => $user->id,
+      'D1_H11' =>  'on',
+      'D1_H12' =>  'on',
+      'D1_H13' =>  'on',
+      'D1_H31' =>  'on'
+      ];
     
-    $response = $this->post("docente/dhora/update", $request);
+    $response = $this->put("docente/dhora/update", $request);
 
     //Then 
     $this->assertDatabaseHas('dhoras',[
       'facultad_id' => $facultad_id,
       'sede_id' => $sede_id,
       'user_id' => $user->id,
-      'D1_H11'=> 1,
-      'D1_H12'=> 1,
-      'D1_H13'=> 1,
-      'D1_H31'=> 1,
+      'wfranja' => 'D1_H11'
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H12',
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H13',
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H31',
     ]);
 
   }
@@ -130,33 +149,43 @@ class Dhoras01Test extends TestCase
       ->assertStatus(200);
 
     //When
-    $dhora = DHora::where('user_id',$user->id)
-      ->where('facultad_id',$facultad_id)
-      ->where('sede_id',$sede_id)
-      ->first();
-    $request['dhoras_id'] = $dhora->id;
-    $franjas = Franja::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
-    foreach ($franjas as $franja) {
-      $campo = 'D'.$franja->dia."_H".$franja->turno.$franja->hora;
-      $request[$campo] = 'off';
-    }
+    $request = [
+      'user_id' => $user->id,
+      'D1_H11' =>  'on',
+      'D1_H12' =>  'on',
+      'D1_H13' =>  'on',
+      'D1_H31' =>  'on'
+      ];
 
-    $request['D1_H11'] =  'on';
-    $request['D1_H12'] =  'on';
-    $request['D1_H13'] =  'on';
-    $request['D1_H31'] =  'on';
-    
-    $response = $this->post("responsable/dhora/update", $request);
+    $response = $this->put("responsable/dhora/update", $request);
 
     //Then 
     $this->assertDatabaseHas('dhoras',[
       'facultad_id' => $facultad_id,
       'sede_id' => $sede_id,
       'user_id' => $user->id,
-      'D1_H11'=> 1,
-      'D1_H12'=> 1,
-      'D1_H13'=> 1,
-      'D1_H31'=> 1,
+      'wfranja' => 'D1_H11'
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H12',
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H13',
+    ]);
+
+    $this->assertDatabaseHas('dhoras',[
+      'facultad_id' => $facultad_id,
+      'sede_id' => $sede_id,
+      'user_id' => $user->id,
+      'wfranja' =>'D1_H31',
     ]);
 
   }

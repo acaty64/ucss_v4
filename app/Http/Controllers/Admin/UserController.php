@@ -10,7 +10,6 @@ use App\Http\Controllers\Controller;
 use App\Sede;
 use App\Type;
 use App\User;
-use App\accesos;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -25,18 +24,14 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-//        $hoy = Carbon::now();
-
         $facultad_id = Session::get('facultad_id');
         $sede_id = Session::get('sede_id');
         $acceso_auth = Acceso::acceso_auth();
 
-        //$users = User::search($request->get('wdocente'), $request->get('type'))->orderBy('id', 'ASC')->paginate(6);
-        //$accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
-        $accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->search($request->get('wdocente'), $request->get('type'))->get();
+        $accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->search($request->get('wdocente'), $request->get('type'))->paginate(6);
 
         $title = Facultad::find($facultad_id)->wfacultad .' - '.Sede::find($sede_id)->wsede ;
-        $types = Type::all();
+        $types = Type::where('name','!=','Master')->get();
         $xtypes = [];
         foreach ($types as $type) {
             $xtypes[$type->id] = $type->name;
@@ -45,7 +40,8 @@ class UserController extends Controller
                 ->with('title',$title)
                 ->with('users',$accesos)
                 ->with('types',$xtypes)
-                ->with('acceso_auth',$acceso_auth);
+                ->with('acceso_auth',$acceso_auth)
+                ;
     }
 
     /**

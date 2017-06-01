@@ -72,12 +72,5 @@ class Users01Test extends TestCase
         'sede_id'=> $sede_id,
         'type_id'=> 2
       ]);
-
-      $this->assertDatabaseHas('dhoras',[
-     		'user_id'=>$user_id,
-     		'facultad_id'=> $facultad_id,
-     		'sede_id' => $sede_id,
-     	]);
-
 	}
 }

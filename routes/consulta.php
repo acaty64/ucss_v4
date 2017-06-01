@@ -11,7 +11,7 @@ Route::get('user/index', [
 		'uses'	=> 'admin\UserController@index',	
 	])->middleware(Authorize::class.':is_consulta,'.Acceso::class);
 
-Route::get('user/view', [
-		'as'	=> 'consulta.user.view',
-		'uses'	=> 'consulta\UserController@view',	
+Route::get('datauser/show/{id}', [
+		'as'	=> 'consulta.datauser.show',
+		'uses'	=> 'admin\DataUserController@show',	
 	])->middleware(Authorize::class.':is_consulta,'.Acceso::class);

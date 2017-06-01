@@ -30,12 +30,13 @@ class Acceso extends Model
             Auth::User()->setTypeAttributes(Session::get('type_id'), Session::get('ctype'));
         }
     }
-
+/**
     public function getWdocenteAttribute()
     {
-        return DataUser::where('user_id',$this->user_id)->first()->wdocente();
+        //return DataUser::where('user_id',$this->user_id)->first()->wdocente();
+        return $this->wdocente;
     }
-
+*/
     public function getCdocenteAttribute()
     {
         return DataUser::where('user_id',$this->user_id)->first()->cdocente;
@@ -51,9 +52,19 @@ class Acceso extends Model
         return Facultad::find($this->facultad_id)->cfacultad;
     }
 
+    public function getWfacultadAttribute()
+    {
+        return Facultad::find($this->facultad_id)->wfacultad;
+    }
+
     public function getCsedeAttribute()
     {
         return Sede::find($this->sede_id)->csede;
+    }
+
+    public function getWsedeAttribute()
+    {
+        return Sede::find($this->sede_id)->wsede;
     }
 
     // Funciones
@@ -69,7 +80,7 @@ class Acceso extends Model
     public function scopeSearch($filter, $name, $type = null)
     {
         if(!empty($name)){
-            $filter = $filter->where($this->wdocente, "LIKE", "%$name%");
+            $filter = $filter->where('wdocente', "LIKE", "%$name%");
         }
         if (!empty($type))
         {

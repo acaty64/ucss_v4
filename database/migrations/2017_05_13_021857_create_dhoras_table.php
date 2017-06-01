@@ -72,8 +72,8 @@ class CreateDhorasTable extends Migration
             $table->boolean('D6_H31')->default(false);
             $table->boolean('D6_H32')->default(false);
             $table->boolean('D6_H33')->default(false);
-*/
             $table->boolean('sw_cambio')->default(false);
+*/
 
             //$table->integer('semestr_id')->unsigned();
 

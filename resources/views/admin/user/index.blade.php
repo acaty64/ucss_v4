@@ -7,16 +7,16 @@
 		<a href="{{ route('admin.user.create') }}" class="btn btn-info" id='NuevoUsuario' name='NuevoUsuario'>Registrar Nuevo Usuario</a>
 	@endcan
 	<!-- INICIO DEL BUSCADOR  -->
-		{!! Form::open(['route' => 'administrador.user.index', 'method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
-			<div class="form-group">
-				{!! Form::select('type', $types, null,['placeholder'=>'Tipo']) !!}
-			</div>
-			<div class="input-group">
+		{!! Form::open(['route' => strtolower(Session::get('ctype')) . ".user.index", 'method'=>'GET', 'class'=>'navbar-form pull-right']) !!}
+			<span>
+				{!! Form::select('type', $types, null,['placeholder'=>'Tipo', 'class'=>'chosen']) !!}
+			</span>
+			<span class="input-group">
 				{!! Form::text('wdocente', null, ['class'=>'form-control', 'placeholder'=>'Buscar docente...', 'aria-describedby'=>'search']) !!}
-				<span class="input-group-addon" id='search'><span class="glyphicon glyphicon-search" "aria-hidden"="true"></span></span>
-			</div>
+				<span class="input-group-addon" id='search'><button type='submit' class="glyphicon glyphicon-search""aria-hidden"="true"></button></span>
+			</span>
 		{!! Form::close() !!}
-<table class="table table-striped">
+<table class="table table-striped table-condensed table-hover">
 	<thead>
  			<th>id</th>
  			<th>Código</th>
@@ -36,7 +36,7 @@
 						<td>{{$user->ctype}}</td>
 						<td>
 							@can('is_consulta', $acceso_auth)
-								<a href="{{ route('consulta.user.view', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Ver Datos Personales" name = "{{'View'.$user->id}}"><span class="glyphicon glyphicon-user" aria-hidden='true'></span></a>
+								<a href="{{ route('consulta.datauser.show', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Ver Datos Personales" name = "{{'Show'.$user->id}}"><span class="glyphicon glyphicon-user" aria-hidden='true'></span></a>
 							@endcan
 							@can('is_admin', $acceso_auth)
 								<a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Modificar usuario" name = "{{'Mody'.$user->id}}"><span class="glyphicon glyphicon-user" aria-hidden='true'></span></a>
@@ -57,8 +57,13 @@
 			@endforeach
 		</tbody>
 </table>
-
+{!! $users->render() !!}
 @endsection
 
+@section('js')
+	<script>
+		$(".chosen").chosen({allow_single_deselect: true, disable_search: true});
+	</script>
 
+@endsection
 @section('view','admin/user/index.blade.php')

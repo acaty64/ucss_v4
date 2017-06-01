@@ -21,7 +21,7 @@ Route::get('dhora/edit/{id}', [
 		'uses'	=> 'admin\DHoraController@edit',	
 	])->middleware(Authorize::class.':is_docente,'.Acceso::class);
 
-Route::post('dhora/update', [
+Route::put('dhora/update', [
 		'as'	=> 'docente.dhora.update',
 		'uses'	=> 'admin\DHoraController@update',	
 	])->middleware(Authorize::class.':is_docente,'.Acceso::class);

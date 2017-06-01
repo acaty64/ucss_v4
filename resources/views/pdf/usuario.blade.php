@@ -3,33 +3,36 @@
 @section('title','DATOS DE DOCENTE REGISTRADO')
 
 @section('content')
-
 <div class='subtitulo'>
+	Nombre de Usuario: {{ $user->name }}<br>
+	<hr style='color:blue'>
+	{{ $acceso->wfacultad }} - {{ $acceso->wsede }}
+	<hr style='color:blue'>
+	Tipo: {{ $acceso->ctype }}
+<div class='subtitulo'>
+<hr style='color:blue'>
 	CONTENIDO DE DATOS
 </div>
 <hr style='color:blue'>
 
 <div class='data'>
-	Código de Docente: {{ $view_user['username'] }}<br>
+	Código de Docente: {{ $datauser->cdocente }}<br>
 	<hr style='color:blue'>
-	Apellido Paterno: {{ $view_user['wdoc2'] }}<br>
+	Apellido Paterno: {{ $datauser->wdoc2 }}<br>
 	<hr style='color:blue'>
-	Apellido Materno: {{ $view_user['wdoc3'] }}<br>
+	Apellido Materno: {{ $datauser->wdoc3 }}<br>
 	<hr style='color:blue'>
-	Nombres: {{ $view_user['wdoc1'] }}<br>
+	Nombres: {{ $datauser->wdoc1 }}<br>
 	<hr style='color:blue'>
-	Celular: {{ $datauser[0]['fono1'] }}<br>
+	Celular: {{ $datauser->fono1 }}<br>
 	<hr style='color:blue'>
-	Tfno.Fijo: {{ $datauser[0]['fono2']}}<br>
+	Tfno.Fijo: {{ $datauser->fono2 }}<br>
 	<hr style='color:blue'>
-	e-mail principal: {{ $datauser[0]['email1']}}<br>
+	e-mail principal: {{ $datauser->email1 }}<br>
 	<hr style='color:blue'>
-	e-mail secundario: {{ $datauser[0]['email2']}}<br>
+	e-mail alternativo: {{ $datauser->email2 }}<br>
 	<hr style='color:blue'>
-
 </div>
-
-
 @endsection
 
 @section('view','pdf/usuario.blade.php')	
