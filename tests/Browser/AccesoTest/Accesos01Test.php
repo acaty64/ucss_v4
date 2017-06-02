@@ -8,16 +8,16 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class DCursos01Test extends DuskTestCase
+class Accesos01Test extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    function test_edit_a_dcurso()
-    { 
+    function test_edit_an_acceso()
+    {
         $this->artisan('db:seed');
         $this->browse(function(Browser $browser)
         {
-            $user = User::find(5);
+            $user = User::find(3);
             $browser->loginAs(User::find(2))
                     ->visit('/home')
                     ->select('facultad_id','1')
@@ -26,15 +26,12 @@ class DCursos01Test extends DuskTestCase
                     ->assertSee('Usuarios')
                     ->visit('/administrador/user/index')
                     ->assertPathIs('/administrador/user/index')
-                    ->visit("/administrador/dcurso/edit/{$user->id}")
-                    ->keys('chosen-select select-curso', '100047');
-/**
-                    ->select('.select-curso', 'ADMINISTRACION II')
-                    ->press('Grabar o Confirmar cursos')
-                    ->assertSee('Se ha registrado la modificación de disponibilidad de cursos de forma exitosa')
-                    ->visit("/administrador/dcurso/edit/{$user->id}")
-                    ->assertSee('ADMINISTRACION I');
-*/
+                    ->visit("/administrador/acceso/edit/{$user->id}")
+                    ->select('type_id',2)
+                    ->press('Grabar modificaciones')
+                    ->assertSee('Se ha modificado el usuario: ' . $user->id . ' : ' . $user->datauser->wdoc2 . " " . $user->datauser->wdoc3 . ", " . $user->datauser->wdoc1 . ' de forma exitosa')
+                    ;
+
         });
     }
 }

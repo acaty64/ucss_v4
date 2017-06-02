@@ -75,7 +75,6 @@ class Acceso extends Model
         return Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->where('user_id', auth()->user()->id)->first();
     }
 
-
     // Scope por nombre y tipo    
     public function scopeSearch($filter, $name, $type = null)
     {

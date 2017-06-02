@@ -105,3 +105,13 @@ Route::put('PDF/silaboCurso', [
 		'as'	=> 'admin.PDF.silaboCurso',
 		'uses'	=> 'admin\PDFController@silaboCurso',	
 	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::get('acceso/edit/{id}', [
+		'as'	=> 'admin.acceso.edit',
+		'uses'	=> 'admin\AccesoController@edit',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::put('acceso/update', [
+		'as'	=> 'admin.acceso.update',
+		'uses'	=> 'admin\AccesoController@update',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);

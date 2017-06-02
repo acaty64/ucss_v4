@@ -45,6 +45,8 @@
 			 					
 			 					<a href="{{ route('admin.user.destroy', $user->id) }}" onclick='return confirm("Está seguro de eliminar el registro?")' class="btn btn-danger" data-toggle="tooltip" title="Eliminar usuario" name = "{{'Dele'.$user->id}}"><span class="glyphicon glyphicon-trash" aria-hidden='true'></a>
 
+			 					<a href="{{ route('admin.acceso.edit', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Modificar acceso del usuario" name = "{{'Acceso'.$user->id}}"><span class="glyphicon glyphicon-ok" aria-hidden='true'></span></a>
+
 			 					<a href="{{ route('admin.datauser.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Modificar datos usuario" name = "{{'EditData'.$user->id}}"><span class="glyphicon glyphicon-earphone" aria-hidden='true'></span></a>
 
 			 					<a href="{{ route('admin.dhora.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Disponibilidad Horaria" name = "{{'Dhora'.$user->id}}"><span class="glyphicon glyphicon-calendar" aria-hidden='true'></span></a>
