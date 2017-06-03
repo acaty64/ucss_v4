@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
 <div class="panel panel-default">
-<div class="panel-heading">Descripción de Opciones</div>
+<div class="panel-heading"> Inicio - Descripción de Opciones</div>
 <div class="panel-body">
 <div class="conteiner" style="margin-top: 0px;">
 <ul class="nav nav-tabs">

@@ -42,7 +42,7 @@ class DCursos01Test extends TestCase
         'docente_id' => $user->id,
         'cursos'  => $cursos
       ];
-    $response = $this->post("administrador/dcurso/update",$request);
+    $response = $this->put("administrador/dcurso/update",$request);
     $response->assertStatus(302);
 
     //Then 
@@ -79,7 +79,7 @@ class DCursos01Test extends TestCase
         'docente_id' => $user->id,
         'cursos'  => $cursos
       ];
-    $response = $this->post("docente/dcurso/update",$request);
+    $response = $this->put("docente/dcurso/update",$request);
     //$response->assertStatus(302);
 
     //Then 
@@ -123,7 +123,7 @@ class DCursos01Test extends TestCase
         'docente_id' => $user->id,
         'cursos'  => $cursos
       ];
-    $response = $this->post("responsable/dcurso/update",$request);
+    $response = $this->put("responsable/dcurso/update",$request);
     //$response->assertStatus(302);
 
     //Then 

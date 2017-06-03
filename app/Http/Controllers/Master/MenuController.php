@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Master;
 
-use App\Menu;
-use App\Type;
-use App\MenuType;
 use App\Acceso;
 use App\Http\Controllers\Controller;
+use App\Menu;
+use App\MenuType;
+use App\Type;
+use Faker\Provider\slug;
 use Illuminate\Http\Request;
+use Laracasts\Flash\Flash;
 
 class MenuController extends Controller
 {
@@ -174,10 +176,24 @@ class MenuController extends Controller
                 $original_value = $menu->original;
                 $original_menus->push($original_value);
             }
-            $level0 = $menus->where('pivot_level',0)->sortBy('pivot_order')->all();
+            //$submenu_order = null;
+            $level0 = collect([]);
+            foreach ($menus as $menu) {
+                if($menu->pivot->level == 0){
+                    $level0->push($menu);
+                }
+            }
+            //$menus->where('pivot_level',0)->sortBy('pivot_order')->all();
+            ///$level0 = $menus->where('pivot_level',0)->sortBy('pivot_order')->all();
+
             foreach($level0 as $level){
-                if($level['href']){
+/**                if ($submenu_order!=null && $submenu_order <> $level->pivot->order){
+                    $options[] = "</ul></li>";
+                }
+*/
+                if($level['href']){ 
                     $submenu = false;
+                    $submenu_order = null;
                     if($level['sw_auth']){
                         $option = '<li><a href="{{ route('."'".strtolower($type->name).'.'.$level['href']."'";
                         if($level['parameter']){
@@ -189,23 +205,34 @@ class MenuController extends Controller
                     $option = $option.")".'}}">'.$level['name']."</a></li>";                    
                                    
                     $options[] = $option;
-                }else{
+                }else{      // No tiene href
                     $submenu = true;
                     $menu_id = $level->pivot->menu_id;
                     $menu_order = $level->pivot->order;
+                    $submenu_order = $menu_order;
                     $menu = Menu::find($menu_id);
                     $description = $menu->name;
-                    $option ="<li class='dropdown'><a href='#' class='dropdown-toggle' role='button' id='dropdownMenu". $menu_order ."' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>".$description."<span class='caret'></span></a>
+                    $option ="<li class='dropdown'>
+                        <a href='#' class='dropdown-toggle' role='button' id='dropdownMenu". $menu_order ."' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>".$description."<span class='caret'></span></a>
                         <ul class='dropdown-menu'aria-labelledby='dropdownMenu". $menu_order ."'>";
                     $options[] = $option;
                 }
                 if($submenu == true){
-                    $menu_order = $level['pivot_order'];
-                    $levelx = $original_menus->where('pivot_order', $menu_order)->where('pivot_level','>',0)->sortBy('pivot_order')->all();
+                    $menu_order = $level->pivot->order;
+                    $levelx = collect([]);
+                    foreach ($menus as $menu) {
+                        if($menu->pivot->level > 0 && $menu->pivot->order == $menu_order){
+                            $levelx->push($menu);
+                        }
+                    }
+                    //$levelx = $original_menus->where('pivot_order', $menu_order)->where('pivot_level','>',0)->sortBy('pivot_order')->all();
+                    //$levelx = $menus->where('pivot_order',$menu_order)->where('pivot_level','>',0)->sortBy('pivot_level')->all();
                     foreach ($levelx as $level) {
-                        $href = Menu::find($level['pivot_menu_id'])->route;
-                        $description = Menu::find($level['pivot_menu_id'])->name;
-                        $option = "<li><a href='".$href."'>".$description."</a></li>";
+                        //$href = Menu::find($level['pivot_menu_id'])->route;
+                        //$description = Menu::find($level['pivot_menu_id'])->name;
+                        $option = '<li><a href="{{ route('."'".strtolower($type->name).'.'.$level->href."'";
+                        $option = $option.")".'}}">'.$level->name."</a></li>"; 
+                        //$option = "<li><a href='".$level->href."'>".$level->name."</a></li>";
                         $options[] = $option;
                     }
                     $options[] = "</ul></li>";
@@ -253,7 +280,69 @@ class MenuController extends Controller
         fclose($file);
         $name_file = "menus/nav.blade.php";
         rename('menus/tmp.txt',$name_file);
+        Flash::success('Se ha creado el archivo: public/'.$name_file.' : copie el archivo en la ruta: resource/views/template/partials/');
+        redirect()->route('home');
 
     }
+    //// FIN DE generar()
+    //// INICIO DE generar_help()
+    public function generarhelp()
+    {
+        $file = fopen("menus/tmp.txt", "w");
+        ///fwrite($file, $option . PHP_EOL);
+        // ********** ENCABEZADO ********/
+        fwrite($file, "@extends('layouts.app')". PHP_EOL);
+        fwrite($file, "@section('content')". PHP_EOL);
+
+        fwrite($file, '<div class="panel panel-default">'. PHP_EOL);
+        fwrite($file, '<div class="panel-heading">Descripción de Opciones</div>'. PHP_EOL);
+        fwrite($file, '<div class="panel-body">'. PHP_EOL);
+        fwrite($file, '<div class="conteiner" style="margin-top: 0px;">'. PHP_EOL);
+        fwrite($file, '<ul class="nav nav-tabs">'. PHP_EOL);
+        $types = Type::all();
+        foreach ($types as $type) 
+        {
+            $menus = $type->menus;
+            $helps = collect([]);
+            foreach ($menus as $menu) {
+                if($menu->pivot->level == 0){
+                    $helps->push($menu);
+                }
+            }
+            fwrite($file, "@if(Session::get('ctype')=='".$type->name."')". PHP_EOL);
+            foreach ($helps as $help) {
+                    $title = "'#".strtolower(str_replace(' ','',$help->name))."'";
+                    $line = "<li><a href=".$title." data-toggle='tab'>".$help->name . "</a></li>";
+                    fwrite($file, $line . PHP_EOL);
+            }            
+            fwrite($file, '</ul>'. PHP_EOL);    /// nav nav-tabs
+            fwrite($file, '<div class="tab-content">'. PHP_EOL);
+            foreach ($helps as $help) {
+                $id = strtolower(str_replace(' ','',$help->name));
+                $line = "<div class='tab-pane fade' id='".$id."'>";
+                fwrite($file, $line. PHP_EOL);
+                $line = "<h4>".$help->name."</h4>";
+                fwrite($file, $line. PHP_EOL); 
+                $line = $help->help;
+                fwrite($file, $line. PHP_EOL);
+                fwrite($file, "</div>". PHP_EOL);
+            }
+            fwrite($file, "@endif". PHP_EOL);
+        }
+        fwrite($file, '</div>'. PHP_EOL);   /// tab-content
+        fwrite($file, '</div>'. PHP_EOL);   /// conteiner
+        fwrite($file, '</div>'. PHP_EOL);   /// panel-body
+        fwrite($file, '</div>'. PHP_EOL);   /// panel panel-default
+        fwrite($file, '@endsection'. PHP_EOL);   /// endsection
+
+
+        /******************************/
+        fclose($file);
+        $name_file = "menus/ok.blade.php";
+        rename('menus/tmp.txt',$name_file);
+        redirect()->back();
+
+    }
+    //// FIN DE generar_help()
 }
 

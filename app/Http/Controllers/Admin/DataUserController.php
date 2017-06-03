@@ -23,16 +23,19 @@ class DataUserController extends Controller
      */
     public function show($id)
     {
+        $acceso_auth = Acceso::acceso_auth();
+
         $user = User::find($id);
         $datauser = $user->datauser;
 
         $facultad_id = Session::get('facultad_id');
         $sede_id = Session::get('sede_id');
         $acceso = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->where('user_id', $id)->first();
+
         return view('consulta.user')
             ->with('user', $user)
             ->with('datauser', $datauser)
-            ->with('acceso',$acceso);
+            ->with('acceso', $acceso);
 
 /**        $view = \View::make('pdf.usuario', compact('user','datauser','acceso'))->render();
         $pdf = \App::make('dompdf.wrapper');
@@ -73,12 +76,12 @@ class DataUserController extends Controller
         $acceso->wdocente = $datauser->wdoc2 . " " .$datauser->wdoc3. ", ".$datauser->wdoc1;  
         $acceso->save();
 
-        Flash::warning('Se ha modificado el usuario: '.$datauser->user_id.' : '.$acceso->wdocente.' de forma exitosa');
+        Flash::success('Se ha modificado el usuario: '.$datauser->user_id.' : '.$acceso->wdocente.' de forma exitosa');
         //if(can('is_admin',Acceso::where('user_id',Session::get('user_id'))->first())){
         if(auth()->user()->can('is_admin',Acceso::class)){
             return redirect()->route('administrador.user.index');
         }else{
-            return redirect()->route(strtolower(Session::get('ctype')).'.user.index');
+            return redirect()->back();
         }
     }
 }

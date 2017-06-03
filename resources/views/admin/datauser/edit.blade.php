@@ -3,7 +3,7 @@
 @section('title','Modificar Usuario '.$datauser->wdocente($datauser->id))
 
 @section('content')
-	{!! Form::model($datauser, array('route' => array('admin.datauser.update'), 'method' => 'PUT')) !!}
+	{!! Form::model($datauser, ['route' => strtolower(Session::get('ctype')) .'.datauser.update', 'method' => 'PUT']) !!}
 		{!! Form::hidden('id',$datauser->id) !!}
 		{!! Form::hidden('user_id',$datauser->user_id) !!}
 	<table>
@@ -17,8 +17,13 @@
 			<tr>
 				<td>
 					<div class="form-group">
-						{!! Form::label('cdocente','Codigo') !!}
-						{!! Form::text('cdocente', $datauser->cdocente, ['class'=>'form-control', 'required']) !!}
+						@can('is_admin', $acceso_auth)
+							{!! Form::label('cdocente','Codigo') !!}
+							{!! Form::text('cdocente', $datauser->cdocente, ['class'=>'form-control', 'required']) !!}
+						@else
+							{!! Form::label('cdocente','Codigo (No modificable)') !!}
+							{!! Form::label('cdocente', $datauser->cdocente, ['class'=>'form-control']) !!}
+						@endcan
 					</div>
 				</td>
 				<td>
@@ -59,8 +64,13 @@
 			<tr>
 				<td>
 					<div class="form-group">
-						{!! Form::label('email1','Correo Electrónico Principal') !!}
-						{!! Form::email('email1', $datauser->email1, ['class'=>'form-control', 'placeholder'=>'example@ucss.edu.pe']) !!}
+						@can('is_admin', $acceso_auth)
+							{!! Form::label('email1','Correo Electrónico Principal') !!}
+							{!! Form::email('email1', $datauser->email1, ['class'=>'form-control', 'placeholder'=>'example@ucss.edu.pe']) !!}
+						@else
+							{!! Form::label('email1','Correo Electrónico Principal (No modificable)') !!}
+							{!! Form::label('email1', $datauser->email1, ['class'=>'form-control']) !!}
+						@endcan
 					</div>
 				</td>
 				<td>

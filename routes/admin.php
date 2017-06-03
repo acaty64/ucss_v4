@@ -39,27 +39,27 @@ Route::get('menvios/index',  [
 Route::get('user/create', [
 		'as'	=> 'admin.user.create',
 		'uses'	=> 'admin\UserController@create',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::post('user/store', [
 		'as'	=> 'admin.user.store',
 		'uses'	=> 'admin\UserController@store',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('user/edit/{user_id}', [
 		'as'	=> 'admin.user.edit',
 		'uses'	=> 'admin\UserController@edit',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::put('user/update', [
 		'as'	=> 'admin.user.update',
 		'uses'	=> 'admin\userController@update',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('user/{user}/show', [
 		'as'	=> 'admin.user.show',
 		'uses'	=> 'admin\UserController@show',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('user/{id}/destroy', [
 		'as'	=> 'admin.user.destroy',
@@ -69,32 +69,32 @@ Route::get('user/{id}/destroy', [
 Route::get('datauser/edit/{id}', [
 		'as'	=> 'admin.datauser.edit',
 		'uses'	=> 'admin\DataUserController@edit',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::put('datauser/update', [
-		'as'	=> 'admin.datauser.update',
+		'as'	=> 'administrador.datauser.update',
 		'uses'	=> 'admin\DataUserController@update',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('dhora/edit/{id}',[
 		'as'	=> 'admin.dhora.edit',
 		'uses'	=> 'admin\DHoraController@edit'
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::put('dhora/update',[
 		'as'	=> 'admin.dhora.update',
 		'uses'	=> 'admin\DHoraController@update'
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('dcurso/edit/{id}', [
 		'as'	=> 'admin.dcurso.edit',
 		'uses'	=> 'admin\DcursoController@edit',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::post('dcurso/update', [
+Route::put('dcurso/update', [
 		'as'	=> 'admin.dcurso.update',
 		'uses'	=> 'admin\DcursoController@update',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('user/editpass/{id}', [
 		'as'	=> 'admin.user.editpass',
@@ -104,14 +104,14 @@ Route::get('user/editpass/{id}', [
 Route::put('PDF/silaboCurso', [
 		'as'	=> 'admin.PDF.silaboCurso',
 		'uses'	=> 'admin\PDFController@silaboCurso',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('acceso/edit/{id}', [
 		'as'	=> 'admin.acceso.edit',
 		'uses'	=> 'admin\AccesoController@edit',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::put('acceso/update', [
 		'as'	=> 'admin.acceso.update',
 		'uses'	=> 'admin\AccesoController@update',	
-	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+	])->middleware('can:is_admin,'.Acceso::class);

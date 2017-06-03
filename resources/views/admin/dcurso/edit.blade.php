@@ -11,7 +11,7 @@
 </div>
 <div class="row">
 	<!-- INICIO Formulario para seleccionar disponibilidad de cursos -->
-	{!! Form::open(['route' => 'admin.dcurso.update', 'method'=>'POST']) !!}
+	{!! Form::open(['route' => 'admin.dcurso.update', 'method'=>'PUT']) !!}
 	<div class="col-xs-12">
 		{!! Field::hidden('docente_id',$docente->user_id) !!}
 		{!! Form::label('cursos','Cursos') !!}

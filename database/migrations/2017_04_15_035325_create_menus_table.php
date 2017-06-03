@@ -20,6 +20,7 @@ class CreateMenusTable extends Migration
             $table->string('href')->nullable();
             $table->boolean('sw_auth')->default(false);
             $table->string('parameter',50)->nullable();
+            $table->mediumtext('help')->nullable();
 
             $table->rememberToken();
             $table->timestamps();

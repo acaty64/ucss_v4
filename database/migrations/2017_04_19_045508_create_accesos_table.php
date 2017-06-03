@@ -27,8 +27,11 @@ class CreateAccesosTable extends Migration
 
             $table->unSignedInteger('type_id')->default(2);
 
-            $table->boolean('swcierre')->default(false);
             $table->string('wdocente')->default(false);
+            
+            $table->boolean('swcierre')->default(false);
+            $table->boolean('sw_dhora')->default(false);
+            $table->boolean('sw_dcurso')->default(false);
 
             $table->rememberToken();
             $table->timestamps();

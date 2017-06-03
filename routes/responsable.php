@@ -11,7 +11,7 @@ Route::get('datauser/edit/{id}', [
 		'uses'	=> 'admin\DataUserController@edit',	
 	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);
 
-Route::post('datauser/update', [
+Route::put('datauser/update', [
 		'as'	=> 'responsable.datauser.update',
 		'uses'	=> 'admin\DataUserController@update',	
 	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);
@@ -31,7 +31,7 @@ Route::get('dcurso/edit/{id}', [
 		'uses'	=> 'admin\DcursoController@edit',	
 	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);
 
-Route::post('dcurso/update', [
+Route::put('dcurso/update', [
 		'as'	=> 'responsable.dcurso.update',
 		'uses'	=> 'admin\DcursoController@update',	
 	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);

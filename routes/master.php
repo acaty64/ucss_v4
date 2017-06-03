@@ -17,6 +17,11 @@ Route::get('menu/generar', [
 		'uses'	=> 'master\MenuController@generar',	
 	])->middleware(Authorize::class.':is_master,'.Acceso::class);
 
+Route::get('menu/generarhelp', [
+		'as'	=> 'master.menu.generarhelp',
+		'uses'	=> 'master\MenuController@generarhelp',	
+	])->middleware(Authorize::class.':is_master,'.Acceso::class);
+
 Route::get('menu/create', [
 		'as'	=> 'master.menu.create',
 		'uses'	=> 'master\MenuController@create',	

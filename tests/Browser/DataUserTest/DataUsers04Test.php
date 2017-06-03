@@ -8,36 +8,31 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class DataUsers01Test extends DuskTestCase
+class DataUsers04Test extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    function test_an_administrador_edit_a_datauser()
+    function test_a_responsable_edit_his_datauser()
     {
-        $this->artisan('db:seed');
         $this->browse(function(Browser $browser)
         {
-            $user = User::find(5);
-            $browser->loginAs(User::find(2))
+            $this->artisan('db:seed');
+            $user = User::find(3);
+            $browser->loginAs($user)
                     ->visit('/home')
                     ->select('facultad_id','1')
                     ->select('sede_id','1')
                     ->press('Acceder')
-                    ->assertSee('Usuarios')
-                    ->visit('/administrador/user/index')
-                    ->assertPathIs('/administrador/user/index')
-                    ->visit("/administrador/datauser/edit/{$user->id}")
-                    ->type('cdocente','000002')
+                    ->assertSee('Datos Personales')
+                    ->visit("/responsable/datauser/edit/3")
                     ->type('wdoc1','Nuevo nombre')
                     ->type('wdoc2','Primer Apellido')
                     ->type('wdoc3','Segundo Apellido')
-                    ->type('email1','newmail@gmail.com')
                     ->type('email2','otromail@gmail.com')
                     ->check('whatsapp')
                     ->press('Grabar modificaciones')
                     ->assertSee('Se ha modificado el usuario: '.$user->id.' : Primer Apellido Segundo Apellido, Nuevo nombre de forma exitosa')
                     ;
-
         });
     }
 }
