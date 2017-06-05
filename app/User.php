@@ -88,12 +88,12 @@ class User extends Authenticatable
         return $filter;
     }
 
-    /************* FUNCIONES ********************/
+    /************* FUNCIONES ***************
     public function wDocente($id){
         $datauser = DataUser::where('user_id',$id)->first();
         return $datauser->wdoc2." ".$datauser->wdoc3.", ".$datauser->wdoc1;
     }
-
+*****/
     /************ RELATIONSHIPS ******************/
     public function accesos()
     {

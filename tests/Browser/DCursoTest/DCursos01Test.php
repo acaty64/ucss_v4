@@ -27,14 +27,15 @@ class DCursos01Test extends DuskTestCase
                     ->visit('/administrador/user/index')
                     ->assertPathIs('/administrador/user/index')
                     ->visit("/administrador/dcurso/edit/{$user->id}")
-                    ->keys('chosen-select select-curso', '100047');
-/**
-                    ->select('.select-curso', 'ADMINISTRACION II')
+                    ->click('.search-field')
+                    ->select('.select-curso','ADMINISTRACION I')
+                    ->click('.search-field')
+                    ->select('.select-curso','ADMINISTRACION II')
                     ->press('Grabar o Confirmar cursos')
                     ->assertSee('Se ha registrado la modificación de disponibilidad de cursos de forma exitosa')
                     ->visit("/administrador/dcurso/edit/{$user->id}")
-                    ->assertSee('ADMINISTRACION I');
-*/
+                    ->assertSee('ADMINISTRACION I')
+                    ->assertSee('ADMINISTRACION II');
         });
     }
 }

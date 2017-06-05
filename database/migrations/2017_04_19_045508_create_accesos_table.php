@@ -30,8 +30,9 @@ class CreateAccesosTable extends Migration
             $table->string('wdocente')->default(false);
             
             $table->boolean('swcierre')->default(false);
-            $table->boolean('sw_dhora')->default(false);
-            $table->boolean('sw_dcurso')->default(false);
+            $table->boolean('dhora')->default(false);
+            $table->boolean('dcurso')->default(false);
+            $table->boolean('hora')->default(false);
 
             $table->rememberToken();
             $table->timestamps();

@@ -75,6 +75,20 @@ class Acceso extends Model
         return Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->where('user_id', auth()->user()->id)->first();
     }
 
+    protected function acceso_disponibilidad()
+    {
+        $facultad_id = Session::get('facultad_id');
+        $sede_id = Session::get('sede_id');
+        $todos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->get();
+        $accesos = collect([]);        
+        foreach ($todos as $acceso) {
+            if ($acceso->ctype != 'Master' && $acceso->ctype != 'Consulta') {
+                $accesos->push($acceso->user);
+            }
+        }
+        return $accesos;       
+    }
+
     // Scope por nombre y tipo    
     public function scopeSearch($filter, $name, $type = null)
     {

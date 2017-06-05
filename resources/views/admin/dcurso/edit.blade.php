@@ -12,12 +12,12 @@
 <div class="row">
 	<!-- INICIO Formulario para seleccionar disponibilidad de cursos -->
 	{!! Form::open(['route' => 'admin.dcurso.update', 'method'=>'PUT']) !!}
+	{!! Field::hidden('docente_id',$docente->user_id) !!}
 	<div class="col-xs-12">
-		{!! Field::hidden('docente_id',$docente->user_id) !!}
 		{!! Form::label('cursos','Cursos') !!}
 		<!-- select(nombre del campo, lista de opciones, array con opciones seleccionadas,[opciones chosen]) -->
 		<span>
-			{!! Form::select('cursos[]', $lxgrupos, $ch_cursos, ['multiple class'=>'chosen-select select-curso', 'multiple']) !!}
+			{!! Form::select('cursos[]', $lxgrupos, $ch_cursos, ['multiple class'=>'chosen-select select-curso', 'multiple', 'id'=>'dcursos']) !!}
 		</span>
 	</div>
 </div>

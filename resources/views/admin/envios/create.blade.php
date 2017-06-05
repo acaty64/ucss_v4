@@ -4,7 +4,7 @@
 
 @section('content')
 
-	{!! Form::open(['route'=>'admin.menvios.store', 'method'=>'POST']) !!}
+	{!! Form::open(['route'=>'administrador.menvio.store', 'method'=>'POST']) !!}
 
 		<div>
 			{!! Form::label('tipo','Tipo') !!}
