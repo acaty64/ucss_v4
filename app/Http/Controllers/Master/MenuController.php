@@ -294,6 +294,7 @@ class MenuController extends Controller
         fwrite($file, "@extends('layouts.app')". PHP_EOL);
         fwrite($file, "@section('content')". PHP_EOL);
 
+        fwrite($file, '<div class="container">'. PHP_EOL);
         fwrite($file, '<div class="panel panel-default">'. PHP_EOL);
         fwrite($file, '<div class="panel-heading">Descripción de Opciones</div>'. PHP_EOL);
         fwrite($file, '<div class="panel-body">'. PHP_EOL);
@@ -311,15 +312,25 @@ class MenuController extends Controller
             }
             fwrite($file, "@if(Session::get('ctype')=='".$type->name."')". PHP_EOL);
             foreach ($helps as $help) {
-                    $title = "'#".strtolower(str_replace(' ','',$help->name))."'";
-                    $line = "<li><a href=".$title." data-toggle='tab'>".$help->name . "</a></li>";
+                if($help->name == 'Inicio'){
+                    $class="class='active'";
+                }else{
+                    $class = "";
+                }
+                $title = "'#".strtolower(str_replace(' ','',$help->name))."'";
+                $line = "<li ".$class."><a href=".$title." data-toggle='tab'>".$help->name . "</a></li>";
                     fwrite($file, $line . PHP_EOL);
             }            
             fwrite($file, '</ul>'. PHP_EOL);    /// nav nav-tabs
             fwrite($file, '<div class="tab-content">'. PHP_EOL);
             foreach ($helps as $help) {
+                if($help->name == 'Inicio'){
+                    $class=" in active";
+                }else{
+                    $class = "";
+                }
                 $id = strtolower(str_replace(' ','',$help->name));
-                $line = "<div class='tab-pane fade' id='".$id."'>";
+                $line = "<div class='tab-pane fade ".$class."' id='".$id."'>";
                 fwrite($file, $line. PHP_EOL);
                 $line = "<h4>".$help->name."</h4>";
                 fwrite($file, $line. PHP_EOL); 
@@ -333,8 +344,8 @@ class MenuController extends Controller
         fwrite($file, '</div>'. PHP_EOL);   /// conteiner
         fwrite($file, '</div>'. PHP_EOL);   /// panel-body
         fwrite($file, '</div>'. PHP_EOL);   /// panel panel-default
+        fwrite($file, '</div>'. PHP_EOL);   /// container
         fwrite($file, '@endsection'. PHP_EOL);   /// endsection
-
 
         /******************************/
         fclose($file);

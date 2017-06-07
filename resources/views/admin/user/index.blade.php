@@ -48,10 +48,11 @@
 			 					<a href="{{ route('admin.acceso.edit', $user->id) }}" class="btn btn-warning" data-toggle="tooltip" title="Modificar acceso del usuario" name = "{{'Acceso'.$user->id}}"><span class="glyphicon glyphicon-ok" aria-hidden='true'></span></a>
 
 			 					<a href="{{ route('admin.datauser.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Modificar datos usuario" name = "{{'EditData'.$user->id}}"><span class="glyphicon glyphicon-earphone" aria-hidden='true'></span></a>
+								@if($user->ctype != 'Consulta')
+				 					<a href="{{ route('admin.dhora.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Disponibilidad Horaria" name = "{{'Dhora'.$user->id}}"><span class="glyphicon glyphicon-calendar" aria-hidden='true'></span></a>
 
-			 					<a href="{{ route('admin.dhora.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Disponibilidad Horaria" name = "{{'Dhora'.$user->id}}"><span class="glyphicon glyphicon-calendar" aria-hidden='true'></span></a>
-
-			 					<a href="{{ route('admin.dcurso.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Disponibilidad de Cursos" name = "{{'Dcurso'.$user->id}}"><span class="glyphicon glyphicon-list-alt" aria-hidden='true'></span></a>
+				 					<a href="{{ route('admin.dcurso.edit', $user->id) }}" class="btn btn-success" data-toggle="tooltip" title="Disponibilidad de Cursos" name = "{{'Dcurso'.$user->id}}"><span class="glyphicon glyphicon-list-alt" aria-hidden='true'></span></a>
+				 				@endif
 							@endcan
 						</td>
 					</tr>

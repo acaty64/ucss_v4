@@ -14,6 +14,7 @@ class CreateMenviosTable extends Migration
     {
         Schema::create('menvios', function (Blueprint $table) {
             $table->increments('id');
+            $table->unSignedInteger('user_id');
             $table->unSignedInteger('facultad_id');
             $table->unSignedInteger('sede_id');
             $table->date('fenvio');

@@ -62,9 +62,11 @@ class MenvioController extends Controller
      */
     public function store(Request $request)
     {
+        $user_id = auth()->user()->id;
         $facultad_id = Session::get('facultad_id');
         $sede_id = Session::get('sede_id');
         $menvio = new menvio($request->all());
+        $menvio->user_id = $user_id;
         $menvio->fenvio = date('Y-m-d');
         $menvio->facultad_id = $facultad_id;
         $menvio->sede_id = $sede_id;
@@ -119,9 +121,10 @@ class MenvioController extends Controller
      */
     public function update(Request $request)
     {
-        //dd($request->all());
+        $user_id = auth()->user()->id;
         $menvio = Menvio::find($request->id);
         $menvio->fill($request->all());
+        $menvio->user_id = $user_id;
         $menvio->save();
         Flash::success('Grupo de Envios modificado exitosamente.');
         return redirect()->route('administrador.menvio.index');
@@ -147,7 +150,7 @@ class MenvioController extends Controller
         Flash::error('Se ha eliminado el grupo de envios: '.$menvio->id.' de forma exitosa');
         return redirect()->route('admin.menvios.index');
     }
-   
+
     /**
      * RECUENTA LOS DETALLES DE ENVIOS MARCADOS
      *

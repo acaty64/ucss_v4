@@ -3,7 +3,7 @@
 <div class="panel panel-default" >
     <div class="panel-heading">Inicio - Descripción de Opciones</div>
     <div class="panel-body">
-        <div class="conteiner" style="margin-top: 0px;">
+        <div class="container" style="margin-top: 0px;">
             <ul class="nav nav-tabs">
                 @if(Auth::user()->type == '01' or Auth::user()->type == '02' or Auth::user()->type == '03')
                     <li class="active"><a href="#datospersonales" data-toggle="tab">Datos Personales</a></li>

@@ -149,15 +149,14 @@ Route::get('menvios/destroy/{id}',  [
 	])->middleware('can:is_admin,'.Acceso::class);
 
 /** DENVIO *******************************************/
+Route::get('denvios/define/{id}',  [
+		'as'	=> 'administrador.denvio.define',
+		'uses'	=> 'admin\DenvioController@define',	
+	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::put('denvios/update',  [
 		'as'	=> 'administrador.denvio.update',
 		'uses'	=> 'admin\DenvioController@update',	
-	])->middleware('can:is_admin,'.Acceso::class);
-
-Route::get('denvios/define/{id}',  [
-		'as'	=> 'administrador.denvio.define',
-		'uses'	=> 'admin\DenvioController@define',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('denvios/markall/{id}',  [
@@ -170,13 +169,11 @@ Route::get('denvios/unmarkall/{id}',  [
 		'uses'	=> 'admin\DenvioController@unmarkall',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-/** Envio *********************************************/
-Route::get('envios/send',  [
-		'as'	=> 'administrador.envios.send',
+/** ENVIO *********************************************/
+Route::get('envios/send/{id}', [
+		'as'	=> 'administrador.envio.send',
 		'uses'	=> 'admin\EnvioController@send',	
 	])->middleware('can:is_admin,'.Acceso::class);
-
-
 
 /** PDF ***********************************************/
 Route::put('PDF/silaboCurso', [

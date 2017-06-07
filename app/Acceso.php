@@ -15,7 +15,7 @@ class Acceso extends Model
     protected $table = 'accesos';
 
     protected $fillable = [
-        'user_id', 'sede_id', 'facultad_id', 'type_id', 'swcierre', 'wdocente'
+        'user_id', 'sede_id', 'facultad_id', 'type_id', 'swcierre', 'wdocente', 'dhora', 'dcurso', 'carga'
     ];
 
     protected function setAccesoAttributes()

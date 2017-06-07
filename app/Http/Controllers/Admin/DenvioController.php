@@ -29,10 +29,11 @@ class DenvioController extends Controller
     public function define($id)
     {
         // Recuperar los Denvios del Menvio
-        $denvios = Menvio::find($id)->denvios()->get();
         $menvio = Menvio::find($id);
         $tipo = $menvio->tipo;
+        //$denvios = Menvio::find($id)->denvios()->get();
         $updated_at = $menvio->created_at;
+        $denvios = $menvio->denvios()->get();
         if($denvios->isEmpty())
         {
             $accesos = Acceso::acceso_disponibilidad()->sortBy('wdocente');
@@ -64,9 +65,13 @@ class DenvioController extends Controller
         }else{
             $denvios = Menvio::find($id)->denvios->Stipo('carga')->orderBy('id','ASC')->paginate(10);
         }
-        //    dd($denvios);
-        // Enviar a la vista send los denvios
-        return view('admin.envios.send')
+        foreach ($denvios as $denvio) {
+            $denvio->cdocente = User::find($denvio->user_id)->datauser->cdocente;
+            $denvio->wdocente = User::find($denvio->user_id)->datauser->wdocente();
+        }    
+        
+        // Enviar a la vista define los denvios
+        return view('admin.envios.define')
             ->with('denvios', $denvios);
     }
 
@@ -74,7 +79,7 @@ class DenvioController extends Controller
      * ACTUALIZA LAS MARCAS DE LOS DETALLES DE ENVIOS (PAGINA ACTUAL) 
      * Update the specified resource in storage.
      *
-     * @param  admin.envios.send.blade.php : $request
+     * @param  admin.envios.define.blade.php : $request
      * @return back() 
      */
     public function update(Request $request)

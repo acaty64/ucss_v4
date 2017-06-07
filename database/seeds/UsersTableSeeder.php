@@ -19,7 +19,7 @@ class UsersTableSeeder extends Seeder
                 ]);
         User::create([
             'name' => 'User Administrador', 
-            'email' => 'admin@gmail.com', 
+            'email' => 'ucss.fcec.lim@gmail.com', 
             'password' => bcrypt('secret')
                 ]);
         User::create([

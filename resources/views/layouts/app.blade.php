@@ -26,6 +26,11 @@
 
         @yield('content')
     </div>
+    <div class="container">
+        <div class="panel panel-footer">
+            @include('template.partials.footer')
+        </div>
+    </div>
     @yield('footer')
     <!-- Scripts -->
     <script src="/js/app.js"></script>

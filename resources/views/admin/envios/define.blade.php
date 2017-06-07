@@ -26,17 +26,17 @@
 	</table>
 	<table class="table table-striped">
  		<thead>
- 			<th>Id</th>
- 			<th>Codigo</th>
- 			<th>Docente Comunicado</th>
- 			<th>Email enviado</th>
- 			<th>Email con copia</th>
+ 			<th>User Id</th>
+ 			<th>Código</th>
+ 			<th>Docente a Comunicar</th>
+ 			<th>Email principal</th>
+ 			<th>Email alternativo</th>
  			<th>Enviar</th>
  		</thead>
  		<tbody>
  			@foreach($denvios as $envio )
  				<tr>
- 					<td>{{ $envio->id }}</td>
+ 					<td>{{ $envio->user_id }}</td>
  					<td>{{ $envio->cdocente }}</td>
  					<td>{{ substr($envio->wdocente,0,40) }}</td>
  					<td>{{ $envio->email_to }}</td>
@@ -71,5 +71,5 @@
 	</script>			
 @endsection		
 
-@section('view','admin/envios/send.blade.php')	
+@section('view','admin/envios/define.blade.php')	
 

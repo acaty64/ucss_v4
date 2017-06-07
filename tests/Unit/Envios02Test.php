@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\DataUser;
+use App\Menvio;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Auth\Middleware\Authorize;
@@ -11,9 +12,9 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
-class Envios01Test extends TestCase
+class Envios02Test extends TestCase
 {    
-  function test_an_administrator_create_menvio()
+  function test_an_administrator_create_denvios()
     {
     //Having an administrator user
     $adminuser = factory(User::class)->create();
@@ -26,31 +27,34 @@ class Envios01Test extends TestCase
         ]);
     $this->authUser($adminuser->id, $facultad_id, $sede_id, 5);
 
-    /* Accede al index  */
     $response = $this->actingAs($adminuser);
-    $response = $this->get("administrador/menvios/index")
-      ->assertStatus(200);
-
+    /* Crea el menvio */
     $hoy = Carbon::now();
     $flimite = $hoy->addDays(5);
     $request = [
-      'flimite'     => $flimite->toDateString(),
-      'tx_need'     => 'Prueba de envio.',
-      'tipo'        => 'disp'
-    ];
-
-    $response = $this->post("administrador/menvios/store",$request);
-    $response->assertStatus(302);
-
-    //Then 
-    $this->assertDatabaseHas('menvios',[
-      'user_id'     => $adminuser->id, 
+      'user_id'     => $adminuser->id,
       'facultad_id' => $facultad_id,
       'sede_id'     => $sede_id,
       'fenvio'      => date('Y-m-d'),
       'flimite'     => $flimite->toDateString(),
       'tx_need'     => 'Prueba de envio.',
       'tipo'        => 'disp'
-    ]);   
+    ];
+    $menvio = new Menvio($request);
+    $menvio->save();
+
+    $id = Menvio::all()->first()->id;
+
+    $response = $this->get("administrador/denvios/define/{$id}");
+    $response->assertStatus(200);
+
+    $request = [ 
+      'xenvios' => [1=>'0', 3=>'1', 5=>'1'],
+    ];
+
+    //Then 
+    $response = $this->put("administrador/denvios/update",$request);
+    $response->assertStatus(302);
+
   }
 }

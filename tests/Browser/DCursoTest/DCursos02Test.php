@@ -17,7 +17,7 @@ class DCursos02Test extends DuskTestCase
         $this->artisan('db:seed');
         $this->browse(function(Browser $browser)
         {
-            $user = User::find(5);
+            $user = User::find(4);
             $browser->loginAs(User::find(2))
                     ->visit('/home')
                     ->select('facultad_id','1')

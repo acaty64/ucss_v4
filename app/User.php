@@ -60,6 +60,8 @@ class User extends Authenticatable
         if (count($ok) && $this->facultad_id) {
             Session::put('type_id',$ok->type_id);
             Session::put('ctype',$ok->type->name);
+            Session::put('wfacultad',$ok->wfacultad);
+            Session::put('wsede',$ok->wsede);
             Acceso::setAccesoAttributes();
             return true;
         } else {

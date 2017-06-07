@@ -5,7 +5,6 @@
 @section('content')
 
 	{!! Form::open(['route'=>'administrador.menvio.store', 'method'=>'POST']) !!}
-
 		<div>
 			{!! Form::label('tipo','Tipo') !!}
 			{!! Form::select('tipo',['disp'=>'Disponibilidad','hora'=>'Horarios Asignados','data'=>'Datos Usuarios'], null, ['class'=>'form-control', 'placeholder'=>'Seleccione el tipo','required']) !!}
