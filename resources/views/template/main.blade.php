@@ -5,10 +5,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- meta http-equiv="X-UA-Compatible" content="IE=edge" -->
-	<title>@yield('title','UCSS-FCEC')</title>
+	<title>UCSS</title>
 	<link rel="stylesheet" href="{{ asset('plugins\bootstrap\css\bootstrap.min.css') }}">
 	<link rel="stylesheet" href="{{ asset('plugins\chosen\chosen.css') }}">
-	<link rel="stylesheet" href="{{ asset('css\estilos.css') }}">
+	<link rel="stylesheet" href="{{ asset('css\main.css') }}">
 </head>
 <body class='admin-body'>
 	<div class="container">
@@ -17,7 +17,7 @@
 	<div class="container ">
 		<section class='section-admin'>
 			<div class='panel panel-default'>
-				<div class='panel-heading'>
+				<div class='panel panel-heading'>
 					<h3 class='panel-title title-left'>
 						@yield('title')
 					</h3>
@@ -25,11 +25,11 @@
 						<a href="{{ URL::previous() }}" >Volver</a>
 					</h3>
 				</div>	
-			</div>
-			<div class='panel-body'>
-			    @include('flash::message')
-				@include('template.partials.errors')
-				@yield('content')
+				<div class='panel-body'>
+				    @include('flash::message')
+					@include('template.partials.errors')
+					@yield('content')
+				</div>
 			</div>
 		</section>
 	</div>

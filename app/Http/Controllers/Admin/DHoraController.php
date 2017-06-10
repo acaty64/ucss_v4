@@ -181,7 +181,7 @@ class DHoraController extends Controller
         // Verifica si existe un menvio pendiente 
     public function sw_cambio($user_id, $tipo)
     {
-        if (Session::get('ctype') == 'Administrador') {
+        if (Session::get('ctype') == 'Administrador' || Session::get('ctype') == 'Master') {
             $sw_cambio = '1';
         }else{
             date_default_timezone_set('America/Lima');

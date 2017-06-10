@@ -141,8 +141,7 @@ class DCursoController extends Controller
         /* $lcursos: lista de cursos para el select  */
         /* $ch_cursos: Array de cursos del usuario para el chosen  */
         return view('admin.dcurso.edit')
-////////////////->with('sw_cambio',$sw_cambio)
-                ->with('sw_cambio','1')
+                ->with('sw_cambio',$sw_cambio)
                 ->with('docente',$datauser)
                 ->with('dcursos', $dcursos)
                 ->with('lcursos', $lcursos)
@@ -250,7 +249,7 @@ class DCursoController extends Controller
         // Verifica si existe un menvio pendiente 
     public function sw_cambio($user_id, $tipo)
     {
-        if (\Auth::user()->type == '09') {
+        if (Session::get('ctype') == 'Administrador' || Session::get('ctype') == 'Master') {
             $sw_cambio = '1';
         }else{
             date_default_timezone_set('America/Lima');
