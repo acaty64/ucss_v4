@@ -225,15 +225,24 @@ class MenuController extends Controller
                             $levelx->push($menu);
                         }
                     }
-                    //$levelx = $original_menus->where('pivot_order', $menu_order)->where('pivot_level','>',0)->sortBy('pivot_order')->all();
-                    //$levelx = $menus->where('pivot_order',$menu_order)->where('pivot_level','>',0)->sortBy('pivot_level')->all();
                     foreach ($levelx as $level) {
-                        //$href = Menu::find($level['pivot_menu_id'])->route;
-                        //$description = Menu::find($level['pivot_menu_id'])->name;
-                        $option = '<li><a href="{{ route('."'".strtolower($type->name).'.'.$level->href."'";
-                        $option = $option.")".'}}">'.$level->name."</a></li>"; 
-                        //$option = "<li><a href='".$level->href."'>".$level->name."</a></li>";
+                        if($level['sw_auth']){
+                            $option = '<li><a href="{{ route('."'".strtolower($type->name).'.'.$level['href']."'";
+                            if($level['parameter']){
+                                $option=$option.",".$level['parameter'];
+                            }
+                        }else{
+                            $option = '<li><a href="{{ route('."'".$level['href']."'";
+                        }
+                        $option = $option.")".'}}">'.$level['name']."</a></li>";                    
+                                       
                         $options[] = $option;
+/**
+                        $option = '<li><a href="{{ route('."'".strtolower($type->name).'.'.$level->href."'";
+
+                        $option = $option.")".'}}">'.$level->name."</a></li>"; 
+                        $options[] = $option;
+*/
                     }
                     $options[] = "</ul></li>";
                 }                

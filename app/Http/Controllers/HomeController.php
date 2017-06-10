@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Acceso;
+use App\Denvio;
 use App\Facultad;
 use App\Sede;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -56,7 +58,34 @@ class HomeController extends Controller
         $usuario = Auth::user();
 
         if ($usuario->acceder) {
-            return view('ok');
+            $aerrors = [];
+            $contador = 0;
+            //date_default_timezone_set('America/Lima');
+            $hoy = Carbon::now();
+            $ayer = Carbon::now()->subDays(1);
+            
+            $acceso = Acceso::acceso_auth();
+            $denvio = Denvio::find('disp_id');
+            if($denvio){
+                $menvio = $denvio->menvio;
+                if($denvio->sw_rpta1 == 0 && $menvio->flimite > $ayer){
+                    $aerrors[$contador++] = 'Debe actualizar su disponibilidad horaria.';
+                }   
+                if($denvio->sw_rpta2 == 0 && $menvio->flimite > $ayer){
+                    $aerrors[$contador++] = 'Debe actualizar su disponibilidad de cursos.';
+                }
+            }
+
+            $denvio = Denvio::find('carga_id');
+            if($denvio){   
+                $menvio = $denvio->menvio;
+                if($denvio->sw_rpta1 == 0 && $menvio->flimite > $ayer){
+                    $aerrors[$contador++] = 'Debe confirmar su carga asignada.';
+                }
+            }
+            $errors = collect($aerrors);
+            return view('ok')
+                ->with('errors',$errors);
         } else {
             return back();
         }    

@@ -1,6 +1,6 @@
 @extends('template.main')
 
-@section('title','Modificar Usuario '.$user->wdocente($user->id))
+@section('title','Modificar Usuario '.$user->datauser->wdocente())
 
 @section('content')
 	{!! Form::model($user, array('route' => array('admin.user.update'), 'method' => 'PUT')) !!}

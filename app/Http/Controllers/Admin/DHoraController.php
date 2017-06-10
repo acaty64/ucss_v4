@@ -145,29 +145,15 @@ class DHoraController extends Controller
                 $dhora->save();
             }
         }
-/** TODO: Falta ENVIOS
-        // Actualiza el sw_envio en archivo Denvios
-        date_default_timezone_set('America/Lima');
-        $hoy = Carbon::now();
-        $ayer = Carbon::today()->subDays(1);
-        $denvios = User::find($request->user_id)->denvios;
-        if (empty($denvios)) {
-            Flash::success('No se ha enviado correo electronico');
-            return redirect()->back();
-        }else{
-            $salida = collect([]);      
-            foreach ($denvios as $denvio) {
-                $menvio = $denvio->menvio;
-                $salida = $salida->merge(['hoy'=>$hoy,'ayer'=>$ayer,'fenvio'=>$denvio->menvio->fenvio, 'flimite'=>$denvio->menvio->flimite]);
-                if ($denvio->menvio->fenvio < $hoy
-                            and $denvio->menvio->flimite > $ayer) 
-                {
-                    $denvio->sw_rpta = '1';
-                    $denvio->save();
-                }
-            }
+        
+        // Modifica switch respuesta en Denvios
+        $acceso = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->where('user_id', $request->user_id)->first();
+        $denvio = Menvio::find($acceso->disp_id)->denvios->first();
+        if(!empty($denvio)){
+            $denvio->sw_rpta1 = '1';
+            $denvio->save();
         }
-*/
+
         // Redirecciona segun tipo de usuario
         Flash::success('Se ha registrado la modificación de disponibilidad horaria de forma exitosa');
         if (Session::get('ctype') == 'Administrador') {

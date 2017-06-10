@@ -34,6 +34,7 @@
  			<th>Enviar</th>
  		</thead>
  		<tbody>
+ 			{!! Form::hidden('tipo', $denvios[0]->menvio->tipo) !!}
  			@foreach($denvios as $envio )
  				<tr>
  					<td>{{ $envio->user_id }}</td>

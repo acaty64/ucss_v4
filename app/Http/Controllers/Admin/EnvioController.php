@@ -12,6 +12,9 @@ use App\Menvio;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Mail\TransportManager;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Flash\Flash;
@@ -19,7 +22,6 @@ use Swift_SwiftException;
 
 class EnvioController extends Controller
 {
-
      /**************  EN CONSTRUCCION *************************************************
      * ENVIO DE CORREOS ELECTRONICOS
      *
@@ -31,53 +33,48 @@ class EnvioController extends Controller
     public function send($id)
     {
         $dias = array("domingo","lunes","martes","mi&eacute;rcoles","jueves","viernes","s&aacute;bado");
-        $contador_xx = 0;
         $contador = 0;
         $correos = Menvio::find($id)->denvios->all();
         foreach ($correos as $correo) {
             if ($correo->sw_envio == 0) {
-                $contador_xx++;
                 $correo->delete();     
-            }else{
-                // Los correos detalle cursos no se deben enviar (son Menvio->tipo == 'disp')
-                if($correo->tipo != 'cursos')     
-                {               
-                    // Define información según tipo de envío.                   
-                    if ($correo->tipo='horas') {
-                        $data=['flimite'=>$correo->menvio->flimite,
-                                'dlimite'=>$dias[date("w")],
-                                'wdocente'=>$correo->user->datauser->wDocente(),
-                                'email'=>$correo->user->email,
-                                'auth_name' => auth()->user()->datauser->wdocente(),
-                                'cfacultad' => Session::get('wfacultad'),
-                                'csede' => Session::get('wsede')
-                            ];
-                        $blade = 'admin.envios.email_01';
-                        $contador++;
-                    }elseif($correo->tipo='carga'){
-    ///////////////////////////////////////
-                        $data = 'FALTA DEFINIR DATA PARA ENVIAR AL BLADE';
-                        
-                        $blade = 'admin.envios.email_02';
-                        $contador++;
-                    }
-                    // Enviar correo
-                    try{
-                        Mail::send($blade, $data, function ($message) use($correo) {
-                            // MODIFICAR AL CORREGIR TABLA USERS: $correo->user->wdocente($correo->user->id)
-                            //$message->from(config('mail.username'), \Auth::user()->wDocente(\Auth::user()->id))
-                            $message->from(auth()->user()->email, auth()->user()->datauser->wdocente())
-                                ->to($correo->email_to, User::find($correo->user_id)->datauser->wdocente())
-                                ->subject($correo->menvio->tx_need)
-                                ->password('ucss20505378629');
-                        });
-                        $this->enviado($correo);
-                    } catch(Swift_SwiftException $e) {
-    ///////////////////////////////////////
-                        // *********** ERROR DE ENVIO DE CORREO ELECTRONICO ***********
-                            dd($e);
-                    }
+            }else{               
+                // Define información según tipo de envío.                   
+                if ($correo->tipo='disp') {
+                    $data=['flimite'=>$correo->menvio->flimite,
+                            'dlimite'=>$dias[date("w")],
+                            'wdocente'=>$correo->user->datauser->wDocente(),
+                            'email'=>$correo->user->email,
+                            'bcc'=>auth()->user()->email,
+                            'auth_name' => auth()->user()->datauser->wdocente(),
+                            'tx_need'=>$correo->menvio->tx_need,
+                            'cfacultad' => Session::get('wfacultad'),
+                            'csede' => Session::get('wsede')
+                        ];
+                    $blade = 'admin.envios.email_01';
+                    $contador++;
+                }elseif($correo->tipo='carga'){
+///////////////////////////////////////
+                    $data = 'FALTA DEFINIR DATA PARA ENVIAR AL BLADE';
+                    
+                    $blade = 'admin.envios.email_02';
+                    $contador++;
                 }
+                // Enviar correo
+                try{
+                    Mail::send($blade, $data, function ($message) use($data) {
+                        $message->from($data['bcc'], $data['auth_name'])
+                            ->bcc($data['bcc'])
+                            ->to($data['email'], $data['wdocente'])
+                            ->subject($data['tx_need']);
+                    });
+                    $this->enviado($correo);
+                } catch(Swift_SwiftException $e) {
+///////////////////////////////////////
+                    // *********** ERROR DE ENVIO DE CORREO ELECTRONICO ***********
+                        dd($e);
+                }
+            
             }
         }
         // Asignación del switch envío en el Maestro de Envíos.
@@ -89,6 +86,29 @@ class EnvioController extends Controller
         return redirect()->route('administrador.menvio.index');
     }
 
+    /*
+     * REDEFINICION DE CONFIGURACION 
+     * https://laravel.io/index.php/forum/07-22-2014-swiftmailer-with-dynamic-mail-configuration
+     */
+/**    public function overrideMailerConfig($configs){
+        Config::set('mail.driver',$configs['driver']);
+        Config::set('mail.host',$configs['host']);
+        Config::set('mail.port',$configs['port']);
+        Config::set('mail.username',$configs['username']);
+        Config::set('mail.password',$configs['password']);
+        Config::set('mail.encryption',$configs['encryption']);
+        Config::set('mail.sendmail',$configs['sendmail']);
+
+        $app = App::getInstance();
+
+        $app['swift.transport'] = $app->singleton(function ($app) {
+            return new TransportManager($app);
+        });
+
+        $mailer = new \Swift_Mailer($app['swift.transport']->driver());
+        Mail::setSwiftMailer($mailer);
+    }
+*/
     /*
      * MARCAR SW_CAMBIO EN LOS ARCHIVOS QUE SE REQUIEREN INFORMACION
      *
@@ -106,6 +126,7 @@ class EnvioController extends Controller
                         ->where('user_id', $user_id)->first();
             $acceso->dhora = true;
             $acceso->dcurso = true;
+            $acceso->disp_id = $correo->id;
             $acceso->save();
 /**
             $user_id = $correo->user_id;
@@ -124,9 +145,18 @@ class EnvioController extends Controller
 */
         }else{
             /// FALTA PROGRAMAR ACCESO A HORARIOS
+            $facultad_id = Session::get('facultad_id');
+            $sede_id = Session::get('sede_id');
+            $user_id = $correo->user_id;
+            $acceso = Acceso::where('facultad_id',$facultad_id)
+                        ->where('sede_id', $sede_id)
+                        ->where('user_id', $user_id)->first();
+            $acceso->carga = true;
+            $acceso->carga_id = $correo->id;
+            $acceso->save();
         }
     }
-
+/**
     public function testsend()
     {
         // Enviar correo
@@ -143,5 +173,5 @@ class EnvioController extends Controller
                 dd($e);
         }
     }
-
+*/
 }

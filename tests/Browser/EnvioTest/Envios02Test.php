@@ -12,7 +12,7 @@ class Envios02Test extends DuskTestCase
 {
     use DatabaseMigrations;
 
-    function test_create_a_menvio()
+    function test_define_a_menvio()
     {
         $this->artisan('db:seed');
         $this->browse(function(Browser $browser)

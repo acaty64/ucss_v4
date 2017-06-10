@@ -10,6 +10,7 @@ use App\Menvio;
 use App\User;
 use Carbon\Carbon;
 use DB;
+use Illuminate\Database\Eloquent\paginate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection as Collection;
 use Illuminate\Support\Facades\Session;
@@ -17,7 +18,6 @@ use Laracasts\Flash\Flash;
  
 class DenvioController extends Controller
 {
-
     /**
      * MUESTRA LOS DETALLES DE ENVIOS A DEFINIR
      * Display the specified resource.
@@ -31,45 +31,34 @@ class DenvioController extends Controller
         // Recuperar los Denvios del Menvio
         $menvio = Menvio::find($id);
         $tipo = $menvio->tipo;
-        //$denvios = Menvio::find($id)->denvios()->get();
         $updated_at = $menvio->created_at;
         $denvios = $menvio->denvios()->get();
         if($denvios->isEmpty())
         {
             $accesos = Acceso::acceso_disponibilidad()->sortBy('wdocente');
             foreach ($accesos as $user) {
+                // Grabar registro a registro
                 $denvio = new Denvio;
                 $denvio->user_id = $user->id;
                 $denvio->menvio_id = $id;
                 $denvio->email_to = $user->datauser->email1;
                 $denvio->email_cc = $user->datauser->email2;
                 $denvio->updated_at = $updated_at;
-                // Grabar registro a registro
-                if ($tipo = 'disp') {
-                    $denvio->tipo = 'horas';
-                    $denvio->save();
-                    // Graba registro 'cursos'
-                    $denvio_c = new Denvio;
-                    $denvio_c->fill($denvio->toArray());
-                    $denvio_c->tipo = 'cursos';
-                    $denvio_c->updated_at = $updated_at;
-                    $denvio_c->save();
-                }else{
-                    $denvio->tipo = 'carga';
-                    $denvio->save();
-                }
+                $denvio->tipo = $tipo;
+                $denvio->save();                
             }
         }
-        if ($tipo = 'disp') {
+/**        if ($tipo = 'disp') {
             $denvios = Denvio::Stipo(['menvio_id'=>$id, 'type'=>'horas'])->orderBy('id','ASC')->paginate(10);
         }else{
             $denvios = Menvio::find($id)->denvios->Stipo('carga')->orderBy('id','ASC')->paginate(10);
         }
+*/
+        $denvios = Denvio::where('menvio_id',$id)->where('tipo', $tipo)->paginate(10);
         foreach ($denvios as $denvio) {
             $denvio->cdocente = User::find($denvio->user_id)->datauser->cdocente;
             $denvio->wdocente = User::find($denvio->user_id)->datauser->wdocente();
-        }    
-        
+        } 
         // Enviar a la vista define los denvios
         return view('admin.envios.define')
             ->with('denvios', $denvios);
@@ -97,6 +86,8 @@ class DenvioController extends Controller
                     $contador10++;
                 }
                 $denvio->save();
+
+/**
                 // Actualiza la marca de detalles de envios CURSOS
                 $envio_curso = Denvio::where('user_id','=',$denvio->user_id)
                     ->where('menvio_id','=',$denvio->menvio_id)->get();
@@ -104,6 +95,7 @@ class DenvioController extends Controller
                     $envio->sw_envio = $value;
                     $envio->save();
                 }
+*/
             }
         }
         Flash::success($contador01.' marcas agregadas, '.$contador10. ' marcas eliminadas.');
@@ -130,9 +122,8 @@ class DenvioController extends Controller
         foreach ($denvios as $denvio) {
             $denvio->sw_envio = $newvalue;
             $denvio->updated_at = $updated_at;
-            // Cuenta solo los registros diferentes a CURSOS marcados adicionalmente
             if ($denvio->getOriginal('sw_envio') != $newvalue) {
-                if ($denvio->sw_envio == 1 and $denvio->tipo != 'cursos')
+                if ($denvio->sw_envio == 1)
                 {
                     $contador01++;
                 }
@@ -163,9 +154,8 @@ class DenvioController extends Controller
         foreach ($denvios as $denvio) {
             $denvio->sw_envio = $newvalue;
             $denvio->updated_at = $updated_at;
-            // Cuenta solo los registros diferentes a CURSOS DESmarcados adicionalmente
             if ($denvio->getOriginal('sw_envio') != $newvalue) {
-                if ($denvio->sw_envio == 0 and $denvio->tipo != 'cursos')
+                if ($denvio->sw_envio == 0)
                 {
                     $contador10++;
                 }
@@ -175,5 +165,6 @@ class DenvioController extends Controller
         Flash::success($contador01.' marcas agregadas, '.$contador10. ' marcas eliminadas.');
         return back();  
     }
+
 
 }

@@ -27,7 +27,9 @@ class DCursos02Test extends DuskTestCase
                     ->visit('/administrador/user/index')
                     ->assertPathIs('/administrador/user/index')
                     ->visit("/administrador/dcurso/edit/{$user->id}")
-                    ->select('curso_id', '17')
+                    //->select('curso_id', '17')
+                    ->click('.select-silabo')
+                    ->select('.select-silabo', '17')
                     ->press('Ver silabo')
                     ->assertSee('SILABO DEL CURSO: ADMINISTRACION I')
                     ->visit("/admin/pdf/silabo");

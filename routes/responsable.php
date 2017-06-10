@@ -40,7 +40,7 @@ Route::get('horario/show/{id}', [
 		'as'	=> 'responsable.horario.show',
 		'uses'	=> 'admin\UserController@show',	
 	])->middleware(Authorize::class.':is_responsable,'.Acceso::class);
-
+ 
 Route::get('grupocurso/index', [
 		'as'	=> 'responsable.grupocurso.index',
 		'uses'	=> 'admin\GrupoCursoController@index',	

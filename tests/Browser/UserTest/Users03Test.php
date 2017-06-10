@@ -22,7 +22,7 @@ class Users03Test extends DuskTestCase
                     ->select('facultad_id','1')
                     ->select('sede_id','1')
                     ->press('Acceder')
-                    ->assertSee('Usuarios')
+                    ->assertSee('Lista de Usuarios')
                     ->visit('/consulta/user/index')
                     ->assertPathIs('/consulta/user/index')
                     ->visit("/consulta/datauser/show/3")

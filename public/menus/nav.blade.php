@@ -38,8 +38,8 @@
 <li class='dropdown'>
                         <a href='#' class='dropdown-toggle' role='button' id='dropdownMenu2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Disponibilidad<span class='caret'></span></a>
                         <ul class='dropdown-menu'aria-labelledby='dropdownMenu2'>
-<li><a href="{{ route('docente.dhora.edit')}}">Días y Horas</a></li>
-<li><a href="{{ route('docente.dcurso.edit')}}">Cursos</a></li>
+<li><a href="{{ route('docente.dhora.edit',Auth::user()->id)}}">Días y Horas</a></li>
+<li><a href="{{ route('docente.dcurso.edit',Auth::user()->id)}}">Cursos</a></li>
 </ul></li>
 <li><a href="{{ route('docente.horario.show',Auth::user()->id)}}">Carga Asignada</a></li>
 @endif
@@ -49,8 +49,8 @@
 <li class='dropdown'>
                         <a href='#' class='dropdown-toggle' role='button' id='dropdownMenu2' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Disponibilidad<span class='caret'></span></a>
                         <ul class='dropdown-menu'aria-labelledby='dropdownMenu2'>
-<li><a href="{{ route('responsable.dhora.edit')}}">Días y Horas</a></li>
-<li><a href="{{ route('responsable.dcurso.edit')}}">Cursos</a></li>
+<li><a href="{{ route('responsable.dhora.edit',Auth::user()->id)}}">Días y Horas</a></li>
+<li><a href="{{ route('responsable.dcurso.edit',Auth::user()->id)}}">Cursos</a></li>
 </ul></li>
 <li><a href="{{ route('responsable.horario.show',Auth::user()->id)}}">Carga Asignada</a></li>
 <li><a href="{{ route('responsable.grupocursos.index')}}">Prioridad Docentes</a></li>

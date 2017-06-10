@@ -30,8 +30,12 @@ class CreateAccesosTable extends Migration
             $table->string('wdocente')->default(false);
             
             $table->boolean('swcierre')->default(false);
+            
+            $table->boolean('disp_id')->default(0);
             $table->boolean('dhora')->default(false);
             $table->boolean('dcurso')->default(false);
+            
+            $table->boolean('carga_id')->default(0);
             $table->boolean('carga')->default(false);
 
             $table->rememberToken();

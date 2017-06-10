@@ -35,7 +35,7 @@ Menu::create(['id' => 13, 'name' => 'Carga Asignada', 'href' => 'horario.show', 
 
 
 
-Menu::create(['id' => 14, 'name' => 'Prioridad Docentes', 'href' => 'grupocursos.index', 'sw_auth' => true, 'help' => 'En esta opción debe indicar a su criterio la priorización de docentes en cada uno de los cursos asignados.
+Menu::create(['id' => 14, 'name' => 'Prioridad Docentes', 'href' => 'grupocurso.index', 'sw_auth' => true, 'help' => 'En esta opción debe indicar a su criterio la priorización de docentes en cada uno de los cursos asignados.
 Debe efectuar por lo menos una modificación para que se registre la actualización de la lista priorizada.', ]);
 
 Menu::create(['id' => 15, 'name' => 'Usuarios', 'href' => 'user.index', 'sw_auth' => true, 'help' => 'En esta opción obtendrá usted la lista de todos los docentes registrados, así como el acceso a la información de cada uno de ellos, tales como Datos personales, su Disponibilidad (Horaria y de Cursos) y su Carga asignada.

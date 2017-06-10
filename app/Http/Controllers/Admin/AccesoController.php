@@ -80,4 +80,28 @@ class AccesoController extends Controller
         return redirect()->route('administrador.user.index');
 
     }
+
+/**
+        // Actualiza el sw_envio en archivo Denvios
+        date_default_timezone_set('America/Lima');
+        $hoy = Carbon::now();
+        $ayer = Carbon::today()->subDays(1);
+        $denvios = User::find($request->user_id)->denvios;
+        if (empty($denvios)) {
+            Flash::success('No se ha enviado correo electronico');
+            return redirect()->back();
+        }else{
+            $salida = collect([]);      
+            foreach ($denvios as $denvio) {
+                $menvio = $denvio->menvio;
+                $salida = $salida->merge(['hoy'=>$hoy,'ayer'=>$ayer,'fenvio'=>$denvio->menvio->fenvio, 'flimite'=>$denvio->menvio->flimite]);
+                if ($denvio->menvio->fenvio < $hoy
+                            and $denvio->menvio->flimite > $ayer) 
+                {
+                    $denvio->sw_rpta = '1';
+                    $denvio->save();
+                }
+            }
+        }
+*/
 }

@@ -121,10 +121,10 @@ class MenvioController extends Controller
      */
     public function update(Request $request)
     {
-        $user_id = auth()->user()->id;
-        $menvio = Menvio::find($request->id);
-        $menvio->fill($request->all());
-        $menvio->user_id = $user_id;
+        $menvio = Menvio::find($request->menvio_id);
+        $menvio->tipo = $request->tipo;
+        $menvio->flimite = $request->flimite;
+        $menvio->tx_need = $request->tx_need;
         $menvio->save();
         Flash::success('Grupo de Envios modificado exitosamente.');
         return redirect()->route('administrador.menvio.index');
@@ -163,24 +163,10 @@ class MenvioController extends Controller
         {
             foreach ($Menvios as $Menvio) 
             {
-                $Denvios = $Menvio->denvios;
-                $envio1 = 0;
-                $envio2 = 0;
-                if ($Denvios->isEmpty() == false)
-                { 
-                    foreach ($Denvios as $Denvio) 
-                    {
-                        if ($Denvio->tipo == 'cursos') {
-                            $envio2 = $envio2 + $Denvio->sw_envio;
-                        }else{
-                            $envio1 = $envio1 + $Denvio->sw_envio;    
-                        }
-                    }
-                }
-                $xEnvio = Menvio::find($Menvio->id);
-                $xEnvio->envio1 = $envio1;
-                $xEnvio->envio2 = $envio2;
-                $xEnvio->save();
+                $denvios = $Menvio->denvios;
+                $Menvio->envio1 = $denvios->sum('sw_envio');
+                $Menvio->envio2 = $denvios->sum('sw_envio');
+                $Menvio->save();
             }  
         }           
     }
@@ -194,6 +180,18 @@ class MenvioController extends Controller
     public function recontar_rptas()
     {
         $Menvios = Menvio::all();
+        if ($Menvios->isEmpty() == false) 
+        {
+            foreach ($Menvios as $Menvio) 
+            {
+                $denvios = $Menvio->denvios;
+                $Menvio->rpta1 = $denvios->sum('sw_rpta1');
+                $Menvio->rpta2 = $denvios->sum('sw_rpta2');
+                $Menvio->save();
+            }  
+        }
+
+/**        $Menvios = Menvio::all();
         if($Menvios->isEmpty() == false)
         {
             foreach ($Menvios as $Menvio) 
@@ -218,6 +216,7 @@ class MenvioController extends Controller
                 $xEnvio->save();
             }    
         }
+*/
     }
 
 }

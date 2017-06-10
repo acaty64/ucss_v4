@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\DataUser;
+use App\Denvio;
 use App\Menvio;
 use App\User;
 use Carbon\Carbon;
@@ -48,8 +49,9 @@ class Envios02Test extends TestCase
     $response = $this->get("administrador/denvios/define/{$id}");
     $response->assertStatus(200);
 
+    $denvio_id = Denvio::all()->first()->id;
     $request = [ 
-      'xenvios' => [1=>'0', 3=>'1', 5=>'1'],
+      'xenvios' => [$denvio_id=>'0', $denvio_id+1=>'1', $denvio_id+2=>'1'],
     ];
 
     //Then 

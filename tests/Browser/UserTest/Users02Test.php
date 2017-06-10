@@ -27,6 +27,7 @@ class Users02Test extends DuskTestCase
                     ->visit('/administrador/user/index')
                     ->assertPathIs('/administrador/user/index')
                     ->visit("/administrador/user/edit/{$user->id}")
+                    ->assertPathIs("/administrador/user/edit/{$user->id}")
                     ->type('name','Nuevo nombre')
                     ->type('email','newmail@gmail.com')
                     ->press('Grabar modificaciones')

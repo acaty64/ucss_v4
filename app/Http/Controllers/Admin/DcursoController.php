@@ -212,15 +212,15 @@ class DCursoController extends Controller
             //dd($dCursos);
             $dCursos->delete();  
         }
-/*** TODO -> ENVIOS
+
         // Modifica switch respuesta en Denvios
         $denvio = Denvio::where('user_id','=', $docente_id)
-                ->where('tipo','=','cursos')->get()->last();
+                ->where('tipo','=','disp')->get()->last();
         if(!empty($denvio)){
-            $denvio->sw_rpta = '1';
-            $denvio->save();
+            $denvio->sw_rpta2 = '1';
+            $denvio->save();            
         }
-***/
+
         Flash::success('Se ha registrado la modificación de disponibilidad de cursos de forma exitosa');
         if (Session::get('ctype') == 'Administrador') {
             return redirect()->route('administrador.user.index');
