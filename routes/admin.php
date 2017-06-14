@@ -70,10 +70,6 @@ Route::put('acceso/update', [
 	])->middleware('can:is_admin,'.Acceso::class);
 
 /** DHORA ********************************************/
-Route::get('dhoras/lista',  [
-		'as'	=> 'administrador.dhora.lista',
-		'uses'	=> 'admin\DHoraController@lista',	
-	])->middleware('can:is_admin,'.Acceso::class);
 
 Route::get('dhora/edit/{id}',[
 		'as'	=> 'admin.dhora.edit',
@@ -83,6 +79,16 @@ Route::get('dhora/edit/{id}',[
 Route::put('dhora/update',[
 		'as'	=> 'admin.dhora.update',
 		'uses'	=> 'admin\DHoraController@update'
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('dhoras/lista',  [
+		'as'	=> 'administrador.dhora.lista',
+		'uses'	=> 'admin\DHoraController@lista',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('dhora/list2Excel',[
+		'as'	=> 'admin.dhora.list2Excel',
+		'uses'	=> 'admin\DHoraController@list2Excel'
 	])->middleware('can:is_admin,'.Acceso::class);
 
 /** DCURSO *******************************************/
