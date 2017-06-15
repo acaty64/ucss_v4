@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Acceso;
 use App\Curso;
 use App\CursoGrupo;
 use App\DCurso;
@@ -10,6 +11,7 @@ use App\Denvio;
 use App\Grupo;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Lista;
 use App\Menvio;
 use App\Semestre;
 use App\User;
@@ -18,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Session;
 use Laracasts\Flash\Flash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DCursoController extends Controller
 {
@@ -282,96 +285,18 @@ class DCursoController extends Controller
     /* Lista las actualizaciones de disponibilidad de cursos */
     public function lista()
     {
-        $lista = $this->status_cursos();
-        return view('admin.dcursos.list')
-            ->with('lista', $lista);
+        $lista = Lista::listar('disp','sw_rpta2');
+        return view('admin.disp.lista')
+            ->with('lista', $lista)
+            ->with('tipo','dcurso')
+            ->with('title', 'Disponibilidad de Cursos');
     } 
-
-    public function status_cursos()
-    {
-        // Lista los usuarios con lo siguiente:
-        //      Solicitado: fecha de envio
-        //      Limite: fecha limite
-        //      Respuesta: fecha de respuesta
-        // $merged = $collection->merge(['price' => 100, 'discount' => false]);
-
-        $nxlista = 0;
-        // $xlista: lista de detalle de envios del docente
-        $xlista = [];
-        // $registro: Registros a listar        
-        $registro = collect([]);
-        // Selecciona todos los usuarios        
-        $users = User::all();
-        foreach ($users as $user) {
-            $registro = $registro->merge([
-                'user_id' => $user->id,
-                'username' => $user->username,
-                'wdocente' => $user->wdocente($user->id) ]);
-            $denvios = Denvio::where('user_id','=',$user->id)
-                        ->where('tipo', '=', 'cursos')
-                        ->where('sw_envio', '=', '1')->get();
-            if ($denvios->count() == 0) {
-                $registro = $registro->merge([
-                    'sw_actualizacion' => 'NO COMUNICADO',
-                    'status' => '0' // NO COMUNICADO
-                    ]);
-                $xlista[$nxlista++] = $registro;
-            }else{
-                $registro = $registro->merge([
-                    'status' => '1' // INFORMADO
-                    ]);     
-                foreach ($denvios as $denvio) {
-                    $registro = $registro->merge([                                
-                                'sw_rpta' => $denvio->sw_rpta,
-                                'updated_at' => $denvio->updated_at->toDateString(),
-                                'fenvio' => $denvio->menvio->fenvio,
-                                'flimite' => $denvio->menvio->flimite,
-                                'tipo' => $denvio->menvio->tipo,
-                                'user_denvio' => $denvio->id
-                            ]);
-                    if($denvio->sw_rpta == '1'){
-                        $registro = $registro->merge([                                
-                                'sw_actualizacion' => 'actualizado'
-                            ]);
-                    }else{
-                        if($denvio->flimite < Carbon::today()->addDays(1)){
-                            $registro = $registro->merge([
-                                    'sw_actualizacion' => 'VENCIDO'
-                                ]);
-                        }else{
-                            $registro = $registro->merge([
-                                    'sw_actualizacion' => 'pendiente'
-                                ]);
-                        }
-                    }
-                    $xlista[$nxlista++] = $registro;
-                }
-            }
-        }
-        $xlista = collect($xlista);
-//dd($xlista);
-        // Selecciona el ultimo envio modificado
-        // $lista: Lista de registros a visualizar
-        $lista = [];
-        $nlista = 0; 
-        $users = $xlista->groupBy('user_id');
-        foreach ($users as $user) {
-            $xuser = $user->first();
-            $denvios = $xlista->where('user_id', $xuser['user_id']);
-            $denvios = $denvios->sortBy('fenvio');
-            $lista[$nlista++] = $denvios->last();
-        }
-        $lista = collect($lista);
-        $lista = $lista->sortBy('wdocente');
-        return $lista;
-    }
 
     public function List2Excel()
     {   
-        $lista = $this->status_horas();
-        $namefile = 'DispCursos_'.Carbon::now();
+        $lista = Lista::listar('disp','sw_rpta2');
         $now = Carbon::now();
-        $namefile = 'DH_'.$now->format('Y').'_'.$now->format('m').'_'.$now->format('d').'_'.$now->format('H').'_'.$now->format('i').'_'.$now->format('s');
+        $namefile = 'DC_'.$now->format('Y').'_'.$now->format('m').'_'.$now->format('d').'_'.$now->format('H').'_'.$now->format('i').'_'.$now->format('s');
         Excel::create($namefile, function($excel) use($lista){
             $excel->sheet('Disponibilidad de Cursos', function($sheet) use($lista){
                 $sheet->fromArray($lista);

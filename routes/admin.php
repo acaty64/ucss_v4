@@ -81,7 +81,7 @@ Route::put('dhora/update',[
 		'uses'	=> 'admin\DHoraController@update'
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::get('dhoras/lista',  [
+Route::get('dhora/lista',  [
 		'as'	=> 'administrador.dhora.lista',
 		'uses'	=> 'admin\DHoraController@lista',	
 	])->middleware('can:is_admin,'.Acceso::class);
@@ -102,9 +102,14 @@ Route::put('dcurso/update', [
 		'uses'	=> 'admin\DcursoController@update',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::get('dcursos/lista',  [
+Route::get('dcurso/lista',  [
 		'as'	=> 'administrador.dcurso.lista',
 		'uses'	=> 'admin\DCursoController@lista',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('dcurso/list2Excel',[
+		'as'	=> 'admin.dcurso.list2Excel',
+		'uses'	=> 'admin\DCursoController@list2Excel'
 	])->middleware('can:is_admin,'.Acceso::class);
 
 /** GRUPO ********************************************/

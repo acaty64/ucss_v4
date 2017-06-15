@@ -7,14 +7,15 @@ use App\DHora;
 use App\DataUser;
 use App\Denvio;
 use App\Franja;
+use App\Http\Controllers\Admin\ListController as ListController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
+use App\Lista;
 use App\Menvio;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-
 use Laracasts\Flash\Flash;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -214,87 +215,16 @@ class DHoraController extends Controller
     /* Lista las actualizaciones de disponibilidad de horas */
     public function lista()
     {
-//return view('errors.000');
-        $lista = $this->status_horas();
-        return view('admin.dhora.list')
-            ->with('lista', $lista);
+        $lista = Lista::listar('disp','sw_rpta1');
+        return view('admin.disp.lista')
+            ->with('lista', $lista)
+            ->with('tipo', 'dhora')
+            ->with('title', 'Disponibilidad de Horarios');
     } 
-
-    public function status_horas()
-    {
-// TODO: Transferir funcion a DenvioController, poner parametro ('disp','hora')
-        // Status: No comunicado.- Sin denvio
-        //          No comunicado.- Con denvio sin marca de envio
-        // Lista los usuarios con lo siguiente:
-        //      Solicitado: fecha de envio
-        //      Limite: fecha limite
-        //      Respuesta: fecha de respuesta
-        $facultad_id = Session::get('facultad_id');
-        $sede_id = Session::get('sede_id');
-        $accesos = Acceso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->where('user_id','>',1)->get();
-        $contador = 0;
-        $xlista = [];
-        $registro = collect([]);
-        foreach ($accesos as $acceso) {
-            $user_id = $acceso->user_id;
-            $registro = $registro->merge([
-                'user_id' => $user_id,
-                'type' => $acceso->ctype,
-                'wdocente' => $acceso->wdocente, 
-            ]);
-
-            $envios = Denvio::where('user_id',$user_id)->get();
-            if(count($envios) == 0){
-                $registro = $registro->merge([
-                            'sw_actualizacion' => 'no comunicado',
-                        ]);
-            }else{
-                $envios = $envios->each(function($envio) use($facultad_id, $sede_id)
-                {
-                    return ($envio->menvio->facultad_id == $facultad_id &&
-                            $envio->menvio->sede_id == $sede_id);
-                });
-
-                // Encuentra el ultimo envio
-                $fenvio = '';
-                foreach ($envios as $envio) {
-                    if($envio->menvio->fenvio > $fenvio){
-                        $menvio_id = $envio->menvio->id;
-                        $denvio_id = $envio->id;
-                    }
-                }
-
-                $envio = Denvio::find($denvio_id);
-                $menvio = Menvio::find($menvio_id);
-                if($envio->menvio->tipo == 'disp'){
-                    $registro = $registro->merge([
-                        'sw_rpta' => $envio->sw_rpta,
-                        'updated_at' => $envio->updated_at,
-                        'fenvio' => $menvio->fenvio,
-                        'flimite' => $menvio->flimite,
-                    ]);
-                    if ($envio->sw_rpta1 == true) {
-                        $registro = $registro->merge([
-                            'sw_actualizacion' => 'respondio',
-                        ]);
-                    } else {
-                        $registro = $registro->merge([
-                            'sw_actualizacion' => 'pendiente',
-                        ]);
-                    }
-                }
-            }
-            $xlista[$contador++] = $registro;
-        }
-        $lista = collect($xlista);
-        $lista = $lista->sortBy('wdocente');
-        return $lista;     
-    }
 
     public function List2Excel()
     {       
-        $lista = $this->status_horas();
-        $namefile = 'DispHoras_'.Carbon::now();
+        $lista = Lista::listar('disp','sw_rpta1');
         $now = Carbon::now();
         $namefile = 'DH_'.$now->format('Y').'_'.$now->format('m').'_'.$now->format('d').'_'.$now->format('H').'_'.$now->format('i').'_'.$now->format('s');
         Excel::create($namefile, function($excel) use($lista){

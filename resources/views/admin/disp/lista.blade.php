@@ -1,9 +1,13 @@
 @extends('template.main')
  
-@section('title','Lista de Actualizaciones de Horarios Disponibles')
+@section('title','Lista de Actualizaciones de '.$title)
 
 @section('content')
-	<a href="{{ route('admin.dhora.list2Excel') }}" class="btn btn-info">Exportar a Excel</a>
+	@if($tipo == 'dhora')
+		<a href="{{ route('admin.dhora.list2Excel') }}" class="btn btn-info">Exportar a Excel</a>
+	@elseif($tipo == 'dcurso')
+		<a href="{{ route('admin.dcurso.list2Excel') }}" class="btn btn-info">Exportar a Excel</a>
+	@endif
 	<table class="table table-striped">
  		<thead>
  			<th>Tipo</th>
