@@ -143,7 +143,7 @@ Route::get('grupos/orden',  [
 		'uses'	=> 'admin\GrupoController@orden',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::get('grupos/destroy',  [
+Route::get('grupos/destroy/{id}',  [
 		'as'	=> 'admin.grupo.destroy',
 		'uses'	=> 'admin\GrupoController@destroy',	
 	])->middleware('can:is_admin,'.Acceso::class);

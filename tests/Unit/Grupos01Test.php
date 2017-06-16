@@ -14,7 +14,7 @@ use Tests\TestCase;
 
 class Grupos01Test extends TestCase
 {    
-  function test_an_administrator_create_and_modify_grupo()
+  function test_CRUD_grupo()
     {
     //Having an administrator user
     $adminuser = factory(User::class)->create();
@@ -66,5 +66,19 @@ class Grupos01Test extends TestCase
       'cgrupo'      => 'Nw2',
       'wgrupo'      => 'Nuevo Grupo2'
     ]);
+
+    // DESTROY
+
+    $response = $this->get("administrador/grupos/destroy/".$grupo->id,$request);
+    $response->assertStatus(302);
+
+    //Then 
+    $this->assertDatabaseMissing('grupos',[
+      'facultad_id' => $facultad_id,
+      'sede_id'     => $sede_id,
+      'cgrupo'      => 'Nw2',
+      'wgrupo'      => 'Nuevo Grupo2'
+    ]);
+
   }
 }

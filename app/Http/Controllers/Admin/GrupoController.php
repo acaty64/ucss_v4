@@ -54,7 +54,7 @@ class GrupoController extends Controller
         $grupo->wgrupo = $request->wgrupo;
         $grupo->save();
         Flash::success('Se ha registrado '.$grupo->wgrupo.' de forma exitosa');
-        return redirect()->back();
+        return redirect()->route('administrador.grupo.index');
     }
 
     /**
@@ -95,7 +95,7 @@ class GrupoController extends Controller
         $grupo->save();
 
         Flash::warning('Se ha modificado el registro: '.$grupo->id.' : '.$grupo->wgrupo.' de forma exitosa');
-        return redirect()->back();
+        return redirect()->route('administrador.grupo.index');
     }
 
     /**
@@ -106,7 +106,10 @@ class GrupoController extends Controller
      */
     public function destroy($id)
     {
-        return view('errors.000');
+        $grupo = Grupo::find($id);
+        $grupo->delete();          
+        Flash::error('Se ha eliminado el registro: '.$grupo->id.' '.$grupo->wgrupo.' de forma exitosa');
+        return redirect()->route('administrador.grupo.index');
     }
 
     public function editcursos($id)

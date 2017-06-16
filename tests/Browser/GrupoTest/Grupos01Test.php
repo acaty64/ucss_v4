@@ -27,21 +27,28 @@ class Grupos01Test extends DuskTestCase
                     ->assertPathIs('/administrador/grupos/index')
                     ->visit('/administrador/grupos/create')
                     ->assertPathIs('/administrador/grupos/create')
+                    ->assertSee('Crear Nuevo Grupo')
                     ->type('cgrupo', 'NEW')
                     ->type('wgrupo', 'NUEVO GRUPO')
                     ->press('Registrar')
-                    ->assertSee('Crear Nuevo Grupo')
                     ->assertSee('Se ha registrado NUEVO GRUPO de forma exitosa');
         });
 
         $grupo = Grupo::where('cgrupo','NEW')->first();
         $this->browse(function (Browser $browser) use($grupo) {
             $browser->visit('/administrador/grupos/edit/'.$grupo->id)
-                    ->assertPathIs('/administrador/grupos/edit'.$grupo->id)
+                    ->assertPathIs('/administrador/grupos/edit/'.$grupo->id)
                     ->type('cgrupo', 'NW2')
                     ->type('wgrupo', 'NUEVO GRUPO MODIFICADO')
-                    ->press('Registrar')
-                    ->assertSee('Se ha modificado el registro: '.$grupo->id.' : '.$grupo->wgrupo.' de forma exitosa');
+                    ->press('Grabar modificaciones')
+                    ->assertSee('Se ha modificado el registro: '.$grupo->id.' : NUEVO GRUPO MODIFICADO de forma exitosa');
+
+            $browser->visit('/administrador/grupos/destroy/'.$grupo->id)
+                    ->assertPathIs('/administrador/grupos/index')
+                    ->assertSee('Se ha eliminado el registro: '.$grupo->id.' NUEVO GRUPO MODIFICADO de forma exitosa');
         });
+
+
+
     }
 }
