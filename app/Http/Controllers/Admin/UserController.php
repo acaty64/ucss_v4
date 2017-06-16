@@ -90,14 +90,7 @@ class UserController extends Controller
         /// $acceso->type_id = 2; Default = 2 ** Consulta   
         $acceso->swcierre = false;
         $acceso->save();
-/**
-        // Crea un registro en DHora
-        $dhora = new DHora();
-        $dhora->user()->associate($user);
-        $dhora->facultad_id = $facultad_id;
-        $dhora->sede_id = $sede_id;
-        $dhora->save();
-*/
+
         Flash::success('Se ha registrado '.$user->name.' de forma exitosa');
         return redirect()->route('administrador.user.index');
 
@@ -136,13 +129,13 @@ class UserController extends Controller
      */
     public function update(Request $request)
     {
-            $user = User::find($request->id);
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->save();
+        $user = User::find($request->id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
 
-            Flash::warning('Se ha modificado el registro: '.$user->id.' : '.$user->name.' de forma exitosa');
-            return redirect()->route('administrador.user.index');
+        Flash::warning('Se ha modificado el registro: '.$user->id.' : '.$user->name.' de forma exitosa');
+        return redirect()->route('administrador.user.index');
     }
 
     /**

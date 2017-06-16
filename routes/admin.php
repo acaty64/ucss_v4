@@ -118,6 +118,38 @@ Route::get('grupos/index',  [
 		'uses'	=> 'admin\GrupoController@index',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
+Route::get('grupos/create',  [
+		'as'	=> 'admin.grupo.create',
+		'uses'	=> 'admin\GrupoController@create',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::post('grupos/store',  [
+		'as'	=> 'admin.grupo.store',
+		'uses'	=> 'admin\GrupoController@store',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('grupos/edit/{id}',[
+		'as'	=> 'admin.grupo.edit',
+		'uses'	=> 'admin\GrupoController@edit',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::put('grupos/update',  [
+		'as'	=> 'admin.grupo.update',
+		'uses'	=> 'admin\GrupoController@update',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('grupos/orden',  [
+		'as'	=> 'admin.grupo.orden',
+		'uses'	=> 'admin\GrupoController@orden',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('grupos/destroy',  [
+		'as'	=> 'admin.grupo.destroy',
+		'uses'	=> 'admin\GrupoController@destroy',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+
+/** GRUPOUSERS *************CORREGIR NOMBRES**************************/
 Route::get('usergrupos/index',  [
 		'as'	=> 'administrador.usergrupo.index',
 		'uses'	=> 'admin\UserGrupoController@index',	
