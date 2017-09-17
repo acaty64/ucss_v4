@@ -29,9 +29,47 @@ class DCursoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($grupo_id, $curso_id)
     {
-        return view('errors.000');
+//dd($grupo_id, $curso_id);
+        $grupo_id = $grupo_id;
+        $curso_id = $curso_id;
+        $facultad_id = Session::get('facultad_id');
+        $sede_id = Session::get('sede_id');
+        $dcursos = DCurso::where('facultad_id',$facultad_id)->where('sede_id',$sede_id)->where('curso_id',$curso_id)->get();
+
+        $all = Dcurso::where('facultad_id',$facultad_id)->where('sede_id', $sede_id)->where('curso_id', $curso_id)->get();
+/*        $chk99 = $tmp->where('prioridad',99);
+        if ($chk99 != null) {
+            $all = $tmp->sortBy('prioridad');
+            $orden = 0;
+            foreach ($all as $item) {
+                $item->prioridad = ++$orden;
+                $item->save();
+            }
+        }else{
+            $all = $tmp->sortBy('prioridad');
+        }
+*/
+        $tmp = collect();
+        foreach ($all as $dcurso) {
+            $tmp->push([
+                    'id'    => $dcurso->id,
+                    'prioridad'=>$dcurso->prioridad, 
+                    'user_id'=>$dcurso->user->id, 
+                    'name'=>$dcurso->user->datauser->wdocente(),
+                    'curso_id' =>$dcurso->curso_id,
+                    'facultad_id'=>$facultad_id,
+                    'sede_id'=>$sede_id,
+                ]);
+        }
+        $lista = $tmp->sortBy('prioridad');
+        $curso = Curso::find($curso_id);
+
+        //return view('admin.dcurso.index')
+        return view('admin.dcurso.index')
+            ->with('curso',$curso)
+            ->with('grupo_id', $grupo_id);
     }
 
     /**

@@ -91,7 +91,23 @@ Route::get('dhora/list2Excel',[
 		'uses'	=> 'admin\DHoraController@list2Excel'
 	])->middleware('can:is_admin,'.Acceso::class);
 
+/** CURSOGRUPO *******************************************/
+Route::get('cursogrupo/index/{id?}', [
+		'as'	=> 'admin.cursogrupo.index',
+		'uses'	=> 'admin\CursoGrupoController@index',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
+Route::get('cursogrupo/edit/{id}', [
+		'as'	=> 'admin.cursogrupo.edit',
+		'uses'	=> 'admin\CursoGrupoController@edit',	
+	])->middleware(Authorize::class.':is_admin,'.Acceso::class);
+
 /** DCURSO *******************************************/
+Route::get('dcurso/index/{grupo_id}/{curso_id}', [
+		'as'	=> 'admin.dcurso.index',
+		'uses'	=> 'admin\DcursoController@index',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
 Route::get('dcurso/edit/{id}', [
 		'as'	=> 'admin.dcurso.edit',
 		'uses'	=> 'admin\DcursoController@edit',	

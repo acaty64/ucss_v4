@@ -26,7 +26,7 @@
 						@can('is_admin', $acceso_auth)
 							<a href="{{ route('admin.grupo.edit', $grupo->id) }}" class="btn btn-success" data-toggle="tooltip" title="Modificar grupo" name = "{{'Mody'.$grupo->id}}"><span class="glyphicon glyphicon-wrench" aria-hidden='true'></span></a>
 
-		 					<a href="{{ route('admin.grupo.orden', $grupo->id) }}" class="btn btn-success" data-toggle="tooltip" title="Modificar prioridad" name = "{{'EditOrden'.$grupo->id}}"><span class="glyphicon glyphicon-sort" aria-hidden='true'></span></a>
+		 					<a href="{{ route('admin.cursogrupo.index', $grupo->id) }}" class="btn btn-success" data-toggle="tooltip" title="Modificar prioridad" name = "{{'EditOrden'.$grupo->id}}"><span class="glyphicon glyphicon-sort" aria-hidden='true'></span></a>
 		 					
 		 					<a href="{{ route('admin.grupo.destroy', $grupo->id) }}" onclick='return confirm("Está seguro de eliminar el registro?")' class="btn btn-danger" data-toggle="tooltip" title="Eliminar grupo" name = "{{'Dele'.$grupo->id}}"><span class="glyphicon glyphicon-trash" aria-hidden='true'></a>
 						@endcan

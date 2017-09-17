@@ -9,7 +9,8 @@ class DCurso extends Model
     protected $table = 'dcursos';		
     protected $fillable = [		
         'facultad_id', 'sede_id', 'curso_id','user_id', 'prioridad', 'sw_cambio'
-    ];	
+    ];
+    protected $hidden = ['created_at', 'updated_at'];	
 
     /********** RELATIONSHIP ***********/
     public function curso()

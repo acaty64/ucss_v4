@@ -1,5 +1,6 @@
 <?php
 
+use App\Acceso;
 use Illuminate\Http\Request;
 
 /*
@@ -16,3 +17,15 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('dcurso/index', [
+		'as'	=> 'api.dcurso.index',
+		'uses'	=> 'api\DcursoController@index',	
+	]);
+//->middleware('can:is_admin,'.Acceso::class);
+
+Route::post('dcurso/update', [
+		'as'	=> 'api.dcurso.update',
+		'uses'	=> 'api\DcursoController@update',	
+	]);
+
