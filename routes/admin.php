@@ -171,6 +171,44 @@ Route::get('usergrupos/index',  [
 		'uses'	=> 'admin\UserGrupoController@index',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
+/** FRANJAS ***************************************/
+Route::get('franjas/index',  [
+		'as'	=> 'administrador.franja.index',
+		'uses'	=> 'admin\FranjaController@index',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('franjas/show',  [
+		'as'	=> 'administrador.franja.show',
+		'uses'	=> 'admin\FranjaController@show',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('franjas/create',  [
+		'as'	=> 'administrador.franja.create',
+		'uses'	=> 'admin\FranjaController@create',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::post('franjas/store',  [
+		'as'	=> 'administrador.franja.store',
+		'uses'	=> 'admin\FranjaController@store',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('franjas/edit/{id}',  [
+		'as'	=> 'admin.franja.edit',
+		'uses'	=> 'admin\FranjaController@edit',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::put('franjas/update',  [
+		'as'	=> 'administrador.franja.update',
+		'uses'	=> 'admin\FranjaController@update',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+Route::get('franjas/destroy/{id}',  [
+		'as'	=> 'administrador.franja.destroy',
+		'uses'	=> 'admin\FranjaController@destroy',	
+	])->middleware('can:is_admin,'.Acceso::class);
+
+
+
 /** MENVIO *******************************************/
 Route::get('menvios/index',  [
 		'as'	=> 'administrador.menvio.index',

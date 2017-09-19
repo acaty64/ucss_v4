@@ -2,16 +2,16 @@
 <div class="container">
 <div class="navbar-header">
 <!-- Collapsed Hamburger -->
-<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+<!--button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
 <span class="sr-only">Toggle Navigation</span>
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
 <span class="icon-bar"></span>
-</button>
+</button-->
 <!-- Branding Image -->
-<a class="navbar-brand" href="{{ url("/") }}">
-{{ config("app.name", "Laravel") }}
-</a>
+<a class="navbar-brand" href="http://www.ucss.edu.pe" width='40%'>
+<img src="{{asset('logo-ucss.jpg')}}" width='40%'></img>
+</a>        
 </div>
 <div class="collapse navbar-collapse" id="app-navbar-collapse">
 <!-- Left Side Of Navbar -->
@@ -99,6 +99,5 @@
 </li>
 @endif
 </ul>
-</div>
 </div>
 </nav>
