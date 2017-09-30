@@ -84,7 +84,7 @@ class HomeController extends Controller
                 }
             }
             $errors = collect($aerrors);
-            return view('ok')
+            return view('help')
                 ->with('errors',$errors);
         } else {
             return back();

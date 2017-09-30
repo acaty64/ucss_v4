@@ -22,7 +22,7 @@
 </head>
 <body>
     <div id="app">
-        @include('template.partials.nav')        
+        @include('template.partials.nav_login')        
         @include('template.partials.errors')
         @yield('content')
     </div>

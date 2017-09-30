@@ -29,3 +29,12 @@ Route::post('dcurso/update', [
 		'uses'	=> 'api\DcursoController@update',	
 	]);
 
+Route::get('generar/{type_id}/{auth_id}', [
+	'as' => 'generar',
+	'uses' =>'Api\MenuController@generar'
+]);
+
+Route::get('generarHelp/{type_id}', [
+	'as' => 'generarHelp',
+	'uses' =>'Api\MenuController@generarHelp'
+]);
