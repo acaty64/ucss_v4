@@ -49,6 +49,8 @@ class DHoras01Test extends DuskTestCase
                     ->select('facultad_id','1')
                     ->select('sede_id','1')
                     ->press('Acceder')
+                    ->pause(2500)
+                    ->waitForText('Inicio')
                     ->assertSee('Usuarios')
                     ->visit('/administrador/user/index')
                     ->assertPathIs('/administrador/user/index')

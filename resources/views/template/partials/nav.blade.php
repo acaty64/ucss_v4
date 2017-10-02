@@ -9,6 +9,7 @@
 		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 			<!-- Left Side Of Navbar -->
 			<span id='app'>
+				<img v-show="loading" src="/images/loading.gif"></img>
 		    	<ul class="nav navbar-nav" name="leftside">
 		    		<template v-for="item in items">
 		    			<row_ul :item="item"></row_ul>
@@ -77,13 +78,17 @@
 	new Vue({
 		el: "#app",
 		data: {
-			items:[],
+			loading: false,
+			items: [],
 		},
 	    ready: function() {
+	    	this.loading = false;
 	   	    this.$http.get('/api/generar/{{Session::get("type_id")}}/{{ Auth::user()->id }}')
 	        .then(function (response) {
 	            this.items = response.data;
+	        	this.loading = false;
 	        });
 	    },
 	});
+	
 </script>

@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Session;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
+    //return view('welcome');
 });
 
 Auth::routes();
@@ -35,4 +36,8 @@ Route::get('/prueba1',function(){
 
 Route::get('/prueba2',function(){
 	dd(Auth::user());
+});
+
+Route::get('/menu/view', function (){
+	return view('menu.view');
 });

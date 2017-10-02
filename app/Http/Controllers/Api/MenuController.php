@@ -10,7 +10,20 @@ use Illuminate\Support\Facades\Session;
 
 class MenuController extends Controller
 {
-    public function generar($type_id, $auth_id)
+    public function loadTypes()
+    {
+        $types = Type::all();
+        $atypes = [];
+        foreach ($types as $type) {
+            array_push($atypes, [
+                'id' => $type->id,
+                'name' => $type->name
+            ]);
+        }
+        return $atypes;
+    }
+
+    public function generar($type_id, $auth_id = 'user_id')
     {
         $type = Type::find($type_id);
         $menus = $type->menus;
@@ -21,6 +34,7 @@ class MenuController extends Controller
             array_push($aitems, ['id'=>$menu->id, 
                             'name'=>$menu->name, 
                             'href'=>$menu->href,
+                            'help'=>$menu->help,
                             'sw_auth'=>$menu->sw_auth,
                             'parameter'=>$menu->parameter,
                             'type_id'=>$menu->pivot->type_id,
@@ -61,7 +75,7 @@ class MenuController extends Controller
                             $opcion['href']=$opcion['href'] . "/" . $auth_id;
                         }
                     }
-                    $opcion['href'] = $opcion['href'] . ")}}";
+//                    $opcion['href'] = $opcion['href'] . ")}}";
                     array_push($item['submenu'], $opcion);
                 }
                 array_push($items, $item);

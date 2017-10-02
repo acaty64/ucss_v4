@@ -8,12 +8,12 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Laravel\Dusk\Browser;
 use Tests\DuskTestCase;
 
-class DCursos01Test extends DuskTestCase
+class DCursos02Test extends DuskTestCase
 {
     use DatabaseMigrations;
-
-    function test_edit_a_dcurso()
-    { 
+/////// TODO: Review all
+    function test_view_a_sillabus()
+    {
         $this->artisan('db:seed');
         $this->browse(function(Browser $browser)
         {
@@ -23,19 +23,18 @@ class DCursos01Test extends DuskTestCase
                     ->select('facultad_id','1')
                     ->select('sede_id','1')
                     ->press('Acceder')
+                    ->pause(2500)
+                    ->waitForText('Inicio')                    
                     ->assertSee('Usuarios')
                     ->visit('/administrador/user/index')
                     ->assertPathIs('/administrador/user/index')
                     ->visit("/administrador/dcurso/edit/{$user->id}")
-                    ->click('.search-field')
-                    ->select('.select-curso','ADMINISTRACION I')
-                    ->click('.search-field')
-                    ->select('.select-curso','ADMINISTRACION II')
-                    ->press('Grabar o Confirmar cursos')
-                    ->assertSee('Se ha registrado la modificación de disponibilidad de cursos de forma exitosa')
-                    ->visit("/administrador/dcurso/edit/{$user->id}")
-                    ->assertSee('ADMINISTRACION I')
-                    ->assertSee('ADMINISTRACION II');
+                    //->select('curso_id', '17')
+                    ->click('.select-silabo')
+                    ->select('.select-silabo', '17')
+                    ->press('Ver silabo')
+                    ->assertSee('SILABO DEL CURSO: ADMINISTRACION I')
+                    ->visit("/admin/pdf/silabo");
         });
     }
 }

@@ -129,37 +129,37 @@ Route::get('dcurso/list2Excel',[
 	])->middleware('can:is_admin,'.Acceso::class);
 
 /** GRUPO ********************************************/
-Route::get('grupos/index',  [
+Route::get('grupo/index',  [
 		'as'	=> 'administrador.grupo.index',
 		'uses'	=> 'admin\GrupoController@index',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::get('grupos/create',  [
+Route::get('grupo/create',  [
 		'as'	=> 'admin.grupo.create',
 		'uses'	=> 'admin\GrupoController@create',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::post('grupos/store',  [
+Route::post('grupo/store',  [
 		'as'	=> 'admin.grupo.store',
 		'uses'	=> 'admin\GrupoController@store',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::get('grupos/edit/{id}',[
+Route::get('grupo/edit/{id}',[
 		'as'	=> 'admin.grupo.edit',
 		'uses'	=> 'admin\GrupoController@edit',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::put('grupos/update',  [
+Route::put('grupo/update',  [
 		'as'	=> 'admin.grupo.update',
 		'uses'	=> 'admin\GrupoController@update',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::get('grupos/orden',  [
+Route::get('grupo/orden',  [
 		'as'	=> 'admin.grupo.orden',
 		'uses'	=> 'admin\GrupoController@orden',	
 	])->middleware('can:is_admin,'.Acceso::class);
 
-Route::get('grupos/destroy/{id}',  [
+Route::get('grupo/destroy/{id}',  [
 		'as'	=> 'admin.grupo.destroy',
 		'uses'	=> 'admin\GrupoController@destroy',	
 	])->middleware('can:is_admin,'.Acceso::class);

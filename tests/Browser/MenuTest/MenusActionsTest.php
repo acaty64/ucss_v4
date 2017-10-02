@@ -17,33 +17,31 @@ class MenusActionsTest extends DuskTestCase
         $this->artisan('db:seed');
         // Acting
         $this->browse(function (Browser $browser) {
-        $browser->visit('/login')
-                ->assertPathIs('/login')
-                ->type('email', 'master@gmail.com')
-                ->type('password', 'secret')
-                ->press('Login')
-                ->assertPathIs('/home')
-                ->assertSee('Facultad y Sede')
-                ->select('facultad_id', '1')
-                ->assertSee('Ciencias Economicas y Comerciales')
-                ->select('sede_id','1')
-                ->press('Acceder')
-                ->assertPathIs('/home/acceso')
-                ->assertSee('Menus')
-                ->visit('/master/menu/index')
-                ->assertPathIs('/master/menu/index')
-                ->assertSee('Menu Index')
-                ->visit('/master/menu/create')
-                ->assertPathIs('/master/menu/create')
-                ->type('name', 'Nuevo menu')
-                ->type('href', '/new/route')
-                ->type('level',0)
-                ->type('order',0)
-                ->check('type1')
-                ->check('type3')  
-                ->press('Registrar')
-                ->assertPathIs('/master/menu/index');
-        });
+            $browser->loginAs(User::find(1))    // Master
+                    ->visit('/home')
+                    ->select('facultad_id','1')
+                    ->select('sede_id','1')
+                    ->press('Acceder')
+                    ->pause(2500)
+                    ->waitForText('Inicio')
+                    ->assertPathIs('/home/acceso')
+                    ->assertSee('Menus')
+                    ->visit('/master/menu/index')
+                    ->assertPathIs('/master/menu/index')
+                    ->assertSee('Menu Index')
+                    ->visit('/master/menu/create')
+                    ->assertPathIs('/master/menu/create')
+                    ->type('name', 'Nuevo menu')
+                    ->type('href', '/new/route')
+                    ->type('level',0)
+                    ->type('order',0)
+                    ->type('help', 'Texto ejemplo de ayuda')
+                    ->check('type1')
+                    ->check('type3')  
+                    ->press('Registrar')
+                    ->pause(2500)
+                    ->assertPathIs('/master/menu/index');
+    });
 
     function test_edit_a_menu()
     {

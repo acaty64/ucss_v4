@@ -39,12 +39,5 @@
 </div>
 
 @endsection
-@section('footer')
-<p>master.index.blade.php</p>
-<p><a class="btn btn-link" href="{{ url('/prueba1') }}">
-    PRUEBA 1. Session::all()
-</a></p>
-<p><a class="btn btn-link" href="{{ url('/prueba2') }}">
-    PRUEBA 2. Auth::user()
-</a></p>
-@endsection
+
+@section('view','edit.blade.php')

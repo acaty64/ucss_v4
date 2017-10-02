@@ -23,6 +23,8 @@ class DataUsers02Test extends DuskTestCase
                     ->select('facultad_id','1')
                     ->select('sede_id','1')
                     ->press('Acceder')
+                    ->pause(2500)
+                    ->waitForText('Inicio')
                     ->assertSee('Usuarios')
                     ->visit("/consulta/datauser/edit/5")
                     ->type('wdoc1','Nuevo nombre')

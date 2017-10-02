@@ -29,7 +29,7 @@ class Grupos01Test extends TestCase
 
     /* Accede al index  */
     $response = $this->actingAs($adminuser);
-    $response = $this->get("administrador/grupos/index")
+    $response = $this->get("administrador/grupo/index")
       ->assertStatus(200);
 
     $request = [
@@ -37,7 +37,7 @@ class Grupos01Test extends TestCase
       'wgrupo'      => 'Nuevo Grupo'
     ];
 
-    $response = $this->post("administrador/grupos/store",$request);
+    $response = $this->post("administrador/grupo/store",$request);
     $response->assertStatus(302);
 
     //Then 
@@ -56,7 +56,7 @@ class Grupos01Test extends TestCase
       'wgrupo'      => 'Nuevo Grupo2'
     ];
 
-    $response = $this->put("administrador/grupos/update",$request);
+    $response = $this->put("administrador/grupo/update",$request);
     $response->assertStatus(302);
 
     //Then 
@@ -69,7 +69,7 @@ class Grupos01Test extends TestCase
 
     // DESTROY
 
-    $response = $this->get("administrador/grupos/destroy/".$grupo->id,$request);
+    $response = $this->get("administrador/grupo/destroy/".$grupo->id,$request);
     $response->assertStatus(302);
 
     //Then 
