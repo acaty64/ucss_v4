@@ -1,6 +1,7 @@
 @extends('template.main')
 @section('title','Descripción de Opciones')
 @section('content')
+	<img v-show="loadHelp" src="/images/loadHelp.gif"></img>
 	<div id="help_app" class="panel-body">
 		<div class="conteiner" style="margin-top: 0px;">
 			<ul class="nav nav-tabs">
@@ -17,7 +18,7 @@
 
 @endsection
 
-@section('view','ok_vue.blade.php')
+@section('view','help.blade.php')
 
 @section('js')
 
@@ -36,14 +37,17 @@
 		data: {
 			helps:[],
 			helpPanel: "",
+			loadHelp: false,
 		},
 
 	    ready: function() {
+	    	this.loadHelp = true;
 	   	    this.$http.get('/api/generarHelp/{{Session::get("type_id")}}')
 	        .then(function (response) {
 	            this.helps = response.data;
 	            this.helpView(1);
 	        });
+	        this.loadHelp = false;
 	    },
 
 		methods: {

@@ -2,10 +2,12 @@
 
 @section('title', 'Visualización de Menues' )
 
+@section('view','menu/view.blade.php')
+
 @section('content')
 
 <span id="view_app">
-
+	<img v-show="loading_type" src="/images/loading.gif"></img>
 	<ul>
 		<li v-for="type in types">
 			@{{type.name}} : <input @@click="refresh(type.id)" type="radio" v-model="type_id" value=@{{type.id}} >
@@ -89,39 +91,20 @@
 		el: "#view_app",
 		data: {
 			loading_view: false,
+			loading_type: false,
 			ruta: false,
 			help: false,
 			user_id: '?',
 			type_id: 1,
-			types:[
-/*				{
-					id: 1,
-					name: 'Master'
-				},
-				{
-					id: 2,
-					name: 'Consulta'
-				},
-				{
-					id: 3,
-					name: 'Docente'
-				},
-				{
-					id: 4,
-					name: 'Responsable'
-				},
-				{
-					id: 5,
-					name: 'Administrador'
-				},
-*/
-			],
+			types:[],
 
 			view_items:[],
 		},
 
 		ready: function() {
+			loading_type: true,			
 			this.loadTypes();
+			loading_type: false,
 			this.refresh(1);
 	    },
 

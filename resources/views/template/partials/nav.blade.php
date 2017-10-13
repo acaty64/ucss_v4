@@ -82,7 +82,7 @@
 			items: [],
 		},
 	    ready: function() {
-	    	this.loading = false;
+	    	this.loading = true;
 	   	    this.$http.get('/api/generar/{{Session::get("type_id")}}/{{ Auth::user()->id }}')
 	        .then(function (response) {
 	            this.items = response.data;

@@ -7,10 +7,15 @@ use Illuminate\Http\Request;
 
 
 // ROUTES
+
 Route::get('menu/index', [
 		'as'	=> 'master.menu.index',
 		'uses'	=> 'master\MenuController@index',	
 	])->middleware(Authorize::class.':is_master,'.Acceso::class);
+
+Route::get('/menu/view', function (){
+	return view('menu.view');
+});
 
 Route::get('menu/generar', [
 		'as'	=> 'master.menu.generar',

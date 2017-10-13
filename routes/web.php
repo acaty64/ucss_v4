@@ -37,7 +37,3 @@ Route::get('/prueba1',function(){
 Route::get('/prueba2',function(){
 	dd(Auth::user());
 });
-
-Route::get('/menu/view', function (){
-	return view('menu.view');
-});
