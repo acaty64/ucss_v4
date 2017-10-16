@@ -25,7 +25,7 @@ class Accesos01Test extends TestCase
 
     $modi_id = 4;
     $response = $this->get("administrador/acceso/edit/{$modi_id}")
-        ->assertResponseOk();
+        ->assertStatus(200);
 
     //When
     $new_values = Acceso::where('user_id',$modi_id)->first();
